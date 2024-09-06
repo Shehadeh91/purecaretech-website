@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .subTitle {
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+  }
+
+  .logo {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 50px;
+    filter: grayscale(100%) brightness(0) invert(0); /* This will apply a black tint to the logo */
+  }
+
+  .grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card-container {
+    margin: 10px;
+  }
+
+  .card {
+    width: 300px;
+    height: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    padding: 15px;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
