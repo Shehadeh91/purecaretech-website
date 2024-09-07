@@ -25,6 +25,11 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import SendIcon from '@mui/icons-material/Send';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+
+
 const HomeScreen = () => {
   const { setVisible, setIndexBottom } = useAppStore();
 
@@ -135,20 +140,29 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* Additional sections like Testimonials, Promo, etc. */}
-      <div className="testimonials-section">
-        <h2 className="section-title">What Our Customers Say</h2>
-        <div className="testimonial-carousel">
-          <div className="testimonial">
-            <p>"Amazing service! My car looks brand new."</p>
-            <span>- John Doe</span>
-          </div>
-          <div className="testimonial">
-            <p>"Fast and professional. Highly recommended."</p>
-            <span>- Jane Smith</span>
-          </div>
+      <div className="guarantee-section">
+  <h2 className="section-title">
+    Your satisfaction, <span className="highlighted">guaranteed</span>
+  </h2>
+  <div className="guarantee-items">
+    <div className="guarantee-item">
+    <SentimentSatisfiedAltIcon fontSize="large" className="guarantee-icon" />
+          <h3>Happiness Pledge</h3>
+      <p>If you’re not satisfied, we’ll work to make it right.</p>
+    </div>
+    <div className="guarantee-item">
+    <VerifiedIcon  fontSize="large" className="guarantee-icon" />
+    <h3>Vetted Service Providers</h3>
+    <p>All service providers undergo background checks to ensure the best quality.</p>
         </div>
-      </div>
+    <div className="guarantee-item">
+    <SupportAgentIcon fontSize="large" className="guarantee-icon" />
+          <h3>Dedicated Support</h3>
+      <p>Friendly service when you need us – every day of the week.</p>
+    </div>
+  </div>
+</div>
+
 
       {/* Promo Section */}
       <div className="promo-section">

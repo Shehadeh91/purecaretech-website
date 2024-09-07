@@ -199,3 +199,57 @@ iframe {
   border: none;
 }
 
+.guarantee-section {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9f9f9; /* Or any background color you prefer */
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.highlighted {
+  color: #5865F2; /* You can adjust the color for "guaranteed" */
+  font-weight: bold;
+}
+
+.guarantee-items {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.guarantee-item {
+  width: 30%;
+  text-align: center;
+}
+
+.guarantee-icon {
+  width: 50px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1rem;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .guarantee-items {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .guarantee-item {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}

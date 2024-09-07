@@ -109,8 +109,8 @@ const Header = () => {
               onMouseLeave={handleMouseLeave}
               ref={dropdownRef}
             >
-              <span className="account-link">Account</span>
-              {isDropdownOpen && (
+               <Link to="/account" className="account-link">Account</Link> {/* Make the Account link clickable */}
+               {isDropdownOpen && (
                 <ul className="dropdown-menu">
                   <li><Link to="/login">Login</Link></li>
                   <li><Link to="/signup">Signup</Link></li>
