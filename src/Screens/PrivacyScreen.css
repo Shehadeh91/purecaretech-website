@@ -1,0 +1,39 @@
+.privacy-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+  }
+
+  .privacy-content {
+    padding: 10px;
+  }
+
+  .privacy-section {
+    margin-bottom: 20px;
+  }
+
+  h1, h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,24 @@
+/* Container styles */
+.login-container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Error alert styling */
+  .login-error {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  /* Button styling */
+  .login-button {
+    margin-top: 20px;
+  }
+
+  /* Optional: Custom padding or margins for TextFields */
+  .MuiTextField-root {
+    margin-bottom: 10px;
+  }

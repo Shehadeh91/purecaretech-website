@@ -1,0 +1,23 @@
+/* General Container */
+.account-container {
+    margin-top: 30px;
+  }
+
+  /* Customize Buttons */
+  .account-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .account-footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: grey;
+  }
+
+  /* Add margins and alignment for list items */
+  .list-item-icon {
+    margin-right: 10px;
+  }
+

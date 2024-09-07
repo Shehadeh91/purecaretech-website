@@ -1,0 +1,42 @@
+.career-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h1, h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  .job-summary, .job-duties, .job-requirements, .job-offer, .job-details, .apply-section {
+    margin-bottom: 30px;
+  }
+
+  h3 {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #007BFF;
+  }
+
+  ul li {
+    margin-bottom: 8px;
+  }
+
+  .apply-section a {
+    color: #007BFF;
+    text-decoration: none;
+  }
