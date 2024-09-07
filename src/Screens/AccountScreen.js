@@ -109,7 +109,7 @@ const AccountScreen = () => {
           <ListItemText primary="Log Out" />
         </ListItem>
       </List>
-      <Box mt={5}>
+      {/* <Box mt={5}>
         <Button
           startIcon={<GavelIcon />}
           variant="outlined"
@@ -125,7 +125,7 @@ const AccountScreen = () => {
         >
           Privacy Control
         </Button>
-      </Box>
+      </Box> */}
       <Typography variant="caption" style={{ marginTop: 20, display: 'block', color: 'grey' }}>
         To delete your account, please email admin@purecaretech.com with your registered email address.
       </Typography>

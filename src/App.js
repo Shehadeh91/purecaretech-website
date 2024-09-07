@@ -9,7 +9,7 @@ import TermsScreen from './Screens/TermsScreen';
 import PrivacyScreen from './Screens/PrivacyScreen';
 import ForgetPassword from './Screens/ForgetPasswordScreen';
 import LogInScreen from './Screens/LogInScreen';
-import AccountScreen from './Screens/Account';
+import AccountScreen from './Screens/AccountScreen';
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
@@ -25,7 +25,10 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Header />
+        <div className="content">
         <Routes>
+
+
           {/* HomeScreen route */}
           <Route path="/" element={<HomeScreen />} />
           <Route path="/about" element={<AboutScreen />} />
@@ -33,12 +36,14 @@ function App() {
           <Route path="/terms" element={<TermsScreen />} />
           <Route path="/privacy" element={<PrivacyScreen />} />
           <Route path="/login" element={<LogInScreen />} />
+          <Route path="/account" element={<AccountScreen />} />
           {/* Additional routes can be added here in the future */}
           {/* Example: <Route path="/about" element={<AboutScreen />} /> */}
 
           {/* Fallback for unmatched routes */}
           <Route path="*" element={<div>404 - Page Not Found</div>} />
         </Routes>
+        </div>
         <Footer />
       </div>
     </BrowserRouter>
@@ -132,10 +137,11 @@ const Footer = () => {
           <div className="footer-links">
             <Link to="/">Home</Link> |
             <Link to="/terms">Terms of Service</Link> |
-            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/privacy">Privacy Control</Link>
           </div>
           <div className="footer-contact">
             <p>Contact us at: admin@purecaretech.com</p>
+            <p>Phone: +1 (204) 803-6949</p> {/* Phone number added here */}
             <div className="social-media">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faFacebook} size="2x" />
@@ -152,6 +158,7 @@ const Footer = () => {
 
         <div className="footer-right">
           <p ref={footerRef}>Download our app</p>
+          <small className="app-tagline">Book our cleaning services on the go with our mobile app.</small> {/* New tagline added */}
           <div className="download-buttons">
             <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer">
               <img src={googleLogo} alt="Android" className="download-icon" />
@@ -166,6 +173,7 @@ const Footer = () => {
     </footer>
   );
 };
+
 
 
 

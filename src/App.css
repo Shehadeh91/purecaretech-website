@@ -5,6 +5,32 @@
   box-sizing: border-box;
 }
 
+/* Ensure the body and html take full height */
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main app container */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* The main content should take available space */
+.App {
+  flex: 1; /* Makes the main content take up available space */
+  display: flex;
+  flex-direction: column;
+}
+
+/* The content area should grow to push the footer down */
+.content {
+  flex: 1; /* Push the footer to the bottom if content is short */
+}
+
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
@@ -47,6 +73,7 @@ a:hover {
   width: auto;
 }
 
+/* Navbar */
 .nav ul {
   list-style: none;
   display: flex;
@@ -69,6 +96,7 @@ a:hover {
   color: #007BFF;
 }
 
+/* Dropdown styles */
 .dropdown {
   cursor: pointer;
   position: relative;
@@ -88,7 +116,6 @@ a:hover {
   transition: opacity 0.3s ease, visibility 0.3s ease;
   opacity: 0;
   visibility: hidden;
-
 }
 
 .dropdown:hover .dropdown-menu,
@@ -106,12 +133,9 @@ a:hover {
   color: #333;
   text-decoration: none;
   display: block;
-
-
 }
 
 .dropdown-menu li a:hover {
-  /* background-color: #f1f1f1; */
   color: #007BFF;
 }
 
@@ -120,6 +144,7 @@ a:hover {
   background-color: #f8f9fa;
   padding: 1.5rem 1rem;
   border-top: 1px solid #ddd;
+  width: 100%;
 }
 
 .footer-content {
@@ -155,7 +180,6 @@ a:hover {
 
 .social-media {
   margin-bottom: 1rem;
-
 }
 
 .social-media a {
@@ -168,19 +192,19 @@ a:hover {
 }
 
 /* Download Section */
-.footer-right {
-  text-align: right;
-}
+
 
 .footer-right p {
-  font-size: 1rem;
-  margin-bottom: 10px;
+  text-align: center; /* Centers the text horizontally */
+  display: flex;
+  flex-direction: column; /* Stack the text and buttons vertically */
+  align-items: center; /* Horizontally center-align the elements */
 }
 
 .download-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 5px;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px; /* Add space between the buttons */
 }
 
 .download-icon {
@@ -218,8 +242,18 @@ a:hover {
   }
 
   .footer-right {
-    margin-top: 20px;
-    text-align: center;
+    display: flex;
+  flex-direction: column;
+  align-items: center; /* This will center both the text and the buttons horizontally */
+
+  text-align: right; /* Center the text inside the footer-right container */
+  }
+
+  .app-tagline {
+    font-size: 0.9rem;
+    color: #e60a0a;
+    margin-top: 25px; /* Adds a little space between "Download our app" and the tagline */
+    display: block; /* Ensures it's on a separate line */
   }
 
   .download-buttons {
@@ -246,7 +280,5 @@ a:hover {
     text-align: center;
   }
 
-  .footer-right {
-    margin-top: 15px;
-  }
+
 }
