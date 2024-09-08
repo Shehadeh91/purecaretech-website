@@ -1,0 +1,68 @@
+.location-search-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    max-width: 400px; /* Limit the width */
+  }
+
+  .location-display {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0; /* Light background to highlight */
+    border-radius: 5px;
+  }
+
+  .google-autocomplete {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .google-autocomplete:hover {
+    border-color: #007bff; /* Highlight border on hover */
+  }
+
+  .google-autocomplete input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+
+  .google-autocomplete input::placeholder {
+    color: #999;
+  }
+
+  .google-autocomplete .google-autocomplete__menu-list {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  .google-autocomplete__control {
+    min-width: 300px; /* Minimum width for the autocomplete input */
+    width: 100%; /* Ensure it takes full width of the parent container */
+  }
+
+  .google-autocomplete__menu-list {
+    min-width: 300px; /* Minimum width for the suggestions window */
+    max-width: 100%; /* Prevent it from growing beyond the parent container */
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for aesthetics */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .google-autocomplete__menu {
+    min-width: 300px; /* Minimum width for the suggestions container */
+  }
+
+  .google-autocomplete__option {
+    white-space: nowrap; /* Prevents the text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." if the text is too long */
+  }

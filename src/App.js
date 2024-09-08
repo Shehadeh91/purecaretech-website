@@ -16,6 +16,10 @@ import OrderDashboardScreen from './Screens/OrderDashboardScreen';
 import DryCleanOrderScreen from './Screens/DryCleaningScreen';
 import DryCleanCheckOutScreen from './Screens/DryCleaningCheckoutScreen';
 import OrderCompleteScreen from './Screens/OrderCompleteScreen';
+import HomeCleaningScreen from './Screens/HomeCleaningScreen';
+import HomeCleaningCheckoutScreen from './Screens/HomeCleaningCheckoutScreen';
+import CarWashScreen from './Screens/CarWashScreen';
+import CarWashCheckoutScreen from './Screens/CarWashCheckOutScreen';
 
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
@@ -126,6 +130,11 @@ function App() {
             <Route path="/dryCleaningOrder" element={<DryCleanOrderScreen />} />
             <Route path="/dryCleanCheckOut" element={<DryCleanCheckOutScreen />} />
             <Route path="/orderComplete" element={<OrderCompleteScreen />} />
+            <Route path="/homeCleaningOrder" element={<HomeCleaningScreen />} />
+            <Route path="/homeCleaningCheckOut" element={<HomeCleaningCheckoutScreen />} />
+            <Route path="/carWashOrder" element={<CarWashScreen />} />
+            <Route path="/carWashCheckout" element={<CarWashCheckoutScreen />} />
+
 
   {/* Wrap checkout route in a separate component */}
 
@@ -186,8 +195,8 @@ const Header = () => {
               <span className="services-link">Services</span>
               {isDropdownOpen && (
                 <ul className="dropdown-menu">
-                  <li><Link to="/login">Mobile Car Wash</Link></li>
-                  <li><Link to="/signup">Home Cleaning</Link></li>
+                  <li><Link to="/carWashOrder">Mobile Car Wash</Link></li>
+                  <li><Link to="/homeCleaningOrder">Home Cleaning</Link></li>
                   <li><Link to="/dryCleaningOrder">Dry Cleaning</Link></li>
                 </ul>
               )}

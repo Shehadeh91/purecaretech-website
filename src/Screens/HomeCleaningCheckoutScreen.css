@@ -1,0 +1,107 @@
+/* Container for the checkout page */
+.checkout-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Total price card */
+  .total-card {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  /* Generic card styling for sections */
+  .card {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* Title of each section (e.g., Location, Payment) */
+  .card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* Items list inside the cards */
+  .items-list {
+    margin-left: 20px;
+  }
+
+  .items-list p {
+    margin: 5px 0;
+    font-family: monospace;
+  }
+
+  /* Payment options section */
+  .payment-options {
+    display: flex;
+    gap: 20px;
+  }
+
+  .payment-options label {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Confirm button */
+  .confirm-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .confirm-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .confirm-button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+
+  /* Loading spinner */
+  .loading-spinner {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-top: 20px;
+  }
+
+  /* Layout adjustments for smaller screens */
+  @media (max-width: 600px) {
+    .checkout-container {
+      padding: 10px;
+    }
+
+    .total-card {
+      font-size: 1.1rem;
+    }
+
+    .confirm-button {
+      padding: 10px;
+      font-size: 1rem;
+    }
+  }

@@ -116,7 +116,7 @@
   }
 
   .item-list {
-    max-height: 300px; /* Limit the height to 300px, adjust as needed */
+    max-height: 750px; /* Limit the height to 300px, adjust as needed */
     overflow-y: auto;  /* Enable vertical scrolling */
     padding-right: 10px; /* Add some padding to prevent the scrollbar from overlapping the content */
   }
@@ -150,11 +150,13 @@
   .item-actions {
     display: flex;
     align-items: center;
+    margin-left: 25px; /* Pushes the item to the right */
   }
 
+
   .qty-btn {
-    width: 40px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
     background-color: #007BFF;
     color: white;
     border: none;
@@ -165,6 +167,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     transition: background-color 0.3s ease;
   }
 

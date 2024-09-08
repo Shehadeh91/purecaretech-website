@@ -17,6 +17,8 @@
 
   .checkout-title {
     text-align: right;
+    font-size: 1.25rem;
+    font-weight: bold;
   }
 
   .checkout-section {
@@ -25,6 +27,8 @@
 
   .checkout-section h3 {
     margin-bottom: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
   }
 
   .checkout-summary {
@@ -34,6 +38,8 @@
   .checkout-summary p,
   .checkout-summary h3 {
     text-align: right;
+    font-size: 1rem;
+    margin: 5px 0;
   }
 
   .card-form {
@@ -76,5 +82,6 @@
   .loading-indicator {
     text-align: center;
     margin-top: 10px;
+    font-size: 1.2rem;
     color: #6200ee;
   }
