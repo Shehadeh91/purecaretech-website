@@ -15,6 +15,8 @@ import SettingsScreen from './Screens/SettingsScreen';
 import OrderDashboardScreen from './Screens/OrderDashboardScreen';
 import DryCleanOrderScreen from './Screens/DryCleaningScreen';
 import DryCleanCheckOutScreen from './Screens/DryCleaningCheckoutScreen';
+import OrderCompleteScreen from './Screens/OrderCompleteScreen';
+
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
@@ -123,6 +125,7 @@ function App() {
             <Route path="/dashboard" element={<OrderDashboardScreen />} />
             <Route path="/dryCleaningOrder" element={<DryCleanOrderScreen />} />
             <Route path="/dryCleanCheckOut" element={<DryCleanCheckOutScreen />} />
+            <Route path="/orderComplete" element={<OrderCompleteScreen />} />
 
   {/* Wrap checkout route in a separate component */}
 

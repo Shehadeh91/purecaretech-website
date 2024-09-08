@@ -3,16 +3,18 @@ import { doc, getDoc } from "firebase/firestore";
 import dryCleanData from "../assets/dryCleanData.json";
 import useDryCleanCart from "../useDryCleanStore";
 import useAppStore from "../useAppStore";
-import { useNavigate } from 'react-router-dom';
-import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 
+import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import LocationSearch from "../Components/LocationSearch";
 import './DryCleaningScreen.css';  // External CSS file
 
 const DryCleanOrderScreen = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate(); // Use navigate for navigation
-
+  const [showLocationSearch, setShowLocationSearch] = useState(true); // New state variable to show/hide location search
 
   const auth = FIREBASE_AUTH;
 
@@ -34,7 +36,6 @@ const DryCleanOrderScreen = () => {
     date,
     setDate,
     getTotalItemCount
-
   } = useDryCleanCart();
 
   const {
@@ -46,7 +47,6 @@ const DryCleanOrderScreen = () => {
     setUser,
     setVisible,
   } = useAppStore();
-
 
   useEffect(() => {
     setDeliveryOption("Schedule"); // Set default to "Schedule"
@@ -137,18 +137,22 @@ const DryCleanOrderScreen = () => {
       <div className="card">
         <h3 className="section-title">Location</h3>
         <div className="card-content">
-          <p>{address}</p>
+
+        {showLocationSearch && (
+              <LocationSearch address={address} setAddress={setAddress} />
+            )}
+          </div>
         </div>
-      </div>
+
 
       {/* Clothes card */}
       <div className="card">
-        <div className="header">
+
           <h3 className="section-title">Clothes</h3>
           <button className="clear-btn" onClick={clearCart}>Clear</button>
-        </div>
+
         <input
-          className="search-input"
+          className="search-input wide-input" // Add a new CSS class for width
           placeholder="Search items..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

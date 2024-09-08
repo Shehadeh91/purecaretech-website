@@ -1,0 +1,59 @@
+/* Container for the order complete page */
+.order-complete-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+    position: relative;
+    padding: 20px;
+  }
+
+  /* Style for the logo */
+  .order-complete-logo {
+    width: 200px; /* Make the logo big enough */
+    height: auto;
+    margin-bottom: 30px; /* Add some space below the logo */
+  }
+
+  /* Text styles */
+  .order-complete-text {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    margin: 10px 0;
+    color: #333;
+  }
+
+  /* Button styles */
+  .order-complete-button {
+    margin: 10px;
+    padding: 12px 30px;
+    font-size: 18px;
+    background-color: #6200ee;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .order-complete-button:hover {
+    background-color: #3700b3;
+  }
+
+  /* Responsive: Adjust sizes on smaller screens */
+  @media (max-width: 600px) {
+    .order-complete-logo {
+      width: 150px; /* Resize logo on smaller screens */
+    }
+
+    .order-complete-text {
+      font-size: 18px;
+    }
+
+    .order-complete-button {
+      font-size: 16px;
+    }
+  }

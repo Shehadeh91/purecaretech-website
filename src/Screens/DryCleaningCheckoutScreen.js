@@ -3,6 +3,8 @@ import { useStripe } from "@stripe/react-stripe-js";
 import { collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
 import useAppStore from "../useAppStore";
+import { useNavigate } from "react-router-dom";
+
 import useDryCleanCart from "../useDryCleanStore";
 import CheckoutForm from "../Components/CheckoutForm";
 import LogInScreen from "./LogInScreen";
@@ -12,8 +14,13 @@ const DryCleanCheckOutScreen = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [paymentLoading, setPaymentLoading] = useState(false);
-  const [showCardForm, setShowCardForm] = useState(true);
+
+  const navigate = useNavigate(); // Use navigate for navigation
   const stripe = useStripe();
+  const [showCardForm, setShowCardForm] = useState(false);
+
+
+
 
   const { name, address, user, setUser, setVisible, email, phone } = useAppStore();
   const {
@@ -50,13 +57,23 @@ const DryCleanCheckOutScreen = () => {
   const addDryCleanOrder = async () => {
     try {
       const user = FIREBASE_AUTH.currentUser;
-      if (!user || !user.emailVerified) {
+      if (!user) {
+        console.error("No authenticated user found");
         window.location.href = "/login";
         return;
       }
+
+      if (!user.emailVerified) {
+        console.error("User email is not verified");
+        alert("Please verify your email before placing the order.");
+        return;
+      }
+
       const userId = user.email || "UnknownUser";
       const counterDocRef = doc(FIRESTORE_DB, "OrderCounters", userId);
       const counterDocSnap = await getDoc(counterDocRef);
+
+      // Generate order number
       let orderNumber = 1;
       if (counterDocSnap.exists()) {
         const counterData = counterDocSnap.data();
@@ -64,7 +81,11 @@ const DryCleanCheckOutScreen = () => {
           orderNumber = counterData.orderNumber + 1;
         }
       }
+
+      // Reference to the Dry-Clean order document
       const orderDocRef = doc(FIRESTORE_DB, "Dry-Clean", `${userId}_${orderNumber}`);
+
+      // Write the order to Firestore
       await setDoc(orderDocRef, {
         Email: userId,
         Name: name,
@@ -81,23 +102,49 @@ const DryCleanCheckOutScreen = () => {
         Date: date,
         Rating: rating
       });
-      window.location.href = "/orderComplete";
+
+      console.log("Order added successfully");
     } catch (error) {
       console.error("Error adding dry cleaning order:", error);
       alert("Order Failed! Something went wrong.");
     }
   };
 
+
   const handleConfirmOrder = async () => {
     setIsLoading(true);
     try {
+      // Add the dry cleaning order
       await addDryCleanOrder();
+      console.log("Dry cleaning order has been sent");
+
+      // Send SMS notification
+      const message = "Hooray! There's a new Dry Cleaning order ready for you to fulfill! " + paymentOption;
+      const response = await fetch(`${API_URL}/send-order-confirmation-sms`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send SMS');
+      }
+
+      console.log("SMS notification sent successfully");
+
+      // Navigate to the order completion page
+      navigate("/orderComplete");
+
     } catch (error) {
-      console.error("Error confirming order:", error);
+      console.error("Error confirming order or sending SMS:", error);
+      alert("There was an issue confirming your order or sending the SMS notification.");
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const handlePaymentOptionChange = (option) => {
     setPaymentOption(option);
@@ -154,19 +201,30 @@ const DryCleanCheckOutScreen = () => {
         </div>
 
         <div className="checkout-section">
-          <h3>Payment</h3>
-          <select value={paymentOption} onChange={(e) => handlePaymentOptionChange(e.target.value)}>
-            <option value="Cash">Cash</option>
-            <option value="Card">Card</option>
-          </select>
-        </div>
+  <h3>Payment</h3>
+  <select
+    value={paymentOption}
+    onChange={(e) => {
+      const selectedOption = e.target.value;
+      handlePaymentOptionChange(selectedOption);
+      setShowCardForm(selectedOption === "Card"); // Set card form visibility based on payment option
+    }}
+  >
+    <option value="Cash">Cash</option>
+    <option value="Card">Card</option>
+  </select>
+</div>
 
-        {showCardForm && (
-          <CheckoutForm
-            amount={parseFloat(totalPrice)}
-            apiUrl={API_URL}
-          />
-        )}
+
+{showCardForm && (
+  <CheckoutForm
+    amount={parseFloat(totalPrice)}
+    apiUrl={API_URL}
+    handlePaymentSuccess={handlePaymentSuccess}
+    handlePaymentFail={handlePaymentFail}
+  />
+)}
+
 
         <div className="checkout-summary">
           <p>Subtotal: ${(getTotalPrice() + deliveryCost).toFixed(2)}</p>
