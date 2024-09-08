@@ -1,0 +1,229 @@
+.container {
+    padding: 30px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 90%; /* Ensure the container is responsive and doesn't exceed 90% width */
+  }
+
+  .scroll-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align the cards horizontally */
+    width: 100%;
+  }
+
+  .subtotal-card {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+    position: sticky; /* Make it sticky */
+    top: 100px; /* Stick to the top of the screen */
+    z-index: 1000; /* Ensure it stays on top of other elements */
+  }
+
+
+  .subtotal-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+  }
+
+  .card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    width: 100%;
+    position: relative; /* Ensure card and its content scrolls naturally */
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Remove any sticky or fixed position */
+    flex-direction: column; /* Stack the title and clear button vertically */
+
+
+    width: 100%; /* Ensure the header takes full width of the card */
+  }
+
+
+  .clear-btn {
+    margin-top: 10px; /* Add some space between the title and button */
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+
+  .card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  }
+
+  .section-title {
+    font-size: 22px;
+    color: #007BFF;
+    margin-bottom: 15px;
+    font-weight: 700;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 5px;
+  }
+
+  .card-content {
+    font-size: 16px;
+    line-height: 1.6; /* Increase line spacing for better readability */
+    color: #555;
+  }
+
+  .search-input,
+  .note-input,
+  .datetime-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Add subtle inner shadow */
+  }
+
+  .item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  .item-details {
+    flex: 1;
+  }
+
+  .item-list {
+    max-height: 300px; /* Limit the height to 300px, adjust as needed */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding-right: 10px; /* Add some padding to prevent the scrollbar from overlapping the content */
+  }
+
+  .item-list::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+  }
+
+  .item-list::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Set the scrollbar color */
+    border-radius: 4px; /* Rounded scrollbar */
+  }
+
+  .item-list::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa; /* Darken scrollbar on hover */
+  }
+
+
+  .item-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .item-price {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .item-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .qty-btn {
+    width: 40px;
+    height: 40px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .qty-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .item-count {
+    font-size: 18px;
+    color: #333;
+  }
+
+  .clear-btn {
+    margin-top: 10px; /* Add some space between the title and button */
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .clear-btn:hover {
+    background-color: #c82333;
+  }
+
+  .confirm-btn {
+    width: 75%;
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .confirm-btn:hover {
+    background-color: #218838;
+    transform: translateY(-3px); /* Slight lift effect */
+  }
+
+  .service-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+
+  .date-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+  }

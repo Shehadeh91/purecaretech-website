@@ -3,47 +3,136 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import AboutScreen from './Screens/AboutScreen';
-import HomeScreen from './Screens/HomeScreen'; // Ensure this path is correct
+import HomeScreen from './Screens/HomeScreen';
 import CareerScreen from './Screens/CareerScreen';
 import TermsScreen from './Screens/TermsScreen';
 import PrivacyScreen from './Screens/PrivacyScreen';
-import ForgetPassword from './Screens/ForgetPasswordScreen';
+import ForgetPasswordScreen from './Screens/ForgetPasswordScreen';
 import LogInScreen from './Screens/LogInScreen';
 import AccountScreen from './Screens/AccountScreen';
+import SignuUpScreen from './Screens/SignUpScreen';
+import SettingsScreen from './Screens/SettingsScreen';
+import OrderDashboardScreen from './Screens/OrderDashboardScreen';
+import DryCleanOrderScreen from './Screens/DryCleaningScreen';
+import DryCleanCheckOutScreen from './Screens/DryCleaningCheckoutScreen';
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
 import googleLogo from './assets/Images/Google.png'; // Ensure the logo path is correct
 import iosLogo from './assets/Images/IOS.png'; // Ensure the logo path is correct
 
+import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { FIRESTORE_DB } from "./firebaseConfig"; // Correct path for firebaseConfig
 
+import { CircularProgress } from '@mui/material';
+import { purple, red } from '@mui/material/colors';
+
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Your Stripe public key
+// Initialize Stripe with your publishable key
+const stripePromise = loadStripe('pk_live_51PIuTYRwhciiEfEmcWuiDdwy9ZvSGPAGX9MjMLYM4VLTpJcqBkoYX3dxZUGoSUOAgrjKOSzESViCOABqLD831TXH00m6iVILkh');
 
 
 
 function App() {
+  const [initialRoute, setInitialRoute] = useState(null); // Adjust to your app's logic
+  const [isLoading, setLoading] = useState(true);
+  const [isVisible, setVisible] = useState(true); // Use this for controlling the view
+  const auth = getAuth();
+
+  useEffect(() => {
+    // Set persistence to local before handling auth state changes
+    const setAuthPersistence = async () => {
+      try {
+        await setPersistence(auth, browserLocalPersistence);
+        console.log("Persistence set to local");
+
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          try {
+            if (!user || !user.emailVerified) {
+              setInitialRoute("home");
+              return;
+            }
+
+            const userDocRef = doc(FIRESTORE_DB, "Users", user.email);
+            const docSnapshot = await getDoc(userDocRef);
+
+            if (docSnapshot.exists()) {
+              const userData = docSnapshot.data();
+              switch (userData.Role) {
+                case "Agent":
+                  setInitialRoute("agent");
+                  break;
+                case "Admin":
+                  setInitialRoute("admin");
+                  break;
+                default:
+                  setInitialRoute("home");
+              }
+            } else {
+              console.warn("User document not found.");
+              setInitialRoute("home");
+            }
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+            setInitialRoute("home");
+          } finally {
+            setVisible(false);
+            setLoading(false);
+          }
+        });
+
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error setting persistence:", error);
+      }
+    };
+
+    setAuthPersistence();
+  }, [auth]);
+
+  if (isLoading) {
+    return (
+      <div style={{ margin: '250px auto', textAlign: 'center' }}>
+        <CircularProgress size={75} style={{ color: purple[500] }} />
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
       <div className="App">
         <Header />
+        <Elements stripe={stripePromise}>
         <div className="content">
-        <Routes>
+          <Routes>
+
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/about" element={<AboutScreen />} />
+            <Route path="/career" element={<CareerScreen />} />
+            <Route path="/terms" element={<TermsScreen />} />
+            <Route path="/privacy" element={<PrivacyScreen />} />
+            <Route path="/login" element={<LogInScreen />} />
+            <Route path="/account" element={<AccountScreen />} />
+            <Route path="/forget" element={<ForgetPasswordScreen />} />
+            <Route path="/signup" element={<SignuUpScreen />} />
+            <Route path="/settings" element={<SettingsScreen />} />
+            <Route path="/dashboard" element={<OrderDashboardScreen />} />
+            <Route path="/dryCleaningOrder" element={<DryCleanOrderScreen />} />
+            <Route path="/dryCleanCheckOut" element={<DryCleanCheckOutScreen />} />
+
+  {/* Wrap checkout route in a separate component */}
 
 
-          {/* HomeScreen route */}
-          <Route path="/" element={<HomeScreen />} />
-          <Route path="/about" element={<AboutScreen />} />
-          <Route path="/career" element={<CareerScreen />} />
-          <Route path="/terms" element={<TermsScreen />} />
-          <Route path="/privacy" element={<PrivacyScreen />} />
-          <Route path="/login" element={<LogInScreen />} />
-          <Route path="/account" element={<AccountScreen />} />
-          {/* Additional routes can be added here in the future */}
-          {/* Example: <Route path="/about" element={<AboutScreen />} /> */}
+            {/* Fallback for unmatched routes */}
+            <Route path="*" element={<div>404 - Page Not Found</div>} />
 
-          {/* Fallback for unmatched routes */}
-          <Route path="*" element={<div>404 - Page Not Found</div>} />
-        </Routes>
+          </Routes>
         </div>
+        </Elements>
         <Footer />
       </div>
     </BrowserRouter>
@@ -70,7 +159,7 @@ const Header = () => {
         </Link>
         <nav className="nav">
           <ul>
-          <li
+            <li
               className="dropdown"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -81,11 +170,10 @@ const Header = () => {
                 <ul className="dropdown-menu">
                   <li><Link to="/about">About PureCare Tech</Link></li>
                   <li><Link to="/career">Career</Link></li>
-             </ul>
+                </ul>
               )}
             </li>
             <li><Link to="/">Home</Link></li>
-
             <li
               className="dropdown"
               onMouseEnter={handleMouseEnter}
@@ -97,8 +185,7 @@ const Header = () => {
                 <ul className="dropdown-menu">
                   <li><Link to="/login">Mobile Car Wash</Link></li>
                   <li><Link to="/signup">Home Cleaning</Link></li>
-                  <li><Link to="/account-settings">Dry Cleaning</Link></li>
-                  {/* <li><Link to="/support">Support</Link></li> */}
+                  <li><Link to="/dryCleaningOrder">Dry Cleaning</Link></li>
                 </ul>
               )}
             </li>
@@ -109,13 +196,12 @@ const Header = () => {
               onMouseLeave={handleMouseLeave}
               ref={dropdownRef}
             >
-               <Link to="/account" className="account-link">Account</Link> {/* Make the Account link clickable */}
-               {isDropdownOpen && (
+              <Link to="/account" className="account-link">Account</Link>
+              {isDropdownOpen && (
                 <ul className="dropdown-menu">
                   <li><Link to="/login">Login</Link></li>
                   <li><Link to="/signup">Signup</Link></li>
-                  <li><Link to="/account-settings">Account Settings</Link></li>
-                  {/* <li><Link to="/support">Support</Link></li> */}
+                  <li><Link to="/settings">Account Settings</Link></li>
                 </ul>
               )}
             </li>
@@ -125,8 +211,6 @@ const Header = () => {
     </header>
   );
 };
-
-
 
 const Footer = () => {
   const footerRef = useRef(null); // Create footer ref
@@ -143,22 +227,22 @@ const Footer = () => {
             <p>Contact us at: admin@purecaretech.com</p>
             <p>Phone: +1 (204) 803-6949</p> {/* Phone number added here */}
             <div className="social-media">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/profile.php?id=61560480989877" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faFacebook} size="2x" />
               </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer">
+              {/* <a href="https://x.com" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faTwitter} size="2x" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faInstagram} size="2x" />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
 
         <div className="footer-right">
           <p ref={footerRef}>Download our app</p>
-          <small className="app-tagline">Book our cleaning services on the go with our mobile app.</small> {/* New tagline added */}
+          <small className="app-tagline">Book our cleaning services on the go with our mobile app.</small>
           <div className="download-buttons">
             <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer">
               <img src={googleLogo} alt="Android" className="download-icon" />
@@ -174,9 +258,4 @@ const Footer = () => {
   );
 };
 
-
-
-
-
 export default App;
-

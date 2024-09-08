@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   TextField,
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import useAppStore from "../useAppStore"; // Zustand store for state management
@@ -26,6 +26,40 @@ const LogInScreen = () => {
   const [error, setError] = useState(null);
   const auth = FIREBASE_AUTH;
   const navigate = useNavigate();
+
+  // Check if user is already logged in and redirect to the appropriate page
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && user.emailVerified) {
+        try {
+          const userDocRef = doc(FIRESTORE_DB, "Users", user.email);
+          const userDocSnap = await getDoc(userDocRef);
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            setName(userData.Name);
+            setPhone(userData.Phone);
+            setUser(user);
+            switch (userData.Role) {
+              case "Client":
+                navigate('/account');
+                break;
+              case "Admin":
+                navigate('/admin');
+                break;
+              case "Agent":
+                navigate('/agent');
+                break;
+              default:
+                setError("Access Denied: You do not have permission to access this account.");
+            }
+          }
+        } catch (error) {
+          setError("Error: Failed to retrieve user data.");
+        }
+      }
+    });
+    return () => unsubscribe(); // Cleanup subscription on component unmount
+  }, [auth, navigate, setName, setPhone, setUser]);
 
   const signIn = async () => {
     setLoading(true);
@@ -129,7 +163,7 @@ const LogInScreen = () => {
           <Button
             variant="text"
             fullWidth
-            onClick={() => navigate("/forgetPassword")}
+            onClick={() => navigate("/forget")}
           >
             Forgot Password?
           </Button>

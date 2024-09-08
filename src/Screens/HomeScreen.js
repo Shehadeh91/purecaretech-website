@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Card } from "@mui/material"; // Material UI v5
 import useAppStore from "../useAppStore"; // Zustand for state management
 import './HomeScreen.css'; // Custom CSS
-
+import { useNavigate } from "react-router-dom";
 // Importing images for the services
 import carCleanImage from '../assets/Images/CarClean.png';
 import houseCleanImage from '../assets/Images/HouseClean.png';
@@ -38,6 +38,8 @@ const HomeScreen = () => {
   const howItWorksRef = useRef(null);
   const headerRef = useRef(null);
 
+  const navigate = useNavigate();
+
   // Scroll to the respective section
   const scrollToSection = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
@@ -61,7 +63,7 @@ const HomeScreen = () => {
       id: "3",
       title: "Dry Cleaning",
       image: dryCleanImage,
-      screen: "dryCleanOrder",
+      screen: "dryCleaningOrder",
     },
   ];
 
@@ -80,6 +82,13 @@ const HomeScreen = () => {
     </div>
   );
 
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = 0.15; // Set volume to 25%
+    }
+  }, []);
   return (
     <div className="container">
       {/* Hero Section */}
@@ -98,7 +107,7 @@ const HomeScreen = () => {
         <h2 className="section-title">Watch Our Promo</h2>
         <div className="video-container"  ref={howItWorksRef}>
           {/* Replace the YouTube iframe with your self-hosted video */}
-          <video width="100%" height="400px" controls>
+          <video ref={videoRef} width="100%" height="400px" controls>
             <source src={promoVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -132,13 +141,25 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      {/* Services Section */}
-      <div className="services-section" >
-        <h2 className="section-title">Our Services</h2>
-        <div className="grid-container">
-          {services.map((item) => renderServiceItem(item))}
-        </div>
-      </div>
+     {/* Services Section */}
+<div className="services-section">
+  <h2 className="section-title">Our Services</h2>
+  <div className="service-buttons-container">
+    {services.map((service) => (
+      <button
+        key={service.id}
+        className="service-button"
+        onClick={() => {
+          setVisible(false); // Update Zustand store state
+        }}
+      >
+        <img src={service.image} alt={service.title} className="service-image" />
+        <span className="service-text">{service.title}</span>
+      </button>
+    ))}
+  </div>
+</div>
+
 
       <div className="guarantee-section">
   <h2 className="section-title">
@@ -166,15 +187,16 @@ const HomeScreen = () => {
 
       {/* Promo Section */}
       <div className="promo-section">
-        <h2 className="promo-title">Get 10% off Your First Service!</h2>
+      <h2 className="promo-title">Get a Free Exterior Car Wash After Your First Order!</h2>
+
         <p>Sign up today and enjoy exclusive offers.</p>
-        {/* <button className="promo-button" onClick={() => navigate("/signup")}>Sign Up Now</button> */}
+        <button className="promo-button" onClick={() => navigate("/signup")}>Sign Up Now</button>
       </div>
 
       {/* Order Dashboard Section (For Logged-In Users) */}
       <div className="order-dashboard-section" ref={headerRef}>
         <h2 className="section-title">Manage Your Orders</h2>
-        {/* <button className="cta-button" onClick={() => navigate("/dashboard")}>Go to Dashboard</button> */}
+        <button className="cta-button" onClick={() => navigate("/dashboard")}>Go to Dashboard</button>
       </div>
     </div>
   );

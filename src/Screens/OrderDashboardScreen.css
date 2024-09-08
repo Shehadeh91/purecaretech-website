@@ -1,0 +1,168 @@
+/* Global styles and variables */
+:root {
+    --background-color: #f5f5f5;
+    --highlight-background: orange; /* Background for active buttons */
+    --button-default-background: black; /* Default color for the buttons */
+    --button-active-background: orange; /* Active background color */
+    --button-text-color: white; /* Text color for buttons */
+}
+
+  .container {
+    background-color: var(--background-color);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: flex-start;
+  }
+
+  /* Buttons container for InProgress, Completed, and Canceled buttons */
+  .buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+
+    padding-top: 0px; /* Remove padding at the top */
+    padding-bottom: 10px; /* Minimal padding below buttons */
+    padding-top: 20px; /* Add padding for spacing */
+    padding-bottom: 10px;
+    position: sticky; /* Keep buttons fixed at the top of the page */
+    top: 0;
+    z-index: 1;
+
+  }
+
+  .button {
+    background-color: var(--button-default-background);
+    color: var(--button-text-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, border 0.3s ease;
+
+  }
+  .button.highlighted {
+    background-color: var(--button-active-background);
+}
+  /* Active button styling */
+  .button.active {
+    background-color: var(--button-active-background);
+    color: var(--button-active-color);
+
+  }
+
+  .button-label {
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+  }
+
+  /* Orders list and order items */
+  .orders-list {
+    width: 80%;
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+
+  .order-item {
+    background-color: orange;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%; /* Ensure each order takes up full width within the 80% container */
+    text-align: left;
+  }
+
+  .order-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .order-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .order-text {
+    font-size: 15px;
+    margin-left: 5px;
+    border: 1px dashed #000000;
+    padding: 5px;
+  }
+
+  .order-service {
+    font-size: 22px;
+    font-family: monospace;
+  }
+
+  .order-item-detail {
+    font-size: 14px;
+    font-family: monospace;
+    margin-top: 5px;
+  }
+
+  .order-supply,
+  .order-package,
+  .order-date {
+    font-size: 13px;
+    margin-top: 5px;
+    letter-spacing: 1px;
+    font-style: italic;
+    color: #000;
+  }
+
+  /* Cancel button styling */
+  button.cancel-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  button.cancel-button:hover {
+    background-color: #d32f2f;
+  }
+
+  /* Review section */
+  .review-section {
+    margin-top: 10px;
+  }
+
+  .rating-buttons button {
+    margin-right: 10px;
+  }
+
+  /* Cancel instructions */
+  .order-cancel-instructions {
+    font-style: italic;
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center; /* Ensure the text is centered */
+    width: 100%; /* Take up the full width of the container */
+    display: block; /* Ensure it behaves like a block element */
+    clear: both; /* Clear any floats if applicable */
+  }

@@ -99,7 +99,7 @@ const AccountScreen = () => {
           <ListItemText primary="Email" secondary={userInfo.Email || 'N/A'} />
         </ListItem>
         <Divider />
-        <ListItem button onClick={() => navigate('/edit')}>
+        <ListItem button onClick={() => navigate('/settings')}>
           <EditIcon style={{ marginRight: 10 }} />
           <ListItemText primary="Edit Account" />
         </ListItem>

@@ -1,20 +1,11 @@
-// Import the functions you need from the SDKs you need
-
+// Import the functions you need from the SDKs
 import { initializeApp } from "firebase/app";
-
-import { getAuth, initializeAuth, getReactNativePersistence } from "firebase/auth";
-
+import { getAuth } from "firebase/auth"; // Use the default getAuth for web
 import { getFirestore } from "firebase/firestore";
-import { getFunctions, httpsCallable } from "firebase/functions";
-import { getAnalytics } from "firebase/analytics";
-
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFunctions } from "firebase/functions";
+import { getAnalytics, isSupported } from "firebase/analytics"; // Check if analytics is supported
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDM-N18S7vjn4xmj9QAfQ2lMwcVf4Q_lqk",
   authDomain: "purecare-2a506.firebaseapp.com",
@@ -25,14 +16,19 @@ const firebaseConfig = {
   measurementId: "G-PNR85X9X41"
 };
 
-
-
 // Initialize Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
-export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP);
+export const FIREBASE_AUTH = getAuth(FIREBASE_APP); // For web, no need for custom persistence
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);
-export const FIRESTORE_Function = getFunctions(FIREBASE_APP)
-export const FIREBASE_ANALYTICS = getAnalytics(FIREBASE_APP)
+export const FIRESTORE_Function = getFunctions(FIREBASE_APP);
 
-
+// Initialize Analytics (only if supported)
+let FIREBASE_ANALYTICS;
+isSupported().then((yes) => {
+  if (yes) {
+    FIREBASE_ANALYTICS = getAnalytics(FIREBASE_APP);
+  } else {
+    console.log("Analytics not supported in this environment");
+  }
+});
 

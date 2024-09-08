@@ -1,0 +1,92 @@
+/* Container for the whole screen */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f9; /* Light background color */
+  }
+
+  /* Title styling */
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333; /* Darker text for the title */
+  }
+
+  /* Input field styling */
+  .input {
+    width: 80%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333; /* Darker text for input */
+    background-color: white;
+  }
+
+  /* Styling for the password instruction text */
+  .password-instruction {
+    font-size: 15px;
+    font-style: italic;
+    margin-bottom: 10px;
+    width: 100%;
+    color: #666; /* Lighter text for instructions */
+  }
+
+  /* Container for password input with icon */
+  .password-container {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Styling for the icon to show/hide password */
+  .icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  /* Button styling */
+  .button {
+    margin-top: 20px;
+    width: 80%;
+    padding: 10px;
+    background-color: #6200ee; /* Primary color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .button:hover {
+    background-color: #3700b3; /* Darker shade on hover */
+  }
+
+  /* Loader (ActivityIndicator) centering */
+  .loader {
+    margin-top: 20px;
+  }
+
+  /* Responsive design */
+  @media (max-width: 600px) {
+    .container {
+      padding: 15px;
+    }
+
+    .input, .button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  }

@@ -12,6 +12,7 @@
   background-image: url('../assets/Images/agentFace.png'); /* Use your service-related image */
   background-size: cover;
   color: white;
+  width: 80%;
 }
 
 .hero-heading {
@@ -87,6 +88,7 @@
   justify-content: center; /* Centers the entire grid horizontally */
   flex-direction: column; /* Stacks the title and grid vertically */
   align-items: center; /* Centers the title and grid container horizontally */
+  width: 95%;
 }
 
 .grid-container {
@@ -133,6 +135,21 @@
   color: white;
   border: none;
   cursor: pointer;
+
+
+
+
+
+  font-size: 16px;
+  font-weight: bold;
+
+
+  border-radius: 8px; /* Rounded corners */
+
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth hover transition */
+  text-align: center;
+  display: inline-block; /* To ensure proper button sizing */
+  margin: 10px 0; /* Margin to add some space around the button */
 }
 
 .promo-button:hover {
@@ -178,6 +195,7 @@
   text-align: center;
   padding: 50px 20px;
   background-color: #ffeaa7;
+  width: 80%;
 }
 
 .promo-title {
@@ -202,7 +220,8 @@ iframe {
 .guarantee-section {
   text-align: center;
   padding: 40px;
-  background-color: #f9f9f9; /* Or any background color you prefer */
+   /* Or any background color you prefer */
+  width: 100%;
 }
 
 .section-title {
@@ -252,4 +271,77 @@ p {
     width: 80%;
     margin-bottom: 20px;
   }
+}
+/* Styling for the services section */
+.service-buttons-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  flex-wrap: wrap; /* Allows buttons to wrap in case there are many */
+  width: 80%;
+  flex-direction: row;
+}
+
+/* Styling for individual service buttons */
+.service-button {
+  background-color:   #4f5ddd; /* Red background color */
+  color: white; /* White text */
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid black; /* Add a black border */
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  margin: 10px; /* Adds space between buttons */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centers the text and image vertically */
+  width: 300px; /* Adjust the image size as needed */
+  height: auto;
+  text-align: center; /* Centers the text horizontally */
+
+}
+
+.service-button:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* Styling for the service images inside the buttons */
+.service-image {
+  width: 200px; /* Adjust the image size as needed */
+  height: 200px;
+  margin-bottom: 10px; /* Add some space between image and text */
+}
+
+/* Styling for the service text inside the buttons */
+.service-text {
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Styling for the CTA (Call-to-Action) button */
+.cta-button {
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text */
+  padding: 15px 30px; /* Padding for size */
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase; /* Make text uppercase */
+  border: 2px solid #4CAF50; /* Border to match the background */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth hover transition */
+  text-align: center;
+  display: inline-block; /* To ensure proper button sizing */
+  margin: 10px 0; /* Margin to add some space around the button */
+}
+
+/* Hover effect for the CTA button */
+.cta-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+  border-color: #45a049; /* Match the border with the hover background */
 }

@@ -1,42 +1,30 @@
 .career-container {
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  padding: 20px;
+}
 
-  h1, h2 {
-    color: #333;
-    margin-bottom: 10px;
-  }
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
-  p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-  }
+.tabs button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
-  ul {
-    list-style-type: disc;
-    padding-left: 20px;
-  }
+.tabs button.active-tab {
+  background-color: #007bff;
+  color: white;
+}
 
-  .job-summary, .job-duties, .job-requirements, .job-offer, .job-details, .apply-section {
-    margin-bottom: 30px;
-  }
+.tab-content {
+  margin-top: 20px;
+}
 
-  h3 {
-    margin-top: 10px;
-    font-size: 1.1rem;
-    color: #007BFF;
-  }
-
-  ul li {
-    margin-bottom: 8px;
-  }
-
-  .apply-section a {
-    color: #007BFF;
-    text-decoration: none;
-  }
+.apply-section {
+  margin-top: 40px;
+}

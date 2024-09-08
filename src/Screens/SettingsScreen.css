@@ -1,0 +1,23 @@
+.settings-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .password-section-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .MuiTextField-root {
+    margin-bottom: 16px;
+  }
+
+  .MuiButton-contained {
+    margin-top: 20px;
+  }
