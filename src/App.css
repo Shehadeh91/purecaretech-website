@@ -280,5 +280,53 @@ a:hover {
     text-align: center;
   }
 
+/* About link and Services link */
+.about-link, .services-link {
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.about-link:hover, .services-link:hover {
+  color: #007BFF;
+}
+
+/* Account link */
+.account-link {
+  color: #333;
+  font-weight: bold;
+}
+
+.account-link:hover {
+  color: #007BFF;
+}
+
+/* Footer right */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Aligns content to the right */
+}
+
+/* App tagline base */
+.app-tagline {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 15px;
+  display: block;
+  text-align: center;
+}
+
+/* Social media links hover */
+.social-media a:hover {
+  color: #000; /* Ensures there's a visual change on hover */
+}
+
+/* Dropdown menu show state */
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
 
 }

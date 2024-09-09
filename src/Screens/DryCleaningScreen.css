@@ -65,6 +65,12 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
   }
 
+  .card-content {
+    font-size: 16px;
+    line-height: 1.6; /* Increase line spacing for better readability */
+    color: #555;
+  }
+
   .section-title {
     font-size: 22px;
     color: #007BFF;
@@ -74,11 +80,7 @@
     padding-bottom: 5px;
   }
 
-  .card-content {
-    font-size: 16px;
-    line-height: 1.6; /* Increase line spacing for better readability */
-    color: #555;
-  }
+
 
   .search-input,
   .note-input,
@@ -120,7 +122,13 @@
     overflow-y: auto;  /* Enable vertical scrolling */
     padding-right: 10px; /* Add some padding to prevent the scrollbar from overlapping the content */
   }
-
+  .note-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+  }
   .item-list::-webkit-scrollbar {
     width: 8px; /* Set the width of the scrollbar */
   }
@@ -196,6 +204,14 @@
 
   .clear-btn:hover {
     background-color: #c82333;
+  }
+
+  .search-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .confirm-btn {

@@ -125,9 +125,35 @@
 }
 
 
+/* Card container to hold each service card */
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
 
+/* Title inside the card */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
 
+/* Image inside the card */
+.card-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
 .promo-button {
   margin-top: 20px;
   padding: 10px 20px;

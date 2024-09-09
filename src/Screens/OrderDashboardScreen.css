@@ -46,6 +46,11 @@
     transition: background-color 0.3s ease, border 0.3s ease;
 
   }
+
+  .button:hover {
+    background-color: #e0e0e0;
+  }
+
   .button.highlighted {
     background-color: var(--button-active-background);
 }
@@ -55,6 +60,15 @@
     color: var(--button-active-color);
 
   }
+
+  .highlighted-label {
+    font-weight: bold;
+  }
+
+.highlighted {
+  background-color: #007bff;
+  color: white;
+}
 
   .button-label {
     font-size: 14px;
@@ -150,9 +164,16 @@
   .review-section {
     margin-top: 10px;
   }
-
+  .rating-buttons {
+    display: flex;
+    gap: 1rem;
+  }
   .rating-buttons button {
     margin-right: 10px;
+  }
+
+  .rating-buttons button:hover {
+    background-color: #e0e0e0;
   }
 
   /* Cancel instructions */
@@ -166,3 +187,17 @@
     display: block; /* Ensure it behaves like a block element */
     clear: both; /* Clear any floats if applicable */
   }
+/* .car-wash-order {
+  background-color: #e6f7ff;
+  border: 1px solid #007bff;
+}
+
+.dry-clean-order {
+  background-color: #fff3e6;
+  border: 1px solid #ff8c00;
+}
+
+.room-clean-order {
+  background-color: #f0fff0;
+  border: 1px solid #32cd32;
+} */

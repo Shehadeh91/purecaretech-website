@@ -17,8 +17,8 @@ const DryCleanCheckOutScreen = () => {
 
   const navigate = useNavigate(); // Use navigate for navigation
   const stripe = useStripe();
-  const [showCardForm, setShowCardForm] = useState(false);
-
+  const [showCardForm, setShowCardForm] = useState(true);
+  const [paymentOption, setPaymentOption] = useState("Card");
 
 
 
@@ -31,8 +31,7 @@ const DryCleanCheckOutScreen = () => {
     setDeliveryCost,
     setDeliveryOption,
     itemCounts,
-    paymentOption,
-    setPaymentOption,
+
     note,
     setNote,
     getItemCountsWithTitles,
@@ -102,8 +101,25 @@ const DryCleanCheckOutScreen = () => {
         Date: date,
         Rating: rating
       });
+  // Update order number in the OrderCounters collection
+  await setDoc(counterDocRef, { orderNumber: orderNumber }, { merge: true });
+       // Send SMS notification
+       const message = "Hooray! There's a new Dry Cleaning order ready for you to fulfill! " + paymentOption;
+       const response = await fetch(`${API_URL}/send-order-confirmation-sms`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({ message }),
+       });
 
+       if (!response.ok) {
+         throw new Error('Failed to send SMS');
+       }
+
+       console.log("SMS notification sent successfully");
       console.log("Order added successfully");
+      window.location.href = "/orderComplete";
     } catch (error) {
       console.error("Error adding dry cleaning order:", error);
       alert("Order Failed! Something went wrong.");
@@ -118,24 +134,8 @@ const DryCleanCheckOutScreen = () => {
       await addDryCleanOrder();
       console.log("Dry cleaning order has been sent");
 
-      // Send SMS notification
-      const message = "Hooray! There's a new Dry Cleaning order ready for you to fulfill! " + paymentOption;
-      const response = await fetch(`${API_URL}/send-order-confirmation-sms`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to send SMS');
-      }
 
-      console.log("SMS notification sent successfully");
-
-      // Navigate to the order completion page
-      navigate("/orderComplete");
 
     } catch (error) {
       console.error("Error confirming order or sending SMS:", error);
@@ -187,7 +187,7 @@ const DryCleanCheckOutScreen = () => {
         </div>
 
         <div className="checkout-section">
-          <h3>Delivery</h3>
+          <h3>Schedule</h3>
           <p>{deliveryOption === "Schedule" ? date?.toString() : serviceTime}</p>
         </div>
 

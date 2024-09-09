@@ -170,6 +170,9 @@ const CarWashScreen = () => {
   useEffect(() => {
     setDeliveryOption("Schedule");
     setDate("");
+
+
+
     fetchUserData();
   }, []);
 
@@ -332,8 +335,8 @@ const handlePreferenceChange = (newValue) => {
 
 
 
-        <div className="car-description-card">
-  <h3 className="car-description-title">Car Description</h3>
+        <div className="card">
+  <h3 className="section-title">Car Description</h3>
   <p className="car-description-text">Select your car details by using the dropdowns.</p>
 
   <div className="car-description-dropdown-container">
@@ -487,7 +490,7 @@ const handlePreferenceChange = (newValue) => {
               return;
             }
             else {
-                navigate("/homeCleaningCheckOut");
+                navigate("/carWashCheckOut");
             }
           }}
         >

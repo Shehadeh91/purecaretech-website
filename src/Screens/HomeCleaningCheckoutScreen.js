@@ -13,7 +13,9 @@ const HomeCleaningCheckoutScreen = () => {
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [paymentLoading, setPaymentLoading] = useState(false);
-  const [showCardForm, setShowCardForm] = useState(false);
+  const [showCardForm, setShowCardForm] = useState(true);
+  const [paymentOption, setPaymentOption] = useState("Card");
+
   const navigate = useNavigate();
   const { name, address, user, setUser, setVisible, email, phone } = useAppStore();
   const {
@@ -24,8 +26,7 @@ const HomeCleaningCheckoutScreen = () => {
     packageCost,
     deliveryCost,
     deliveryOption,
-    paymentOption,
-    setPaymentOption,
+
     getItemCountsWithTitles,
     serviceTime,
     date,
@@ -98,7 +99,21 @@ const HomeCleaningCheckoutScreen = () => {
 
       // Update order number in the OrderCounters collection
       await setDoc(counterDocRef, { orderNumber: orderNumber }, { merge: true });
+   // Send SMS notification
+   const message = "Hooray! There's a new Room Cleaning order ready for you to fulfill! " + paymentOption;
+   const response = await fetch(`${API_URL}/send-order-confirmation-sms`, {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({ message }),
+   });
 
+   if (!response.ok) {
+     throw new Error('Failed to send SMS');
+   }
+
+   console.log("SMS notification sent successfully");
       console.log("Room clean order added successfully");
       window.location.href = "/orderComplete";
     } catch (error) {
@@ -115,24 +130,9 @@ const HomeCleaningCheckoutScreen = () => {
       await addRoomCleanOrder();
       console.log("Room cleaning order has been sent");
 
-      // Send SMS notification
-      const message = "Hooray! There's a new Room Cleaning order ready for you to fulfill! " + paymentOption;
-      const response = await fetch(`${API_URL}/send-order-confirmation-sms`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to send SMS');
-      }
 
-      console.log("SMS notification sent successfully");
 
-      // Navigate to the order completion page
-      navigate("/orderComplete");
 
     } catch (error) {
       console.error("Error confirming order or sending SMS:", error);

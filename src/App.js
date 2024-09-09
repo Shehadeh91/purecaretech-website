@@ -19,7 +19,7 @@ import OrderCompleteScreen from './Screens/OrderCompleteScreen';
 import HomeCleaningScreen from './Screens/HomeCleaningScreen';
 import HomeCleaningCheckoutScreen from './Screens/HomeCleaningCheckoutScreen';
 import CarWashScreen from './Screens/CarWashScreen';
-import CarWashCheckoutScreen from './Screens/CarWashCheckOutScreen';
+import CarWashCheckoutScreen from './Screens/CarWashCheckoutScreen';
 
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
@@ -133,7 +133,7 @@ function App() {
             <Route path="/homeCleaningOrder" element={<HomeCleaningScreen />} />
             <Route path="/homeCleaningCheckOut" element={<HomeCleaningCheckoutScreen />} />
             <Route path="/carWashOrder" element={<CarWashScreen />} />
-            <Route path="/carWashCheckout" element={<CarWashCheckoutScreen />} />
+            <Route path="/carWashCheckOut" element={<CarWashCheckoutScreen />} />
 
 
   {/* Wrap checkout route in a separate component */}

@@ -154,7 +154,7 @@ const HomeCleaningScreen = () => {
 
 
         <div className="card">
-          <h3 className="section-title">Clothes</h3>
+          <h3 className="section-title">Cleaning</h3>
           <button className="clear-btn" onClick={clearCart}>Clear</button>
 
 
