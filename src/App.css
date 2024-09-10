@@ -24,6 +24,8 @@ html, body {
   flex: 1; /* Makes the main content take up available space */
   display: flex;
   flex-direction: column;
+
+
 }
 
 /* The content area should grow to push the footer down */
@@ -42,6 +44,7 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+
 }
 
 a:hover {
@@ -51,7 +54,7 @@ a:hover {
 
 /* Header Styles */
 .header {
-  background-color: #ffffff;
+  background-color: #6953A4;
   padding: 1rem;
   border-bottom: 1px solid #ddd;
   position: sticky;
@@ -66,11 +69,13 @@ a:hover {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  color: #ffffff;
 }
 
 .logo {
   height: 50px;
   width: auto;
+  filter: invert(1) brightness(1000%);
 }
 
 /* Navbar */
@@ -84,16 +89,17 @@ a:hover {
 
 .nav ul li {
   position: relative;
+
 }
 
 .nav ul li a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
   font-weight: bold;
 }
 
 .nav ul li a:hover {
-  color: #007BFF;
+  color: #F4CBA5;
 }
 
 /* Dropdown styles */
@@ -107,7 +113,7 @@ a:hover {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: white;
+  background-color: #6953A4;
   border: 1px solid #ddd;
   padding: 0.5rem;
   z-index: 10;
@@ -141,7 +147,7 @@ a:hover {
 
 /* Footer Styles */
 .footer {
-  background-color: #f8f9fa;
+  background-color: #6953A4;
   padding: 1.5rem 1rem;
   border-top: 1px solid #ddd;
   width: 100%;
@@ -154,6 +160,7 @@ a:hover {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  color: #ffffff;
 }
 
 .footer-left {
@@ -167,7 +174,7 @@ a:hover {
 
 .footer-links a {
   margin: 0 10px;
-  color: #007BFF;
+  color: #ffffff;
 }
 
 .footer-links a:hover {
@@ -176,6 +183,9 @@ a:hover {
 
 .footer-contact p {
   margin-bottom: 1rem;
+  color: #ffffff;
+  font-size: medium;
+  margin: 25 10px;
 }
 
 .social-media {
@@ -184,11 +194,11 @@ a:hover {
 
 .social-media a {
   margin: 0 10px;
-  color: #007BFF;
+  color: #ffffff;
 }
 
 .social-media a:hover {
-  color: #000000;
+  color: #F4CBA5;
 }
 
 /* Download Section */
@@ -199,6 +209,7 @@ a:hover {
   display: flex;
   flex-direction: column; /* Stack the text and buttons vertically */
   align-items: center; /* Horizontally center-align the elements */
+  color: #ffffff;
 }
 
 .download-buttons {
@@ -216,9 +227,9 @@ a:hover {
 /* Footer Bottom */
 .footer-bottom {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0px;
   font-size: 0.9rem;
-  color: #777;
+  color: #ffffff;
 }
 
 /* Dropdown Animations */
@@ -307,6 +318,8 @@ a:hover {
   flex-direction: column;
   align-items: flex-end; /* Aligns content to the right */
 }
+
+
 
 /* App tagline base */
 .app-tagline {

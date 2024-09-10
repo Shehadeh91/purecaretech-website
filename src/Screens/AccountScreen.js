@@ -6,13 +6,12 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  IconButton,
   Button,
-  Box,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebaseConfig';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
+import { reauthenticateWithCredential, EmailAuthProvider, deleteUser } from 'firebase/auth';
 import useAppStore from '../useAppStore';
 import LogInScreen from './LogInScreen';
 import useCarWashStore from '../useCarWashStore';
@@ -21,8 +20,6 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
 import LogoutIcon from '@mui/icons-material/Logout';
-import GavelIcon from '@mui/icons-material/Gavel';
-import ShieldIcon from '@mui/icons-material/Shield';
 import './AccountScreen.css';
 
 const AccountScreen = () => {
@@ -31,6 +28,9 @@ const AccountScreen = () => {
   const { setAddress, setUser, user } = useAppStore();
   const { setCarBrand, setBodyStyle, setCurrentColor, setCarPlate } = useCarWashStore();
   const [userInfo, setUserInfo] = useState({});
+  const [password, setPassword] = useState('');
+  const [deletionReason, setDeletionReason] = useState('');
+  const [deletionError, setDeletionError] = useState(null); // Error handling state
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -50,7 +50,7 @@ const AccountScreen = () => {
         const userData = querySnapshot.docs
           .map((doc) => ({
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
           }))
           .find((data) => data.userId === user.uid);
         if (userData) {
@@ -64,7 +64,8 @@ const AccountScreen = () => {
   }, [user]);
 
   const handleLogout = useCallback(() => {
-    auth.signOut()
+    auth
+      .signOut()
       .then(() => {
         setAddress('Winnipeg, MB, Canada');
         setCarPlate('');
@@ -76,13 +77,41 @@ const AccountScreen = () => {
       .catch((error) => console.error('Logout failed:', error));
   }, [auth, setAddress, setCarPlate, setCarBrand, setBodyStyle, setCurrentColor, navigate]);
 
+  const handleDeleteAccount = async () => {
+    if (!deletionReason.trim() || !password) {
+      setDeletionError('Please provide a reason and your password to delete your account.');
+      return;
+    }
+
+    try {
+      // Reauthenticate the user with their password before deleting
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+
+      // Delete user from Firestore
+      const userDocRef = doc(FIRESTORE_DB, 'Users', user.email);
+      await deleteDoc(userDocRef);
+
+      // Delete user from Firebase Authentication
+      await deleteUser(user);
+
+      alert('Success: Your account has been deleted.');
+      navigate('/login'); // Redirect to login page after deletion
+    } catch (error) {
+      console.error('Account deletion failed:', error);
+      setDeletionError('Failed to delete account. Please try again.');
+    }
+  };
+
   if (!user || !user.emailVerified) {
     return <LogInScreen />;
   }
 
   return (
-    <Container maxWidth="md" style={{ marginTop: 30 }}>
-      <Typography variant="h4" gutterBottom>User Account</Typography>
+    <Container maxWidth="md" className="account-container">
+      <Typography variant="h4" gutterBottom>
+        User Account
+      </Typography>
       <List>
         <ListItem>
           <AccountCircleIcon style={{ marginRight: 10 }} />
@@ -109,26 +138,46 @@ const AccountScreen = () => {
           <ListItemText primary="Log Out" />
         </ListItem>
       </List>
-      {/* <Box mt={5}>
+
+      <div className="delete-account-section">
+        <Typography variant="h6" gutterBottom>
+          Delete Account
+        </Typography>
+        {deletionError && <Typography color="error">{deletionError}</Typography>}
+        <div>
+  <label>Reason for Deletion</label>
+  <input
+    type="text"
+    value={deletionReason}
+    onChange={(e) => setDeletionReason(e.target.value)}
+    placeholder="Enter reason"
+    className="input-field"
+  />
+</div>
+<div>
+  <label>Enter Password</label>
+  <input
+    type="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    placeholder="Enter password"
+    className="input-field"
+  />
+</div>
+
         <Button
-          startIcon={<GavelIcon />}
-          variant="outlined"
-          onClick={() => navigate('/termOfService')}
-          style={{ marginRight: 10 }}
+          variant="contained"
+          color="secondary"
+          onClick={handleDeleteAccount}
+          className="delete-account-button"
         >
-          Terms of Service
+          Delete Account
         </Button>
-        <Button
-          startIcon={<ShieldIcon />}
-          variant="outlined"
-          onClick={() => navigate('/privacyControl')}
-        >
-          Privacy Control
-        </Button>
-      </Box> */}
-      <Typography variant="caption" style={{ marginTop: 20, display: 'block', color: 'grey' }}>
+      </div>
+
+      {/* <Typography variant="caption" className="account-info-text">
         To delete your account, please email admin@purecaretech.com with your registered email address.
-      </Typography>
+      </Typography> */}
     </Container>
   );
 };

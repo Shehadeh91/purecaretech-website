@@ -102,84 +102,67 @@ const LogInScreen = () => {
   };
 
   return (
-    <Container maxWidth="xs" className="login-container">
-      <Typography variant="h4" align="center" gutterBottom>
-        Log In
-      </Typography>
+    <div className="login-container">
+      <h2 className="login-title">Log In</h2>
       {error && (
-        <Alert severity="error" className="login-error">
+        <div className="login-error">
           {error}
-        </Alert>
+        </div>
       )}
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12}>
-          <TextField
-            label="Email"
+      <div className="login-form">
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
             type="email"
-            fullWidth
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-            variant="outlined"
+            className="login-input"
           />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Password"
-            type={passwordVisible ? "text" : "password"}
-            fullWidth
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            variant="outlined"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setPasswordVisible((prev) => !prev)}
-                  >
-                    {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          {loading ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={signIn}
-              className="login-button"
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <div className="password-input-wrapper">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="login-input"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="password-toggle-icon"
             >
+              {passwordVisible ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+        <div className="form-group">
+          {loading ? (
+            <div className="loading-spinner"></div>
+          ) : (
+            <button onClick={signIn} className="login-button">
               Log In
-            </Button>
+            </button>
           )}
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="text"
-            fullWidth
-            onClick={() => navigate("/forget")}
-          >
+        </div>
+        <div className="form-group">
+          <button onClick={() => navigate("/forget")} className="forgot-password-button">
             Forgot Password?
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="text"
-            fullWidth
-            onClick={() => navigate("/signup")}
-          >
+          </button>
+        </div>
+        <div className="form-group">
+          <button onClick={() => navigate("/signup")} className="make-account-button">
             Need An Account? Sign Up
-          </Button>
-        </Grid>
-      </Grid>
-    </Container>
+          </button>
+        </div>
+      </div>
+    </div>
   );
+
+
 };
 
 export default LogInScreen;

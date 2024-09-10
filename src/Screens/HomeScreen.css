@@ -1,18 +1,29 @@
 /* General container */
 .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
-  max-width: 95%;
-  margin: 0 auto;
+  justify-content: flex-start;
+
+
 }
 
 /* Hero Section */
 .hero-section {
   text-align: center;
-  padding: 50px 20px;
-  background-image: url('../assets/Images/agentFace.png'); /* Use your service-related image */
+  padding: 500px 20px;
+  background-image: url('../assets/Images/Banner.png'); /* Use your service-related image */
   background-size: cover;
   color: white;
   width: 80%;
+
+  justify-self: flex-start; /* Centers the buttons horizontally */
+  align-items: flex-end; /* Aligns the buttons at the bottom */
+  flex-grow: 1; /* Ensures the container grows to fill the available space */
+  padding-bottom: 20px;
 }
 
 .hero-heading {
@@ -26,17 +37,26 @@
 }
 
 .hero-buttons .cta-button {
-  margin: 15px;
+  margin: 10px 25px; /* Adjusted margin to make it look cleaner */
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #000000;
   color: white;
   border: none;
   cursor: pointer;
+  justify-self: flex-start;
+
+
 }
 
-.cta-button:hover {
-  background-color: #0056b3;
+.hero-buttons {
+  display: flex;
+  justify-content: flex-start; /* Centers the buttons horizontally */
+  align-items: flex-end; /* Aligns the buttons at the bottom */
+  flex-grow: 1; /* Ensures the container grows to fill the available space */
+  padding-bottom: 20px; /* Adds padding to keep buttons slightly above the bottom */
 }
+
+
 
 /* How It Works Section */
 .how-it-works-section {
@@ -69,8 +89,12 @@
 }
 
 .section-title {
-  font-size: 2rem;
-  margin-bottom: 30px;
+  font-size: 22px;
+  color: #000000;
+  margin-bottom: 15px;
+  font-weight: 700;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 5px;
 }
 
 .step p {
@@ -179,7 +203,7 @@
 }
 
 .promo-button:hover {
-  background-color: #e67e22;
+  filter: brightness(75%);
 }
 
 /* Order Dashboard Section */
@@ -220,13 +244,14 @@
 .promo-section {
   text-align: center;
   padding: 50px 20px;
-  background-color: #ffeaa7;
+  background-color: #F4CBA5;
   width: 80%;
 }
 
 .promo-title {
   font-size: 1.8rem;
   margin-bottom: 10px;
+  color: #000000;
 }
 
 
@@ -250,10 +275,7 @@ iframe {
   width: 100%;
 }
 
-.section-title {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
+
 
 .highlighted {
   color: #5865F2; /* You can adjust the color for "guaranteed" */
@@ -278,8 +300,9 @@ iframe {
 }
 
 h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+    color: #6953A4;
+    margin-bottom: 5px;
 }
 
 p {
@@ -310,12 +333,12 @@ p {
 
 /* Styling for individual service buttons */
 .service-button {
-  background-color:   #4f5ddd; /* Red background color */
+  background-color:   #ffffff; /* Red background color */
   color: white; /* White text */
   padding: 15px;
   font-size: 16px;
   font-weight: bold;
-  border: 2px solid black; /* Add a black border */
+  border: 0.5px solid black; /* Add a black border */
   border-radius: 8px;
   cursor: pointer;
   text-transform: uppercase;
@@ -325,20 +348,20 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center; /* Centers the text and image vertically */
-  width: 300px; /* Adjust the image size as needed */
+  width: 400px; /* Adjust the image size as needed */
   height: auto;
   text-align: center; /* Centers the text horizontally */
 
 }
 
 .service-button:hover {
-  background-color: #d32f2f; /* Darker red on hover */
+  background-color: #F4CBA5; /* Darker red on hover */
 }
 
 /* Styling for the service images inside the buttons */
 .service-image {
-  width: 200px; /* Adjust the image size as needed */
-  height: 200px;
+  width: 300px; /* Adjust the image size as needed */
+  height: 300px;
   margin-bottom: 10px; /* Add some space between image and text */
 }
 
@@ -347,17 +370,19 @@ p {
   font-size: 14px;
   text-align: center;
   letter-spacing: 1px;
+  color: #000000;
 }
 
 /* Styling for the CTA (Call-to-Action) button */
 .cta-button {
-  background-color: #4CAF50; /* Green background color */
+  background-color: #000000; /* Green background color */
   color: white; /* White text */
   padding: 15px 30px; /* Padding for size */
   font-size: 16px;
   font-weight: bold;
+  border: none;
   text-transform: uppercase; /* Make text uppercase */
-  border: 2px solid #4CAF50; /* Border to match the background */
+  /* border: 2px solid #6953A4; Border to match the background */
   border-radius: 8px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth hover transition */
@@ -368,6 +393,6 @@ p {
 
 /* Hover effect for the CTA button */
 .cta-button:hover {
-  background-color: #45a049; /* Darker green on hover */
-  border-color: #45a049; /* Match the border with the hover background */
+
+  filter: brightness(75%); /* Reduce brightness by 10% */
 }

@@ -21,3 +21,54 @@
     margin-right: 10px;
   }
 
+  .account-container {
+    margin-top: 30px;
+  }
+
+  .delete-account-section {
+    margin-top: 20px;
+  }
+
+  .delete-account-button {
+    background-color: #f44336;
+    color: white;
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+margin-bottom: 25px;
+  }
+
+  .delete-account-button:hover {
+    background-color: #d32f2f;
+
+  }
+
+  .account-info-text {
+    margin-top: 20px;
+    display: block;
+    color: grey;
+  }
+/* General input field styling */
+.input-field {
+  width: 100%; /* Make the input field take the full width of the parent */
+  padding: 10px; /* Add padding inside the input field for better text visibility */
+  margin-top: 10px; /* Add margin to the top for spacing between the label and the input */
+  margin-bottom: 20px; /* Add margin to the bottom for spacing between input fields */
+  border: 1px solid #ccc; /* Add a light border around the input */
+  border-radius: 4px; /* Slightly round the edges */
+  font-size: 1rem; /* Increase the font size */
+}
+
+/* Optional: Add a hover effect for the input field */
+.input-field:hover {
+  border-color: #6953A4; /* Change border color when hovered */
+}
+
+/* Optional: Add a focus effect to highlight the input when it's active */
+.input-field:focus {
+  border-color: #6953A4;
+  outline: none;
+  box-shadow: 0 0 5px rgba(105, 83, 164, 0.5);
+}

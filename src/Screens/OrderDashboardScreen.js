@@ -2,7 +2,7 @@ import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
 import useAppStore from "../useAppStore";
 import 'material-icons/iconfont/material-icons.css';
@@ -269,35 +269,29 @@ const OrderDashboardScreen = () => {
 
   return (
     <div className="container">
-      <div className="buttons-container">
-        <Button
-          variant="text"
-          onClick={() => handleButtonPress("InProgress")}
-          className={`button ${highlightedButton === "InProgress" ? "highlighted" : ""}`}
-        >
-          <span className={`button-label ${highlightedButton === "InProgress" ? "highlighted-label" : ""}`}>
-            InProgress
-          </span>
-        </Button>
-        <Button
-          variant="text"
-          onClick={() => handleButtonPress("Completed")}
-          className={`button ${highlightedButton === "Completed" ? "highlighted" : ""}`}
-        >
-          <span className={`button-label ${highlightedButton === "Completed" ? "highlighted-label" : ""}`}>
-            Completed
-          </span>
-        </Button>
-        <Button
-          variant="text"
-          onClick={() => handleButtonPress("Canceled")}
-          className={`button ${highlightedButton === "Canceled" ? "highlighted" : ""}`}
-        >
-          <span className={`button-label ${highlightedButton === "Canceled" ? "highlighted-label" : ""}`}>
-            Canceled
-          </span>
-        </Button>
-      </div>
+     <div className="buttons-container">
+  <button
+    onClick={() => handleButtonPress("InProgress")}
+    className={`buttond ${highlightedButton === "InProgress" ? "highlighted" : ""}`}
+  >
+    {highlightedButton === "InProgress" ? "Currently In Progress" : "InProgress"}
+  </button>
+
+  <button
+    onClick={() => handleButtonPress("Completed")}
+    className={`buttond ${highlightedButton === "Completed" ? "highlighted" : ""}`}
+  >
+    {highlightedButton === "Completed" ? "Already Completed" : "Completed"}
+  </button>
+
+  <button
+    onClick={() => handleButtonPress("Canceled")}
+    className={`buttond ${highlightedButton === "Canceled" ? "highlighted" : ""}`}
+  >
+    {highlightedButton === "Canceled" ? "Recently Canceled" : "Canceled"}
+  </button>
+</div>
+
 
       {showInProgress && (
         <div className="orders-list">
@@ -329,13 +323,12 @@ const OrderDashboardScreen = () => {
                     <span className="order-text">{serviceOrder.Package}</span>
                   </div>
                   <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                  <button
+                    className = 'buttonc'
                     onClick={() => markOrderAsCanceled(serviceOrder.id, serviceOrder.Service)}
                   >
                     Cancel
-                  </Button>
+                  </button>
                 </div>
               )}
               {serviceOrder.Service === "Dry Clean" && (
@@ -350,13 +343,12 @@ const OrderDashboardScreen = () => {
                       </span>
                     ))}
                   <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                  <button
+                    className = 'buttonc'
                     onClick={() => markOrderAsCanceled(serviceOrder.id, serviceOrder.Service)}
                   >
                     Cancel
-                  </Button>
+                  </button>
                 </div>
               )}
               {serviceOrder.Service === "Room Clean" && (
@@ -373,18 +365,17 @@ const OrderDashboardScreen = () => {
                   <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
                   <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
                   <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                  <button
+                    className = 'buttonc'
                     onClick={() => markOrderAsCanceled(serviceOrder.id, serviceOrder.Service)}
                   >
                     Cancel
-                  </Button>
+                  </button>
                 </div>
               )}
             </div>
           ))}
-          <p className="order-cancel-instructions">Click "Cancel" to cancel an order.</p>
+          {/* <p className="order-cancel-instructions">Click "Cancel" to cancel an order.</p> */}
         </div>
       )}
 
@@ -424,13 +415,14 @@ const OrderDashboardScreen = () => {
               {!['Excellent', 'Fair', 'Poor'].includes(serviceOrder.Rating) && (
                 <div className="rating-buttons">
                   {['Excellent', 'Fair', 'Poor'].map((rating, index) => (
-                    <Button
+                    <button
+                     className = 'buttonr'
                       key={index}
                       variant="text"
                       onClick={() => markOrderRating(serviceOrder.id, serviceOrder.Service, rating)}
                     >
                       {rating}
-                    </Button>
+                    </button>
                   ))}
                 </div>
               )}
@@ -455,13 +447,14 @@ const OrderDashboardScreen = () => {
               {!['Excellent', 'Fair', 'Poor'].includes(serviceOrder.Rating) && (
                 <div className="rating-buttons">
                   {['Excellent', 'Fair', 'Poor'].map((rating, index) => (
-                    <Button
+                    <button
+                     className = 'buttonr'
                       key={index}
                       variant="text"
                       onClick={() => markOrderRating(serviceOrder.id, serviceOrder.Service, rating)}
                     >
                       {rating}
-                    </Button>
+                    </button>
                   ))}
                 </div>
               )}
@@ -488,13 +481,14 @@ const OrderDashboardScreen = () => {
               {!['Excellent', 'Fair', 'Poor'].includes(serviceOrder.Rating) && (
                 <div className="rating-buttons">
                   {['Excellent', 'Fair', 'Poor'].map((rating, index) => (
-                    <Button
+                    <button
+                     className = 'buttonr'
                       key={index}
                       variant="text"
                       onClick={() => markOrderRating(serviceOrder.id, serviceOrder.Service, rating)}
                     >
                       {rating}
-                    </Button>
+                    </button>
                   ))}
                 </div>
               )}

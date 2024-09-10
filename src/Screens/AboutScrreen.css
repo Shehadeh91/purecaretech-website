@@ -25,3 +25,10 @@
     line-height: 1.6;
     color: #555;
   }
+
+  /* Custom class for purple text */
+.highlight-purple {
+  color: #6953A4; /* Purple color */
+  font-weight: bold;
+}
+

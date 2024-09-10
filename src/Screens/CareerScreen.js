@@ -66,24 +66,27 @@ const CareerScreen = () => {
 
             <section className="job-details">
               <h3>Job Details</h3>
-              <p><strong>Job Type:</strong> Casual</p>
-              <p><strong>Pay:</strong> $20.00 per hour</p>
-              <p><strong>Expected Hours:</strong> 10 – 40 per week</p>
-
-              <h4>Additional Pay:</h4>
+              <ul>
+              <li><strong>Job Type:</strong> Casual</li>
+              <li><strong>Pay:</strong> $20.00 per hour</li>
+              <li><strong>Expected Hours:</strong> 10 – 40 per week</li>
+</ul>
+              <h3>Additional Pay</h3>
               <ul>
                 <li>Tips</li>
               </ul>
 
-              <h4>Schedule:</h4>
+              <h3>Schedule</h3>
               <ul>
                 <li>Monday to Friday</li>
                 <li>On call</li>
                 <li>Weekends as needed</li>
               </ul>
 
-              <h4>Work Location:</h4>
-              <p>On the road</p>
+              <h3>Work Location</h3>
+              <ul>
+                <li>On the road</li>
+              </ul>
 
               <p><strong>Application Deadline:</strong> 2024-10-08</p>
             </section>
@@ -132,24 +135,25 @@ const CareerScreen = () => {
 
             <section className="job-details">
               <h3>Job Details</h3>
-              <p><strong>Job Type:</strong> Casual, Independent Contractor</p>
-              <p><strong>Pay:</strong> $20.00 per hour</p>
-              <p><strong>Expected Hours:</strong> 10 – 40 per week</p>
-
-              <h4>Additional Pay:</h4>
+              <ul>
+              <li><strong>Job Type:</strong> Casual, Independent Contractor</li>
+              <li><strong>Pay:</strong> $20.00 per hour</li>
+              <li><strong>Expected Hours:</strong> 10 – 40 per week</li>
+</ul>
+              <h3>Additional Pay</h3>
               <ul>
                 <li>Tips</li>
               </ul>
 
-              <h4>Schedule:</h4>
+              <h3>Schedule</h3>
               <ul>
                 <li>Monday to Friday</li>
                 <li>On call</li>
                 <li>Weekends as needed</li>
               </ul>
 
-              <h4>Work Location:</h4>
-              <p>On the road, providing mobile car cleaning services.</p>
+              <h3>Work Location</h3>
+              <li>On the road, providing mobile car cleaning services.</li>
 
               <p><strong>Application Deadline:</strong> 2024-10-08</p>
             </section>

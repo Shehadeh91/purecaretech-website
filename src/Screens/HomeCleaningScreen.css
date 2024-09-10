@@ -5,10 +5,12 @@
     flex-direction: column;
     margin-top: 10px;
     gap: 10px; /* Adds space between the radio buttons */
+
   }
 
   .radio-group label {
     display: flex;
+
     align-items: center;
     gap: 8px; /* Adds space between the radio button and the text */
   }
@@ -16,7 +18,10 @@
 
   .option-text {
     color: green;
+    flex-grow: 1; /* Takes up the available space on the left */
     margin-left: 10px;
+    text-align: right;
+    min-width: 100px; /* Ensure some spacing for the price */
   }
 
 

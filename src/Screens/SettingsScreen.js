@@ -93,102 +93,108 @@ const SettingsScreen = () => {
 
   return (
     <div className="settings-container">
-      <Typography variant="h4" align="center" gutterBottom>
-        Account Settings
-      </Typography>
+      <h2 className="settings-title">Account Settings</h2>
 
-      <List>
-        <ListItem>
-          <AccountCircle />
-          <TextField
-            label="Name"
-            variant="outlined"
-            fullWidth
+      <div className="settings-form">
+        {/* Name Field */}
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             onBlur={updateUserProfile}
+            className="settings-input"
           />
-        </ListItem>
-        <Divider />
+        </div>
+        <hr />
 
-        <ListItem>
-          <Phone />
-          <TextField
-            label="Phone Number"
-            variant="outlined"
-            fullWidth
+        {/* Phone Number Field */}
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="text"
+            id="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             onBlur={updateUserProfile}
-
+            className="settings-input"
           />
-        </ListItem>
-        <Divider />
+        </div>
+        <hr />
 
-        <ListItem>
-          <Email />
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
+        {/* Email Field (Disabled) */}
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
             value={userInfo.Email || ''}
             disabled
+            className="settings-input"
           />
-        </ListItem>
-        <Divider />
+        </div>
+        <hr />
 
-        <Typography variant="h6" className="password-section-title">
-          Change Password
-        </Typography>
+        {/* Password Section */}
+        <h3 className="password-section-title">Change Password</h3>
 
-        <ListItem>
-          <Lock />
-          <TextField
-            label="Current Password"
-            variant="outlined"
-            fullWidth
+        {/* Current Password */}
+        <div className="form-group">
+          <label htmlFor="current-password">Current Password</label>
+          <input
             type={passwordVisible ? 'text' : 'password'}
+            id="current-password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            className="settings-input"
           />
-        </ListItem>
-        <Divider />
+        </div>
+        <hr />
 
-        <ListItem>
-          <Lock />
-          <TextField
-            label="New Password"
-            variant="outlined"
-            fullWidth
-            type={passwordVisible ? 'text' : 'password'}
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <IconButton onClick={() => setPasswordVisible(!passwordVisible)}>
-            {passwordVisible ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </ListItem>
-        <Divider />
+        {/* New Password */}
+        <div className="form-group">
+          <label htmlFor="new-password">New Password</label>
+          <div className="password-input-wrapper">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              id="new-password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="settings-input"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="password-toggle-icon"
+            >
+              {passwordVisible ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+        <hr />
 
-        <ListItem>
-          <Lock />
-          <TextField
-            label="Confirm New Password"
-            variant="outlined"
-            fullWidth
+        {/* Confirm New Password */}
+        <div className="form-group">
+          <label htmlFor="confirm-password">Confirm New Password</label>
+          <input
             type={passwordVisible ? 'text' : 'password'}
+            id="confirm-password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className="settings-input"
           />
-        </ListItem>
-        <Divider />
-      </List>
+        </div>
+        <hr />
 
-      <Button variant="contained" color="primary" fullWidth onClick={handleChangePassword}>
-        Confirm Password Change
-      </Button>
+        <button onClick={handleChangePassword} className="settings-button">
+          Confirm Password Change
+        </button>
+      </div>
     </div>
   );
+
 };
 
 export default SettingsScreen;

@@ -23,9 +23,9 @@ const SignuUpScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const auth = FIREBASE_AUTH;
   const {
-    name, setName, phone, setPhone, email, setEmail, carPlate, carBrand, bodyStyle, currentColor, setUser
+    name, setName, phone, address, setPhone, email, setEmail, carPlate, carBrand, bodyStyle, currentColor, setUser
   } = useAppStore();
 
   useEffect(() => {
@@ -48,131 +48,197 @@ const SignuUpScreen = () => {
   }, [navigate, setUser, setName, setPhone, setEmail]);
 
   const handleSignup = async () => {
-    setError(null);
+    if (!validateInput()) return; // Validate user input first
 
-    if (!/(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{7,}/.test(password)) {
-      setError("Password must be at least 7 characters long and include at least one number, one uppercase letter, and one special character.");
-      return;
-    }
-    if (!/^\d{10}$/.test(phone)) {
-      setError("Please enter a valid 10-digit phone number.");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    setLoading(true);
+    setLoading(true); // Set loading state to true
     try {
+      // Create the user with email and password
       const { user } = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      await sendEmailVerification(user);
-      const usersCollectionRef = collection(FIRESTORE_DB, "Users");
-      const userDocRef = doc(usersCollectionRef, user.email);
-      await setDoc(userDocRef, {
+
+      // Store user data in Firestore using the user's email as the document ID
+      await setDoc(doc(FIRESTORE_DB, "Users", user.email), {
         userId: user.uid,
         Name: name,
         Email: email,
-        Phone: phone,
+        Address: address,
         CarBrand: carBrand,
         CarBody: bodyStyle,
         CarColor: currentColor,
         PlateNumber: carPlate,
-        Role: "Client"
+        Phone: phone,
+        Role: "Client",
       });
-      alert("Check your email for verification.");
-    } catch (error) {
-      setError("Sign-Up Failed: Please check your details and try again.");
-    } finally {
+
+      // Send email verification
+      await sendEmailVerification(user);
+      alert("Success! Check your email for verification.");
+
+      // Reset state (optional, depends on how you manage state)
+      setName('');
+      setPhone('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+
+      // Clear form, stop loading, and navigate to login page
       setLoading(false);
-      navigate("/home");
+      setTimeout(() => {
+        navigate("/login"); // Use React Router for web-based navigation
+      }, 1000);
+    } catch (error) {
+      setLoading(false); // Stop loading on error
+      if (error.code === 'permission-denied') {
+        alert("Sign-Up Failed: Permission denied. Please check your Firestore security rules.");
+      } else {
+        alert(`Sign-Up Failed: ${error.message}`);
+      }
     }
   };
 
+
+  const validateInput = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\d{10}$/;
+    const passwordRegex = /(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{7,}/;
+
+    // Clear previous error messages
+    document.getElementById('name-error').textContent = '';
+    document.getElementById('email-error').textContent = '';
+    document.getElementById('phone-error').textContent = '';
+    document.getElementById('password-error').textContent = '';
+    document.getElementById('confirm-password-error').textContent = '';
+
+    if (!name) {
+      document.getElementById('name-error').textContent = "Name is required.";
+      return false;
+    }
+    if (!emailRegex.test(email)) {
+      document.getElementById('email-error').textContent = "Invalid email format.";
+      return false;
+    }
+    if (!phoneRegex.test(phone)) {
+      document.getElementById('phone-error').textContent = "Please enter a valid 10-digit phone number.";
+      return false;
+    }
+    if (!passwordRegex.test(password)) {
+      document.getElementById('password-error').textContent = "Password must be at least 7 characters long and include a number, uppercase letter, and special character.";
+      return false;
+    }
+    if (password !== confirmPassword) {
+      document.getElementById('confirm-password-error').textContent = "Passwords do not match.";
+      return false;
+    }
+    return true;
+  };
+
+
+
+
   return (
-    <Container maxWidth="xs" className="container">
-      <Typography variant="h4" align="center" gutterBottom>
-        Sign Up
-      </Typography>
+    <div className="signup-container">
+      <h2 className="signup-title">Sign Up</h2>
 
-      {error && <Alert severity="error">{error}</Alert>}
-
-      <TextField
-        label="Full Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-      />
-
-      <TextField
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-      />
-
-      <TextField
-        label="Phone Number"
-        type="text"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-      />
-
-      <Typography variant="caption" className="password-instruction">
-        Password must be at least 7 characters long and include at least one number, one uppercase letter, and one special character.
-      </Typography>
-
-      <TextField
-        label="Password"
-        type={passwordVisible ? "text" : "password"}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        InputProps={{
-          endAdornment: (
-            <IconButton onClick={() => setPasswordVisible(!passwordVisible)}>
-              {passwordVisible ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          ),
-        }}
-      />
-
-      <TextField
-        label="Confirm Password"
-        type={passwordVisible ? "text" : "password"}
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        InputProps={{
-          endAdornment: (
-            <IconButton onClick={() => setPasswordVisible(!passwordVisible)}>
-              {passwordVisible ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          ),
-        }}
-      />
-
-      {loading ? (
-        <CircularProgress className="loader" />
-      ) : (
-        <Button variant="contained" color="primary" fullWidth onClick={handleSignup} className="button">
-          Sign Up
-        </Button>
+      {error && (
+        <div className="signup-error">
+          {error}
+        </div>
       )}
-    </Container>
+
+      <div className="signup-form">
+        <div className="form-group">
+          <label htmlFor="full-name">Full Name</label>
+          <input
+            type="text"
+            id="full-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="signup-input"
+          />
+           <div id="name-error" class="error-message"></div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="signup-input"
+          />
+           <div id="email-error" class="error-message"></div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="text"
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="signup-input"
+          />
+           <div id="phone-error" class="error-message"></div>
+        </div>
+
+        <p className="password-instruction">
+          Password must be at least 7 characters long and include at least one number, one uppercase letter, and one special character.
+        </p>
+
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <div className="password-input-wrapper">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="signup-input"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="password-toggle-icon"
+            >
+              {passwordVisible ? "Hide" : "Show"}
+            </button>
+          </div>
+          <div id="password-error" class="error-message"></div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="confirm-password">Confirm Password</label>
+          <div className="password-input-wrapper">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              id="confirm-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="signup-input"
+            />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className="password-toggle-icon"
+            >
+              {passwordVisible ? "Hide" : "Show"}
+            </button>
+          </div>
+          <div id="confirm-password-error" class="error-message"></div>
+
+        </div>
+
+        {loading ? (
+          <div className="loading-spinner"></div>
+        ) : (
+          <button onClick={handleSignup} className="signup-button">
+            Sign Up
+          </button>
+        )}
+      </div>
+    </div>
   );
+
 };
 
 export default SignuUpScreen;

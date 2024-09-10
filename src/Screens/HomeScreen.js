@@ -8,6 +8,7 @@ import carCleanImage from '../assets/Images/CarClean.png';
 import houseCleanImage from '../assets/Images/HouseClean.png';
 import dryCleanImage from '../assets/Images/DryClean.png';
 import logoImage from '../assets/Images/PureCare.png';
+import banner from '../assets/Images/Banner.png'
 
 // Importing step images for "How It Works"
 // import step1Image from '../assets/Images/Logout.png';
@@ -89,12 +90,14 @@ const HomeScreen = () => {
       videoRef.current.volume = 0.15; // Set volume to 25%
     }
   }, []);
+
+
   return (
     <div className="container">
       {/* Hero Section */}
       <div className="hero-section" >
-        <h1 className="hero-heading">Effortless Cleaning at Your Fingertips</h1>
-        <p className="hero-subheading">Book a mobile car wash, dry cleaning, or home cleaning in seconds.</p>
+        {/* <h1 className="hero-heading">Effortless Cleaning at Your Fingertips</h1>
+        <p className="hero-subheading">Book a mobile car wash, dry cleaning, or home cleaning in seconds.</p> */}
         <div className="hero-buttons">
           <button className="cta-button" onClick={() => scrollToSection(servicesRef)}>Book Now</button>
           <button className="cta-button" onClick={() => scrollToSection(howItWorksRef)}>Learn More</button>
@@ -163,7 +166,7 @@ const HomeScreen = () => {
 
       <div className="guarantee-section">
   <h2 className="section-title">
-    Your satisfaction, <span className="highlighted">guaranteed</span>
+  Our Commitment to Excellence
   </h2>
   <div className="guarantee-items">
     <div className="guarantee-item">
