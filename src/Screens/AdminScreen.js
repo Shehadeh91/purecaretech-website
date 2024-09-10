@@ -31,7 +31,7 @@ const AdminScreen = () => {
         const user = auth.currentUser; // Get the currently logged-in user
 
         if (!user) {
-          navigate('/'); // Redirect to home if no user is logged in
+          navigate('/help'); // Redirect to home if no user is logged in
           return;
         }
 

@@ -21,16 +21,14 @@ html, body {
 
 /* The main content should take available space */
 .App {
-  flex: 1; /* Makes the main content take up available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
-
-
 }
 
 /* The content area should grow to push the footer down */
 .content {
-  flex: 1; /* Push the footer to the bottom if content is short */
+  flex: 1;
 }
 
 /* Global Styles */
@@ -44,10 +42,7 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-
 }
-
-
 
 /* Header Styles */
 .header {
@@ -63,7 +58,6 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   color: #ffffff;
@@ -86,13 +80,10 @@ a {
 
 .nav ul li {
   position: relative;
-
 }
 
 .nav ul li a {
-  text-decoration: none;
   color: #ffffff;
-  font-weight: bold;
 }
 
 .nav ul li a:hover {
@@ -116,16 +107,17 @@ a {
   z-index: 10;
   min-width: 250px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
   opacity: 0;
   visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-10px);
 }
 
-.dropdown:hover .dropdown-menu,
-.dropdown-menu.show {
+.dropdown:hover .dropdown-menu {
   display: block;
   opacity: 1;
   visibility: visible;
+  transform: translateY(0);
 }
 
 .dropdown-menu li {
@@ -134,11 +126,7 @@ a {
 
 .dropdown-menu li a {
   color: #333;
-  text-decoration: none;
-  display: block;
 }
-
-
 
 /* Footer Styles */
 .footer {
@@ -197,20 +185,18 @@ a {
 }
 
 /* Download Section */
-
-
 .footer-right p {
-  text-align: center; /* Centers the text horizontally */
+  text-align: center;
   display: flex;
-  flex-direction: column; /* Stack the text and buttons vertically */
-  align-items: center; /* Horizontally center-align the elements */
+  flex-direction: column;
+  align-items: center;
   color: #ffffff;
 }
 
 .download-buttons {
   display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  gap: 10px; /* Add space between the buttons */
+  justify-content: center;
+  gap: 10px;
 }
 
 .download-icon {
@@ -227,39 +213,24 @@ a {
   color: #ffffff;
 }
 
-/* Dropdown Animations */
-.dropdown-menu {
-  transform: translateY(-10px);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-}
-
-.dropdown:hover .dropdown-menu {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header-content,
-  .footer-content {
+  .header-content, .footer-content {
     flex-direction: column;
     align-items: center;
   }
 
   .footer-right {
-    display: flex;
-  flex-direction: column;
-  align-items: center; /* This will center both the text and the buttons horizontally */
-
-  text-align: right; /* Center the text inside the footer-right container */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .app-tagline {
     font-size: 0.9rem;
-    color: #e60a0a;
-    margin-top: 25px; /* Adds a little space between "Download our app" and the tagline */
-    display: block; /* Ensures it's on a separate line */
+    color: #ffffff;
+    margin-top: 25px;
+    display: block;
   }
 
   .download-buttons {
@@ -269,6 +240,10 @@ a {
   .nav ul {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .dropdown-menu {
+    min-width: 200px;
   }
 }
 
@@ -286,52 +261,22 @@ a {
     text-align: center;
   }
 
-/* About link and Services link */
-.about-link, .services-link {
-  color: #333;
-  font-weight: bold;
-  cursor: pointer;
-}
+  .footer-right {
+    align-items: center;
+    text-align: center;
+  }
 
+  .app-tagline {
+    font-size: 1rem;
+    color: #ffffff;
+    margin-top: 15px;
+  }
 
+  .dropdown-menu {
+    min-width: 180px;
+  }
 
-/* Account link */
-.account-link {
-  color: #333;
-  font-weight: bold;
-}
-
-
-
-/* Footer right */
-.footer-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Aligns content to the right */
-}
-
-
-
-/* App tagline base */
-.app-tagline {
-  font-size: 1rem;
-  color: #555;
-  margin-top: 15px;
-  display: block;
-  text-align: center;
-}
-
-/* Social media links hover */
-.social-media a:hover {
-  color: #000; /* Ensures there's a visual change on hover */
-}
-
-/* Dropdown menu show state */
-.dropdown-menu.show {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-
+  .social-media a:hover {
+    color: #000;
+  }
 }
