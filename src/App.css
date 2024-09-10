@@ -47,10 +47,7 @@ a {
 
 }
 
-a:hover {
-  text-decoration: underline;
-  color: #007BFF;
-}
+
 
 /* Header Styles */
 .header {
@@ -141,9 +138,7 @@ a:hover {
   display: block;
 }
 
-.dropdown-menu li a:hover {
-  color: #007BFF;
-}
+
 
 /* Footer Styles */
 .footer {
@@ -298,9 +293,7 @@ a:hover {
   cursor: pointer;
 }
 
-.about-link:hover, .services-link:hover {
-  color: #007BFF;
-}
+
 
 /* Account link */
 .account-link {
@@ -308,9 +301,7 @@ a:hover {
   font-weight: bold;
 }
 
-.account-link:hover {
-  color: #007BFF;
-}
+
 
 /* Footer right */
 .footer-right {
@@ -341,5 +332,6 @@ a:hover {
   opacity: 1;
   visibility: visible;
 }
+
 
 }

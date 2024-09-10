@@ -5,7 +5,7 @@
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     max-width: 90%; /* Ensure the container is responsive and doesn't exceed 90% width */
-   */
+
 
   .scroll-view {
     display: flex;

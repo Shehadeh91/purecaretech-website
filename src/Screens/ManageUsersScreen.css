@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 375px;
+    gap: 25px;
+  }
+
+  .buttond {
+    width: 110px;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  .highlighted {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+
+  .orders-list {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  .order-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid orange;
+  }
+
+  .order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .buttonc {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }

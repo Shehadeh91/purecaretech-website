@@ -1,0 +1,41 @@
+.done-button{
+    color: #ffffff;
+    background-color: #2f4dd3;
+    padding: 5px;
+    margin-top: 10px;
+    width: 25%;
+  }
+  .done-button:hover {
+    background-color: #2f4dd3; /* Darker shade of red on hover */
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+
+  .claim-button{
+    color: #ffffff;
+    background-color: #55b000;
+    padding: 5px;
+    margin-top: 10px;
+    width: 25%;
+  }
+  .claim-button:hover {
+    background-color: #55b000; /* Darker shade of red on hover */
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+
+
+  .button-earning{
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin: 5px;
+    background-color: #6953A4;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .button-earning:hover {
+    filter: brightness(75%);
+  }

@@ -47,7 +47,7 @@ const LogInScreen = () => {
                 navigate('/admin');
                 break;
               case "Agent":
-                navigate('/agent');
+                navigate('/agents');
                 break;
               default:
                 setError("Access Denied: You do not have permission to access this account.");
@@ -83,7 +83,7 @@ const LogInScreen = () => {
               navigate('/admin');
               break;
             case "Agent":
-              navigate('/agent');
+              navigate('/agents');
               break;
             default:
               setError("Access Denied: You do not have permission to access this account.");
@@ -166,3 +166,11 @@ const LogInScreen = () => {
 };
 
 export default LogInScreen;
+
+
+
+
+
+
+
+

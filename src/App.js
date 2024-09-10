@@ -20,7 +20,11 @@ import HomeCleaningScreen from './Screens/HomeCleaningScreen';
 import HomeCleaningCheckoutScreen from './Screens/HomeCleaningCheckoutScreen';
 import CarWashScreen from './Screens/CarWashScreen';
 import CarWashCheckoutScreen from './Screens/CarWashCheckoutScreen';
-
+import AdminScreen from './Screens/AdminScreen';
+import ManageUsersScreen from './Screens/ManageUsersScreen';
+import AgentScreen from './Screens/AgentScreen';
+import AgentEarningOverviewScreen from './Screens/EarningOverviewScreen';
+import AgentAdminHelpPage from './Screens/AgentAdminHelpPage';
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
@@ -134,6 +138,11 @@ function App() {
             <Route path="/homeCleaningCheckOut" element={<HomeCleaningCheckoutScreen />} />
             <Route path="/carWashOrder" element={<CarWashScreen />} />
             <Route path="/carWashCheckOut" element={<CarWashCheckoutScreen />} />
+            <Route path="/admin" element={<AdminScreen />} />
+            <Route path="/users" element={<ManageUsersScreen />} />
+            <Route path="/agents" element={<AgentScreen />} />
+            <Route path="/earnings" element={<AgentEarningOverviewScreen />} />
+            <Route path="/help" element={<AgentAdminHelpPage />} />
 
 
   {/* Wrap checkout route in a separate component */}
@@ -168,6 +177,7 @@ const Header = () => {
       <div className="header-content">
         <Link to="/">
           <img src={logo} alt="Logo" className="logo" />
+
         </Link>
         <nav className="nav">
           <ul>
@@ -186,6 +196,7 @@ const Header = () => {
               )}
             </li>
             <li><Link to="/">Home</Link></li>
+
             <li
               className="dropdown"
               onMouseEnter={handleMouseEnter}
@@ -214,6 +225,9 @@ const Header = () => {
                   <li><Link to="/login">Login</Link></li>
                   <li><Link to="/signup">Signup</Link></li>
                   <li><Link to="/settings">Account Settings</Link></li>
+                  <li><Link to="/admin">Admin</Link></li>
+        <li><Link to="/agents">Agent</Link></li>
+
                 </ul>
               )}
             </li>

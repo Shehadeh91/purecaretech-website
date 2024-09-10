@@ -138,7 +138,9 @@
 }
 
 .rating-buttons button:hover {
-  background-color: #e0e0e0;
+  background-color: #6953A4; /* Darker shade of red on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+
 }
 
 /* Cancel instructions */
@@ -171,3 +173,5 @@
   margin-top: 10px;
   width: 25%;
 }
+
+
