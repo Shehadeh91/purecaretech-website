@@ -107,7 +107,7 @@ const HomeScreen = () => {
 
       {/* Promo Video Section */}
       <div className="promo-video-section">
-        <h2 className="section-title">Watch Our Promo</h2>
+        <h2 className="section-title">Watch Our Features & Services</h2>
         <div className="video-container"  ref={howItWorksRef}>
           {/* Replace the YouTube iframe with your self-hosted video */}
           <video ref={videoRef} width="100%" height="400px" controls>
@@ -139,7 +139,7 @@ const HomeScreen = () => {
           </div>
           <div className="step" ref={servicesRef}>
           <DirectionsCarIcon fontSize="large" alt="Step 5" />
-            <p>A Provider Picks Up and Arrives</p>
+            <p>A Provider Arrives</p>
           </div>
         </div>
       </div>
@@ -171,18 +171,18 @@ const HomeScreen = () => {
   <div className="guarantee-items">
     <div className="guarantee-item">
     <SentimentSatisfiedAltIcon fontSize="large" className="guarantee-icon" />
-          <h3>Happiness Pledge</h3>
-      <p>If you’re not satisfied, we’ll work to make it right.</p>
+          <h3>Our Promise</h3>
+      <p>If you're not happy, we'll fix it.</p>
     </div>
     <div className="guarantee-item">
     <VerifiedIcon  fontSize="large" className="guarantee-icon" />
-    <h3>Vetted Service Providers</h3>
-    <p>All service providers undergo background checks to ensure the best quality.</p>
+    <h3>Trusted Service Providers</h3>
+    <p>All service providers are checked to ensure high quality service.</p>
         </div>
     <div className="guarantee-item">
     <SupportAgentIcon fontSize="large" className="guarantee-icon" />
-          <h3>Dedicated Support</h3>
-      <p>Friendly service when you need us – every day of the week.</p>
+          <h3>Reliable Support</h3>
+      <p>You can count on us for help every day.</p>
     </div>
   </div>
 </div>

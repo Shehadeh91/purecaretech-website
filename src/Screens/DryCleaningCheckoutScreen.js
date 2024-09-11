@@ -152,6 +152,14 @@ const DryCleanCheckOutScreen = () => {
   };
 
   useEffect(() => {
+    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+      setVisible(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         if (!user || !user.emailVerified) return;
@@ -169,7 +177,7 @@ const DryCleanCheckOutScreen = () => {
   }, [user]);
 
   if (!user || !user.emailVerified) {
-    return <LogInScreen />;
+    return navigate("/login");
   }
 
   const totalPrice = (getTotalPrice() + deliveryCost + 4 + ((getTotalPrice() + deliveryCost + 4) * 0.05)).toFixed(2);

@@ -191,7 +191,7 @@ const Header = () => {
               {isDropdownOpen && (
                 <ul className="dropdown-menu">
                   <li><Link to="/about">About PureCare Tech</Link></li>
-                  <li><Link to="/career">Career</Link></li>
+                  <li><Link to="/career">Careers</Link></li>
                 </ul>
               )}
             </li>

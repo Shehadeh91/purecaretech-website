@@ -173,7 +173,7 @@ const HomeCleaningCheckoutScreen = () => {
   }, [user]);
 
   if (!user || !user.emailVerified) {
-    return <LogInScreen />;
+    return navigate("/login");
   }
 
   const totalPrice = (getTotalPrice() + deliveryCost + supplyCost + packageCost + 4 + ((getTotalPrice() + deliveryCost + packageCost + supplyCost + 4) * 0.05)).toFixed(2);

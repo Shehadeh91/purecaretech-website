@@ -104,7 +104,7 @@ const AccountScreen = () => {
   };
 
   if (!user || !user.emailVerified) {
-    return <LogInScreen />;
+    return navigate("/login");
   }
 
   return (

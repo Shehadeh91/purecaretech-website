@@ -26,38 +26,43 @@ const AdminScreen = () => {
 
 
   useEffect(() => {
-    const checkAdminAccess = async () => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser && currentUser.emailVerified) {
+        setUser(currentUser);
+        checkAdminAccess(currentUser);
+
+      } else {
+        navigate("/login"); // Redirect if not logged in or email not verified
+      }
+    });
+
+    const checkAdminAccess = async (currentUser) => {
       try {
-        const user = auth.currentUser; // Get the currently logged-in user
-
-        if (!user) {
-          navigate('/help'); // Redirect to home if no user is logged in
-          return;
-        }
-
-        const userDocRef = doc(FIRESTORE_DB, 'Users', user.email); // Reference to the user's Firestore document
+        const userDocRef = doc(FIRESTORE_DB, "Users", currentUser.email); // Get Firestore document reference
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
-
-          if (userData.Role !== 'Admin') {
-            navigate('/help'); // Redirect to home if the user is not an admin
+          if (userData.Role !== "Admin") {
+            navigate("/help"); // Redirect if the user is not an admin
           }
         } else {
-          setError('User data not found');
-          navigate('/help'); // Redirect if user data is missing
+          setError("User data not found");
+          navigate("/help"); // Redirect if no user data exists
         }
       } catch (error) {
-        setError('Error occurred while checking admin access');
-        navigate('/help'); // Redirect on error
+        setError("Error occurred while checking admin access");
+        navigate("/help"); // Redirect on error
       } finally {
-        setLoading(false);
+
+        setLoading(false); // Hide the loading indicator
+
       }
+
     };
 
-    checkAdminAccess();
-  }, [navigate]);
+    return () => unsubscribe(); // Clean up subscription on component unmount
+  }, [auth, navigate]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -190,16 +195,11 @@ const AdminScreen = () => {
     }
   };
 
-//   useEffect(() => {
-//     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-//       setUser(currentUser);
-//     });
-//     return unsubscribe;
-//   }, [auth]);
 
-  if (!user || !user.emailVerified) {
-    return <LogInScreen />;
-  }
+
+if (!user || !user.emailVerified) {
+  return navigate("/login");
+}
   return (
     <div className="container">
   <button className="button-manage-users-orders" onClick={() => navigate("/users")}>

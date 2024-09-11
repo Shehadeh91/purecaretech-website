@@ -189,7 +189,7 @@ const CarWashCheckoutScreen = () => {
   }, [user]);
 
   if (!user || !user.emailVerified) {
-    return <LogInScreen />;
+    return navigate("/login");
   }
 
   const totalPrice = bodyStyleCost + prefrenceCost + packageCost + deliveryCost + 4 + (bodyStyleCost + prefrenceCost + packageCost + deliveryCost + 4) * 0.05;
