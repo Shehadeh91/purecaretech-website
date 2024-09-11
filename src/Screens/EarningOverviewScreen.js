@@ -102,13 +102,13 @@ const AgentEarningOverviewScreen = () => {
         </div>
       </div>
 
-      <h4 className="agent-earning-overview-invoices-title">Invoices</h4>
+      <h4 className="agent-earning-overview-invoices-title">Payments</h4>
       <div className="agent-earning-overview-invoices-container-scroll">
         {agentData && agentData.Invoices ? (
           agentData.Invoices.slice().reverse().map((invoice, index) => (
             <div key={index} className="agent-earning-overview-invoice-card">
               <p>
-                Invoice {agentData.Invoices.length - index}
+                Payment {agentData.Invoices.length - index}
               </p>
               <p>
                 From: {invoice["from"] ? formatDate(invoice["from"].toDate()) : "N/A"}
@@ -120,7 +120,7 @@ const AgentEarningOverviewScreen = () => {
             </div>
           ))
         ) : (
-          <p>No invoices found</p>
+          <p>No Payment found</p>
         )}
       </div>
     </div>

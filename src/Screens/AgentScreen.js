@@ -360,7 +360,7 @@ const AgentScreen = () => {
     }
   };
 
-  const markOrderAsComplete = async (orderId, serviceType, serviceTotal, servicePayment) => {
+  const markOrderAsComplete = async (orderId, serviceType, serviceTotal, servicePayment, serviceSettled) => {
     try {
       if (serviceType === "Dry Clean") {
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
@@ -384,6 +384,41 @@ const AgentScreen = () => {
     } catch (error) {
       console.error("Error marking order as complete:", error);
     }
+    try {
+      const user = auth.currentUser;
+      const agentDocRef = doc(FIRESTORE_DB, "Agents", user.email);
+      const agentDocSnap = await getDoc(agentDocRef);
+      let NumberOfServices = 0;
+      let TotalEarnings = 0;
+      let services = [];
+      if (agentDocSnap.exists()) {
+        NumberOfServices = agentDocSnap.data().NumberOfServices || 0;
+        services = agentDocSnap.data().services || [];
+        TotalEarnings = services.reduce((total, service) => total + parseFloat(service.Total || 0), 0);      }
+        const newService = {
+          Type: serviceType,
+          Payment: servicePayment,
+          Total: parseFloat(serviceTotal),
+          Settled: "No",
+          Date: Timestamp.now(),
+        };
+        services.push(newService);
+        TotalEarnings = services.reduce((total, service) => total + parseFloat(service.Total || 0), 0);
+      await setDoc(agentDocRef, {
+        Email: user.email,
+        Name: name,
+        Phone: phone,
+        Address: address,
+        services: services,
+        NumberOfServices: NumberOfServices + 1,
+        TotalEarnings: TotalEarnings.toFixed(2),
+        NetPay: '',
+      },
+      { merge: true } // This ensures that the document is only updated, not overwritten
+    );
+  } catch (error) {
+    console.error("Error adding Agents Doc:", error);
+  }
   };
 
   const setEstimatedServiceTime = async (orderId, serviceType, setDate) => {
@@ -612,7 +647,7 @@ const AgentScreen = () => {
             <p className="order-date">{serviceOrder.Address}</p>
             <p className="order-note">{serviceOrder.Note}</p>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment)}>
+            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment, serviceOrder.Settled)}>
               Done
             </button>
           </div>
