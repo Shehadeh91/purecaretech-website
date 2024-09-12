@@ -175,10 +175,10 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-content">
-        <Link to="/">
+        {/* <Link to="/">
           <img src={logo} alt="Logo" className="logo" />
 
-        </Link>
+        </Link> */}
         <nav className="nav">
           <ul>
             <li
@@ -242,13 +242,19 @@ const Footer = () => {
   const footerRef = useRef(null); // Create footer ref
   return (
     <footer className="footer">
+
       <div className="footer-content">
         <div className="footer-left">
+        <Link to="/">
+          <img src={logo} alt="Logo" className="logo" />
+
+        </Link>
           <div className="footer-links">
             <Link to="/">Home</Link> |
             <Link to="/terms">Terms of Service</Link> |
             <Link to="/privacy">Privacy Control</Link>
           </div>
+
           <div className="footer-contact">
             <p>Contact us at: admin@purecaretech.com</p>
             <p>Phone: +1 (204) 803-6949</p> {/* Phone number added here */}
@@ -268,6 +274,7 @@ const Footer = () => {
 
         <div className="footer-right">
           <p ref={footerRef}>Download our app</p>
+
           <small className="app-tagline">Book our cleaning services on the go with our mobile app.</small>
           <div className="download-buttons">
             <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer">
@@ -279,6 +286,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
       <p className="footer-bottom">© 2024 PureCare Tech. All Rights Reserved.</p>
     </footer>
   );

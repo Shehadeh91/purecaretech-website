@@ -29,25 +29,21 @@ const OrderDashboardScreen = () => {
   // Function to set service rating
   const markOrderRating = async (orderId, serviceType, rating) => {
     try {
-      // Mapping service types to Firestore collection names
       const serviceCollectionMap = {
         "Dry Clean": "Dry-Clean",
         "Car Wash": "Car-Wash",
-        "Room Clean": "Room-Clean"
+        "Room Clean": "Room-Clean",
       };
-      // Get the collection name based on service type
       const collectionName = serviceCollectionMap[serviceType];
       if (!collectionName) {
         console.error("Invalid service type:", serviceType);
         return;
       }
-      // Reference to the appropriate collection
       const ordersRef = collection(FIRESTORE_DB, collectionName);
       const orderDocRef = doc(ordersRef, orderId);
-      // Update the Rating field in the specified document
       await updateDoc(orderDocRef, { Rating: rating });
       console.log(`Rating "${rating}" set for order ID "${orderId}" in collection "${collectionName}".`);
-      handleButtonPress("Completed");
+      handleButtonPress("Completed"); // Automatically switch to the Completed orders view
     } catch (error) {
       console.error("Error setting service rating:", error);
     }
@@ -378,7 +374,6 @@ const OrderDashboardScreen = () => {
           {/* <p className="order-cancel-instructions">Click "Cancel" to cancel an order.</p> */}
         </div>
       )}
-
       {showCompleted && (
   <div className="orders-list">
     {completedOrders.map((serviceOrder) => (
@@ -409,26 +404,29 @@ const OrderDashboardScreen = () => {
               <span className="order-text">{serviceOrder.Package}</span>
             </div>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            {/* Review Section */}
-            <div className="review-section">
-              <span>Service Rating: {serviceOrder.Rating}</span>
-              {!['Excellent', 'Fair', 'Poor'].includes(serviceOrder.Rating) && (
-                <div className="rating-buttons">
-                  {['Excellent', 'Fair', 'Poor'].map((rating, index) => (
-                    <button
-                     className = 'buttonr'
-                      key={index}
-                      variant="text"
-                      onClick={() => markOrderRating(serviceOrder.id, serviceOrder.Service, rating)}
-                    >
-                      {rating}
-                    </button>
-                  ))}
-                </div>
-              )}
+
+            {/* Star Rating System Embedded Inside the Card */}
+            <div className="order-date">
+              <span>Service Rating: {serviceOrder.Rating + "/5" || "Not Rated"}</span>
+              <div className="rating-icons">
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <i
+                    key={value}
+                    className={`material-icons star ${value <= (serviceOrder.Rating || 0) ? 'star-selected' : 'star-unselected'} ${serviceOrder.Rating ? 'star-disabled' : ''}`}
+                    onClick={() => {
+                      if (!serviceOrder.Rating) {
+                        markOrderRating(serviceOrder.id, serviceOrder.Service, value);
+                      }
+                    }}
+                  >
+                    star
+                  </i>
+                ))}
+              </div>
             </div>
           </div>
         )}
+
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">
@@ -441,26 +439,29 @@ const OrderDashboardScreen = () => {
                 </span>
               ))}
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            {/* Review Section */}
+
+            {/* Star Rating System Embedded Inside the Card */}
             <div className="review-section">
-              <span>Service Rating: {serviceOrder.Rating}</span>
-              {!['Excellent', 'Fair', 'Poor'].includes(serviceOrder.Rating) && (
-                <div className="rating-buttons">
-                  {['Excellent', 'Fair', 'Poor'].map((rating, index) => (
-                    <button
-                     className = 'buttonr'
-                      key={index}
-                      variant="text"
-                      onClick={() => markOrderRating(serviceOrder.id, serviceOrder.Service, rating)}
-                    >
-                      {rating}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <span>Service Rating: {serviceOrder.Rating + "/5" || "Not Rated"}</span>
+              <div className="rating-icons">
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <i
+                    key={value}
+                    className={`material-icons star ${value <= (serviceOrder.Rating || 0) ? 'star-selected' : 'star-unselected'} ${serviceOrder.Rating ? 'star-disabled' : ''}`}
+                    onClick={() => {
+                      if (!serviceOrder.Rating) {
+                        markOrderRating(serviceOrder.id, serviceOrder.Service, value);
+                      }
+                    }}
+                  >
+                    star
+                  </i>
+                ))}
+              </div>
             </div>
           </div>
         )}
+
         {serviceOrder.Service === "Room Clean" && (
           <div className="order-details room-clean-order">
             <span className="order-service">
@@ -475,23 +476,25 @@ const OrderDashboardScreen = () => {
             <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
             <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            {/* Review Section */}
+
+            {/* Star Rating System Embedded Inside the Card */}
             <div className="review-section">
-              <span>Service Rating: {serviceOrder.Rating}</span>
-              {!['Excellent', 'Fair', 'Poor'].includes(serviceOrder.Rating) && (
-                <div className="rating-buttons">
-                  {['Excellent', 'Fair', 'Poor'].map((rating, index) => (
-                    <button
-                     className = 'buttonr'
-                      key={index}
-                      variant="text"
-                      onClick={() => markOrderRating(serviceOrder.id, serviceOrder.Service, rating)}
-                    >
-                      {rating}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <span>Service Rating: {serviceOrder.Rating + "/5" || "Not Rated"}</span>
+              <div className="rating-icons">
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <i
+                    key={value}
+                    className={`material-icons star ${value <= (serviceOrder.Rating || 0) ? 'star-selected' : 'star-unselected'} ${serviceOrder.Rating ? 'star-disabled' : ''}`}
+                    onClick={() => {
+                      if (!serviceOrder.Rating) {
+                        markOrderRating(serviceOrder.id, serviceOrder.Service, value);
+                      }
+                    }}
+                  >
+                    star
+                  </i>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -499,6 +502,9 @@ const OrderDashboardScreen = () => {
     ))}
   </div>
 )}
+
+
+
 {showCanceled && (
   <div className="orders-list">
     {canceledOrders.map((serviceOrder) => (

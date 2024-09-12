@@ -6,6 +6,7 @@ const TermsScreen = () => {
     <div className="terms-container">
       <div className="terms-content">
         <h1>Terms of Service</h1>
+        <p>Last updated: September 11, 2024</p>
 
         <section className="terms-section">
           <h2>1. Introduction</h2>

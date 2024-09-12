@@ -5,79 +5,116 @@ const PrivacyScreen = () => {
   return (
     <div className="privacy-container">
       <div className="privacy-content">
-        <h1>Privacy Control</h1>
+        <h1>Privacy Policy</h1>
+        <p>Last updated: September 09, 2024</p>
 
         <section className="privacy-section">
           <h2>1. Privacy Commitment</h2>
-          <p>At PureCare Tech, we prioritize your privacy and are committed to protecting your personal information. This Privacy Control section outlines how we collect, use, and safeguard your data.</p>
+          <p>This Privacy Policy describes Our policies and procedures on the collection, use, and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy.</p>
         </section>
 
         <section className="privacy-section">
-          <h2>2. Information Collection</h2>
-          <p>We collect personal information you provide directly, such as your name, contact details, and service preferences when you book our services or interact with our app. We may also collect usage data and device information to improve our services and app performance.</p>
+          <h2>2. Interpretation and Definitions</h2>
+          <h3>Interpretation</h3>
+          <p>Words with capitalized letters have meanings defined below, regardless of singular or plural forms.</p>
+          <h3>Definitions</h3>
+          <p>
+            <strong>Account:</strong> A unique account created for You to access our Service.<br/>
+            <strong>Affiliate:</strong> An entity under common control with the Company.<br/>
+            <strong>Application:</strong> PureCare, the software program by the Company.<br/>
+            <strong>Company:</strong> PureCare Tech, 7-316 STRADBROOK AVE.<br/>
+            <strong>Country:</strong> Manitoba, Canada.<br/>
+            <strong>Device:</strong> Any device that can access the Service.<br/>
+            <strong>Personal Data:</strong> Information that identifies an individual.<br/>
+            <strong>Service:</strong> Refers to the Application.<br/>
+            <strong>Service Provider:</strong> Third parties who assist with providing the Service.<br/>
+            <strong>Usage Data:</strong> Data collected automatically during use of the Service.<br/>
+            <strong>You:</strong> The individual using the Service, or the company or entity on behalf of which the individual uses the Service.
+          </p>
         </section>
 
         <section className="privacy-section">
-          <h2>3. Use of Information</h2>
-          <p>Your personal information is used to:</p>
+          <h2>3. Collecting and Using Your Personal Data</h2>
+          <h3>Types of Data Collected</h3>
+          <h4>Personal Data</h4>
+          <p>We may ask You for personally identifiable information, including:</p>
           <ul>
-            <li>Provide and manage the services you request.</li>
-            <li>Process payments and handle customer support.</li>
-            <li>Send notifications and updates related to our services.</li>
-            <li>Improve and personalize your experience with our app.</li>
+            <li>Email address</li>
+            <li>First name and last name</li>
+            <li>Phone number</li>
+            <li>Address, ZIP/Postal code, City</li>
+          </ul>
+          <h4>Usage Data</h4>
+          <p>Usage Data is collected automatically when using the Service, including IP address, browser type, and other diagnostics.</p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>4. Use of Your Personal Data</h2>
+          <p>The Company uses Your Personal Data to:</p>
+          <ul>
+            <li>Provide and maintain the Service</li>
+            <li>Manage Your Account</li>
+            <li>Process contracts and services</li>
+            <li>Contact You with service-related communications</li>
+            <li>Provide updates and offers</li>
+            <li>Analyze usage trends and improve services</li>
           </ul>
         </section>
 
         <section className="privacy-section">
-          <h2>4. Data Security</h2>
-          <p>We implement robust security measures to protect your data from unauthorized access, alteration, or disclosure. However, no method of transmission over the internet or electronic storage is completely secure, so we cannot guarantee absolute security.</p>
-        </section>
-
-        <section className="privacy-section">
-          <h2>5. Third-Party Services</h2>
-          <p>We use third-party services to facilitate and enhance our app's functionality:</p>
+          <h2>5. Third-Party Service Providers</h2>
+          <p>We use third-party services to assist in providing our Service:</p>
           <ul>
-            <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase</a>: We use Firebase for authentication, data storage, and analytics. Firebase's privacy practices can be reviewed at their privacy policy.</li>
-            <li><a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Stripe</a>: We use Stripe to process payments. Stripe's privacy practices can be reviewed at their privacy policy.</li>
+            <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase</a>: For data collection and storage.</li>
+            <li><a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">Stripe</a>: For payment processing.</li>
+            <li><a href="https://www.twilio.com/legal/privacy" target="_blank" rel="noopener noreferrer">Twilio</a>: For SMS and messaging.</li>
+            <li><a href="https://www.mapbox.com/legal/privacy" target="_blank" rel="noopener noreferrer">Mapbox</a>: For location and mapping services.</li>
           </ul>
         </section>
 
         <section className="privacy-section">
-          <h2>6. Data Sharing</h2>
-          <p>We do not share your personal information with third parties except:</p>
+          <h2>6. Retention of Your Personal Data</h2>
+          <p>We will retain Your Personal Data only for as long as necessary for the purposes set out in this Privacy Policy or to comply with legal obligations.</p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>7. Security of Your Personal Data</h2>
+          <p>We use commercially acceptable methods to protect Your Personal Data, but cannot guarantee absolute security over the internet.</p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>8. Children's Privacy</h2>
+          <p>Our Service does not address anyone under 13 years of age, and we do not knowingly collect personally identifiable information from them.</p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>9. Delete Your Personal Data</h2>
+          <p>You can request to delete your Personal Data by deleting your account and contacting us at <a href="mailto:admin@purecaretech.com">admin@purecaretech.com</a></p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>10. Legal Compliance and Data Protection</h2>
+          <p>Although we are not subject to GDPR or CCPA, we adhere to similar standards of data protection. The app is only available in Canada.</p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>11. Changes to this Privacy Policy</h2>
+          <p>We may update this Privacy Policy from time to time. Changes will be posted on this page and are effective when posted.</p>
+        </section>
+
+        <section className="privacy-section">
+          <h2>12. Contact Us</h2>
+          <p>If you have any questions about this Privacy Policy, you can contact us:</p>
           <ul>
-            <li>With service providers who assist us in operating our app and providing services (e.g., Firebase, Stripe).</li>
-            <li>When required by law or to protect our rights and safety.</li>
+            <li>By email: <a href="mailto:admin@purecaretech.com">admin@purecaretech.com</a></li>
+            <li>By phone: +1 (204) 803-6949</li>
           </ul>
-        </section>
-
-        <section className="privacy-section">
-          <h2>7. Your Rights</h2>
-          <p>You have the right to:</p>
-          <ul>
-            <li>Access and update your personal information.</li>
-            <li>Request deletion of your data, subject to applicable legal requirements.</li>
-            <li>Opt out of receiving marketing communications.</li>
-          </ul>
-        </section>
-
-        <section className="privacy-section">
-          <h2>8. Cookies and Tracking Technologies</h2>
-          <p>We use cookies and similar technologies to enhance your experience, analyze app usage, and deliver personalized content. You can manage your cookie preferences through your device settings.</p>
-        </section>
-
-        <section className="privacy-section">
-          <h2>9. Changes to Privacy Control</h2>
-          <p>We may update this Privacy Control section periodically. Any changes will be posted on this page, and continued use of our app constitutes acceptance of the revised terms.</p>
-        </section>
-
-        <section className="privacy-section">
-          <h2>10. Contact Us</h2>
-          <p>For any questions or concerns regarding our Privacy Control practices, please contact us at <a href="mailto:admin@purecaretech.com">admin@purecaretech.com</a>.</p>
         </section>
       </div>
     </div>
   );
+
+
 };
 
 export default PrivacyScreen;

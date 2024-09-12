@@ -231,7 +231,7 @@ const ManageUsersScreen = () => {
           {agents.map((agent, index) => (
             <div key={agent.id} className="order-details">
               <span>Total Earnings: ${agent.TotalEarnings}</span>
-              <span>Net Pay: {agent.NetPay}</span>
+              <span>Net Pay: ${agent.Invoices?.reduce((total, invoice) => total + invoice.amount, 0) || 0}</span>
               <span>Number of Services: {agent.NumberOfServices}</span>
 
               <div className="invoices">

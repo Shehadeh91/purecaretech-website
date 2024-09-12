@@ -25,12 +25,14 @@ import './AccountScreen.css';
 const AccountScreen = () => {
   const navigate = useNavigate();
   const auth = FIREBASE_AUTH;
-  const { setAddress, setUser, user } = useAppStore();
+  const { setAddress, setUser, setName, user,  phone, setPhone} = useAppStore();
   const { setCarBrand, setBodyStyle, setCurrentColor, setCarPlate } = useCarWashStore();
   const [userInfo, setUserInfo] = useState({});
   const [password, setPassword] = useState('');
   const [deletionReason, setDeletionReason] = useState('');
   const [deletionError, setDeletionError] = useState(null); // Error handling state
+
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -55,6 +57,8 @@ const AccountScreen = () => {
           .find((data) => data.userId === user.uid);
         if (userData) {
           setUserInfo(userData);
+
+
         }
       } catch (error) {
         console.error('Error fetching user info:', error);

@@ -67,6 +67,7 @@ a {
   height: 50px;
   width: auto;
   filter: invert(1) brightness(1000%);
+
 }
 
 /* Navbar */
@@ -169,6 +170,7 @@ a {
   color: #ffffff;
   font-size: medium;
   margin: 25 10px;
+  padding-left: 10px;
 }
 
 .social-media {

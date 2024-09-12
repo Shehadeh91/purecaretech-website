@@ -116,6 +116,7 @@
   letter-spacing: 1px;
   font-style: italic;
   color: #000;
+  margin-bottom: 10px;
 }
 
 /* Cancel button styling */
@@ -172,6 +173,32 @@
   padding: 5px;
   margin-top: 10px;
   width: 25%;
+}
+.star {
+  cursor: pointer;
+  color: #ffffff; /* Unselected star color */
+  font-size: 24px;
+}
+
+.star-selected {
+  color: #6953A4; /* Gold color for selected stars */
+}
+
+.star-unselected:hover {
+  color: #6953A4; /* Gold on hover */
+}
+
+
+
+.star-disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+  pointer-events: none; /* Prevents any interaction */
+
+}
+
+.star-disabled:hover {
+  color: #ccc; /* No color change on hover when disabled */
 }
 
 

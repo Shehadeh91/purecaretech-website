@@ -221,6 +221,19 @@ const AgentScreen = () => {
   if (error) {
     return <div>{error}</div>;
   }
+  const calculateAverageRating = () => {
+    if (completedOrders.length > 0) {
+      const validRatings = completedOrders
+        .filter(serviceOrder => typeof serviceOrder.Rating === 'number' && serviceOrder.Rating > 0);
+
+      const totalRatings = validRatings.reduce((sum, serviceOrder) => sum + serviceOrder.Rating, 0);
+
+      return validRatings.length > 0 ? (totalRatings / validRatings.length).toFixed(2) : "No Ratings";
+    } else {
+      return "No Ratings";
+    }
+  };
+
 
 
 //   useEffect(() => {
@@ -451,6 +464,7 @@ const AgentScreen = () => {
         services: services,
         NumberOfServices: NumberOfServices + 1,
         TotalEarnings: TotalEarnings.toFixed(2),
+        AgentRating: calculateAverageRating(),
         NetPay: '',
       },
       { merge: true } // This ensures that the document is only updated, not overwritten
@@ -491,6 +505,9 @@ const AgentScreen = () => {
      <button className="button-earning" onClick={() => navigate("/earnings")}>
       Earning Overview
     </button>
+
+
+
     <div className="buttons-container">
       <button
         onClick={() => handleButtonPress("Available")}
@@ -595,6 +612,11 @@ const AgentScreen = () => {
 )}
 {showCompleted && (
   <div className="orders-list">
+    {/* Calculate and display the average rating */}
+    <div className="average-rating">
+
+      </div>
+
     {completedOrders.map((serviceOrder) => (
       <div key={serviceOrder.id} className="order-item">
         {serviceOrder.Service === "Car Wash" && (
@@ -620,7 +642,7 @@ const AgentScreen = () => {
               <span className="order-text">{serviceOrder.Preference}</span>
             </div>
             <p className="order-date">{serviceOrder.Address}</p>
-            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating}`}</p>
+            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
           </div>
         )}
         {serviceOrder.Service === "Dry Clean" && (
@@ -633,7 +655,7 @@ const AgentScreen = () => {
                 </span>
               ))}
             <p className="order-date">{serviceOrder.Address}</p>
-            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating}`}</p>
+            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
           </div>
         )}
         {serviceOrder.Service === "Room Clean" && (
@@ -648,7 +670,7 @@ const AgentScreen = () => {
             <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
             <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date">{serviceOrder.Address}</p>
-            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating}`}</p>
+            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
           </div>
         )}
       </div>

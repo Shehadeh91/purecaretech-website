@@ -13,6 +13,7 @@ const AgentEarningOverviewScreen = () => {
       const user = FIREBASE_AUTH.currentUser;
       if (user) {
         const agentDocRef = doc(FIRESTORE_DB, "Agents", user.email);
+
         const agentDocSnap = await getDoc(agentDocRef);
         if (agentDocSnap.exists()) {
           const data = agentDocSnap.data();
@@ -83,6 +84,22 @@ const AgentEarningOverviewScreen = () => {
      Manage My Orders
     </button>
         </div>
+        <div className="agent-earning-overview-card">
+          <div className="agent-earning-overview-card-title">
+            <img
+              className="agent-earning-overview-card-icon"
+              src={require("../assets/Images/ManageOrders.png")}
+              alt="Completed Services"
+            />
+            <div>
+              <h3>Your Average Rating</h3>
+              <p>{agentData ? agentData.AgentRating + "/5" : "0"}</p>
+
+            </div>
+
+          </div>
+
+        </div>
 
         <div className="agent-earning-overview-card">
           <div className="agent-earning-overview-card-title">
@@ -92,12 +109,12 @@ const AgentEarningOverviewScreen = () => {
               alt="Total Earnings"
             />
             <div>
-              <h3>Total Earnings</h3>
+              <h3>Net Pay</h3>
               <p>${agentData ? agentData.netPay.toFixed(2) : "0.00"}</p>
             </div>
           </div>
           <p className="agent-earning-overview-earnings-info">
-            Your earnings will be deposited into your bank account every Sunday.
+            Your earnings will be deposited into your bank account every Friday.
           </p>
         </div>
       </div>
