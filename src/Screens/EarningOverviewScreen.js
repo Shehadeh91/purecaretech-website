@@ -93,7 +93,7 @@ const AgentEarningOverviewScreen = () => {
             />
             <div>
               <h3>Your Average Rating</h3>
-              <p>{agentData ? agentData.AgentRating + "/5" : "0"}</p>
+              <p>{agentData ? agentData.AgentRating + "/5" : "No Rating"}</p>
 
             </div>
 
