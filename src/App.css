@@ -69,6 +69,12 @@ a {
   filter: invert(1) brightness(1000%);
 
 }
+.logo:hover {
+  filter: brightness(75%);
+  transform: scale(1.05); /* Slight zoom effect on hover */
+
+
+}
 
 /* Navbar */
 .nav ul {

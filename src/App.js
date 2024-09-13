@@ -25,6 +25,7 @@ import ManageUsersScreen from './Screens/ManageUsersScreen';
 import AgentScreen from './Screens/AgentScreen';
 import AgentEarningOverviewScreen from './Screens/EarningOverviewScreen';
 import AgentAdminHelpPage from './Screens/AgentAdminHelpPage';
+import AgentRegistration from './Screens/AgentRegistration';
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
@@ -143,6 +144,7 @@ function App() {
             <Route path="/agents" element={<AgentScreen />} />
             <Route path="/earnings" element={<AgentEarningOverviewScreen />} />
             <Route path="/help" element={<AgentAdminHelpPage />} />
+            <Route path="/register" element={<AgentRegistration />} />
 
 
   {/* Wrap checkout route in a separate component */}
@@ -259,6 +261,7 @@ const Footer = () => {
             <p>Contact us at: admin@purecaretech.com</p>
             <p>Phone: +1 (204) 803-6949</p> {/* Phone number added here */}
             <div className="social-media">
+
               <a href="https://www.facebook.com/profile.php?id=61560480989877" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faFacebook} size="2x" />
               </a>
@@ -277,10 +280,10 @@ const Footer = () => {
 
           <small className="app-tagline">Book our cleaning services on the go with our mobile app.</small>
           <div className="download-buttons">
-            <a href="https://play.google.com/store/apps" target="_blank" rel="noopener noreferrer">
+            <a href="https://play.google.com/store/apps/details?id=com.purecaretech.purecareapp&hl=en_CA" target="_blank" rel="noopener noreferrer">
               <img src={googleLogo} alt="Android" className="download-icon" />
             </a>
-            <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+            <a href="https://apps.apple.com/ca/app/purecare/id6670413613" target="_blank" rel="noopener noreferrer">
               <img src={iosLogo} alt="iOS" className="download-icon" />
             </a>
           </div>

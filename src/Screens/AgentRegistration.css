@@ -1,0 +1,89 @@
+/* AgentRegistration.css */
+
+.agent-registration-container {
+    background-color: #ffffff; /* Background color */
+    color: #000000; /* Text color on background */
+    padding: 20px;
+    max-width: 600px;
+    margin: 25px auto;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #6953A4; /* Primary color */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  p {
+    color: #000000; /* Text color */
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .agent-registration-form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    color: #6953A4; /* Primary color */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff; /* Surface color */
+    color: #000000; /* Text color on surface */
+  }
+
+  .form-group input:focus {
+    border-color: #6953A4; /* Primary color when focused */
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(105, 83, 164, 0.5);
+  }
+
+  .submit-btn {
+    background-color: #6953A4; /* Secondary color */
+    color: #ffffff; /* Text color on secondary */
+    padding: 10px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    filter: brightness(75%);
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+
+  .note {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .note a {
+    color: #007BFF; /* Link color */
+    text-decoration: none;
+  }
+
+  .note a:hover {
+    text-decoration: underline;
+  }
+

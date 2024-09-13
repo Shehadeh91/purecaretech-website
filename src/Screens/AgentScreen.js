@@ -145,7 +145,7 @@ const AgentScreen = () => {
       if (currentUser && currentUser.emailVerified) {
         setUser(currentUser);
         checkAgentAccess(currentUser);
-
+        fetchUserInfo(currentUser); // Fetch user info once authenticated and email verified
       } else {
         navigate("/login"); // Redirect if not logged in or email not verified
       }
@@ -159,7 +159,7 @@ const AgentScreen = () => {
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           if (userData.Role !== "Agent") {
-            navigate("/help"); // Redirect if the user is not an admin
+            navigate("/help"); // Redirect if the user is not an agent
           }
         } else {
           setError("User data not found");
@@ -169,15 +169,34 @@ const AgentScreen = () => {
         setError("Error occurred while checking admin access");
         navigate("/help"); // Redirect on error
       } finally {
-
         setLoading(false); // Hide the loading indicator
-
       }
+    };
 
+    const fetchUserInfo = async (currentUser) => {
+      try {
+        const userDocRef = collection(FIRESTORE_DB, 'Users');
+        const querySnapshot = await getDocs(userDocRef);
+        const userData = querySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+          .find((data) => data.userId === currentUser.uid); // Filter for current user
+        if (userData) {
+          setName(userData.Name); // Set the fetched name here
+          setPhone(userData.Phone);
+          setAddress(userData.Address);
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        throw error;
+      }
     };
 
     return () => unsubscribe(); // Clean up subscription on component unmount
   }, [auth, navigate]);
+
 
 
   // useEffect(() => {
@@ -234,7 +253,36 @@ const AgentScreen = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const fetchUserInfo = async () => {
+  //     try {
+  //       if (!user || !user.emailVerified) {
+  //         return;
+  //       }
+  //       const userDocRef = collection(FIRESTORE_DB, 'Users');
+  //       const querySnapshot = await getDocs(userDocRef);
+  //       const userData = querySnapshot.docs
+  //         .map((doc) => ({
+  //           id: doc.id,
+  //           ...doc.data(),
+  //         }))
+  //         .find((data) => data.userId === user.uid); // Filter for current user
+  //       if (userData) {
+  //         setName(userData.Name); // Set the fetched name here
+  //         setPhone(userData.Phone);
+  //         setAddress(userData.Address);
 
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching user info:', error);
+  //       throw error;
+  //     }
+  //   };
+
+  //   if (user) {
+  //     fetchUserInfo(); // Call the function once the user is available
+  //   }
+  // }, [user]); // Dependency array to trigger the effect when the user changes
 
 //   useEffect(() => {
 //     let isMounted = true;
