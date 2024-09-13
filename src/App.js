@@ -254,7 +254,7 @@ const Footer = () => {
           <div className="footer-links">
             <Link to="/">Home</Link> |
             <Link to="/terms">Terms of Service</Link> |
-            <Link to="/privacy">Privacy Control</Link>
+            <Link to="/privacy">Privacy Policy</Link>
           </div>
 
           <div className="footer-contact">

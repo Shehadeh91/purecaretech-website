@@ -228,12 +228,13 @@ const ManageUsersScreen = () => {
           <span>Name: {user.Name}</span>
           <span>Phone: {user.Phone}</span>
 
+
           {agents.map((agent, index) => (
             <div key={agent.id} className="order-details">
               <span>Total Earnings: ${agent.TotalEarnings}</span>
               <span>Net Pay: ${agent.Invoices?.reduce((total, invoice) => total + invoice.amount, 0) || 0}</span>
               <span>Number of Services: {agent.NumberOfServices}</span>
-
+              <span>Average Rating: {agent.AgentRating + " / 5"}</span>
               <div className="invoices">
                 <h4 onClick={() => toggleInvoices(index)}>
                   Payments {invoicesOpen[index] ? "▲" : "▼"}
@@ -312,6 +313,9 @@ const ManageUsersScreen = () => {
                       </h5>
                       {serviceDetailsOpen[serviceIndex] && (
                         <div className="service">
+                        <span>Name: {service.Name}</span>
+                        <span>Phone: {service.Phone}</span>
+                        <span>Address: {service.Address}</span>
                           <span>Payment: {service.Payment}</span>
                           <span>Total: ${service.Total}</span>
                           <span>Type: {service.Type}</span>

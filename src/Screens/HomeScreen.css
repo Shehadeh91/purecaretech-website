@@ -14,17 +14,36 @@
 /* Hero Section */
 .hero-section {
   text-align: center;
-  padding: 500px 20px;
+  padding: 20vh 5vw;
   background-image: url('../assets/Images/Banner.png'); /* Use your service-related image */
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   color: white;
-  width: 80%;
-
-  justify-self: flex-start; /* Centers the buttons horizontally */
-  align-items: flex-end; /* Aligns the buttons at the bottom */
-  flex-grow: 1; /* Ensures the container grows to fill the available space */
+  width: 100%; /* Make sure it takes the full width */
+  min-height: 60vh; /* Ensure it has a minimum height for small screens */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Align buttons at the bottom */
+  align-items: center; /* Center content horizontally */
   padding-bottom: 20px;
 }
+
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 15vh 10vw; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 10vh 5vw; /* Further adjust padding for very small screens */
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 
 .hero-heading {
   font-size: 2.5rem;
@@ -44,16 +63,33 @@
   border: none;
   cursor: pointer;
   justify-self: flex-start;
+  min-width: 150px; /* Ensure buttons are not too small */
+  max-width: 250px;
 
 
 }
+@media screen and (max-width: 768px) {
+  .hero-buttons .cta-button {
+    flex: 1 1 auto; /* Allow buttons to shrink based on content */
+    margin: 15px 0; /* Adjust margins for better spacing */
+    padding: 8px 16px; /* Reduce padding for smaller buttons */
+    font-size: 0.875rem; /* Smaller text on small screens */
+    max-width: 100%; /* Ensure the button doesn't exceed the container width */
 
-.hero-buttons {
-  display: flex;
-  justify-content: flex-start; /* Centers the buttons horizontally */
-  align-items: flex-end; /* Aligns the buttons at the bottom */
-  flex-grow: 1; /* Ensures the container grows to fill the available space */
-  padding-bottom: 20px; /* Adds padding to keep buttons slightly above the bottom */
+
+  }
+
+  .hero-buttons {
+    display: flex;
+    justify-content: center; /* Centers buttons horizontally */
+    align-items: center; /* Centers buttons vertically */
+
+    padding-bottom: 20px;
+
+    flex-direction: column; /* Stack buttons vertically */
+    height: 10%; /* Ensure the container takes the full height */
+  }
+
 }
 
 

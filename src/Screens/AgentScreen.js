@@ -199,40 +199,6 @@ const AgentScreen = () => {
 
 
 
-  // useEffect(() => {
-  //   const checkAgentAccess = async () => {
-  //     try {
-  //       const user = auth.currentUser; // Get the currently logged-in user
-
-  //       if (!user) {
-  //         navigate('/help'); // Redirect to home if no user is logged in
-  //         return;
-  //       }
-
-  //       const userDocRef = doc(FIRESTORE_DB, 'Users', user.email); // Reference to the user's Firestore document
-  //       const userDocSnap = await getDoc(userDocRef);
-
-  //       if (userDocSnap.exists()) {
-  //         const userData = userDocSnap.data();
-
-  //         if (userData.Role !== 'Agent') {
-  //           navigate('/help'); // Redirect to home if the user is not an admin
-  //         }
-  //       } else {
-  //         setError('User data not found');
-  //         navigate('/help'); // Redirect if user data is missing
-  //       }
-  //     } catch (error) {
-  //       setError('Error occurred while checking agent access');
-  //       navigate('/help'); // Redirect on error
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   checkAgentAccess();
-  // }, [navigate]);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -253,7 +219,7 @@ const AgentScreen = () => {
     }
   };
 
-  // useEffect(() => {
+
   //   const fetchUserInfo = async () => {
   //     try {
   //       if (!user || !user.emailVerified) {
@@ -425,10 +391,7 @@ const AgentScreen = () => {
     }
   };
 
-//   const openSmsApp = (phoneNumber, message) => {
-//     const url = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
-//     window.open(url);
-//   };
+
 
   const claimOrder = async (orderId, serviceType, clientPhone) => {
     try {
@@ -460,7 +423,7 @@ const AgentScreen = () => {
     }
   };
 
-  const markOrderAsComplete = async (orderId, serviceType, serviceTotal, servicePayment, serviceSettled) => {
+  const markOrderAsComplete = async (orderId, serviceType, serviceTotal, servicePayment, serviceSettled, serviceName, servicePhone, serviceAddress) => {
     try {
       if (serviceType === "Dry Clean") {
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
@@ -498,6 +461,9 @@ const AgentScreen = () => {
         const newService = {
           Type: serviceType,
           Payment: servicePayment,
+          Name: serviceName,
+          Phone: servicePhone,
+          Address: serviceAddress,
           Total: parseFloat(serviceTotal),
           Settled: "No",
           Date: Timestamp.now(),
@@ -754,9 +720,11 @@ const AgentScreen = () => {
               <span className="order-text">{serviceOrder.Preference}</span>
             </div>
             <p className="order-date">{serviceOrder.Address}</p>
-            <p className="order-note">{serviceOrder.Note}</p>
+            <p className="order-date">{serviceOrder.Note}</p>
+            <p className="order-date">{serviceOrder.Name}</p>
+            <p className="order-date">{serviceOrder.Phone}</p>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment, serviceOrder.Settled)}>
+            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment, serviceOrder.Settled, serviceOrder.Name, serviceOrder.Phone, serviceOrder.Address)}>
               Done
             </button>
           </div>
@@ -772,8 +740,10 @@ const AgentScreen = () => {
               ))}
             <p className="order-note">{serviceOrder.Note}</p>
             <p className="order-date">{serviceOrder.Address}</p>
+            <p className="order-date">{serviceOrder.Name}</p>
+            <p className="order-date">{serviceOrder.Phone}</p>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment)}>
+            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment, serviceOrder.Settled, serviceOrder.Name, serviceOrder.Phone, serviceOrder.Address)}>
               Done
             </button>
           </div>
@@ -791,8 +761,10 @@ const AgentScreen = () => {
             <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-note">{serviceOrder.Note}</p>
             <p className="order-date">{serviceOrder.Address}</p>
+            <p className="order-date">{serviceOrder.Name}</p>
+            <p className="order-date">{serviceOrder.Phone}</p>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
-            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment)}>
+            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment, serviceOrder.Settled, serviceOrder.Name, serviceOrder.Phone, serviceOrder.Address)}>
               Done
             </button>
           </div>
