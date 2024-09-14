@@ -265,12 +265,12 @@ const Footer = () => {
               <a href="https://www.facebook.com/profile.php?id=61560480989877" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faFacebook} size="2x" />
               </a>
-              {/* <a href="https://x.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://x.com/PureCareTech" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faTwitter} size="2x" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/purecaretech/" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faInstagram} size="2x" />
-              </a> */}
+              </a>
             </div>
           </div>
         </div>
