@@ -58,7 +58,7 @@ const HomeScreen = () => {
       id: "2",
       title: "Room Cleaning",
       image: houseCleanImage,
-      screen: "roomCleanOrder",
+      screen: "homeCleaningOrder",
     },
     {
       id: "3",
@@ -145,7 +145,7 @@ const HomeScreen = () => {
       </div>
 
      {/* Services Section */}
-<div className="services-section">
+     <div className="services-section">
   <h2 className="section-title">Our Services</h2>
   <div className="service-buttons-container">
     {services.map((service) => (
@@ -154,6 +154,7 @@ const HomeScreen = () => {
         className="service-button"
         onClick={() => {
           setVisible(false); // Update Zustand store state
+          navigate(`/${service.screen}`); // Navigate to the respective screen
         }}
       >
         <img src={service.image} alt={service.title} className="service-image" />
@@ -162,6 +163,7 @@ const HomeScreen = () => {
     ))}
   </div>
 </div>
+
 
 
       <div className="guarantee-section">
