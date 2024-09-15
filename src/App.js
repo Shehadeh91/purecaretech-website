@@ -26,6 +26,9 @@ import AgentScreen from './Screens/AgentScreen';
 import AgentEarningOverviewScreen from './Screens/EarningOverviewScreen';
 import AgentAdminHelpPage from './Screens/AgentAdminHelpPage';
 import AgentRegistration from './Screens/AgentRegistration';
+import EmailVerificationScreen from './Screens/EmailVerificationScreen';
+import ResetPasswordScreen from './Screens/ResetPasswordScreen';
+import AuthActionScreen from './Screens/AuthActionScreen';
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
@@ -145,7 +148,9 @@ function App() {
             <Route path="/earnings" element={<AgentEarningOverviewScreen />} />
             <Route path="/help" element={<AgentAdminHelpPage />} />
             <Route path="/register" element={<AgentRegistration />} />
-
+            <Route path="/verify" element={<EmailVerificationScreen />} />
+            <Route path="/reset" element={<ResetPasswordScreen />} />
+            <Route path="/action" element={<AuthActionScreen />} />
 
   {/* Wrap checkout route in a separate component */}
 
@@ -198,6 +203,7 @@ const Header = () => {
               )}
             </li>
             <li><Link to="/">Home</Link></li>
+            {/* <li><Link to="/action">Test</Link></li> */}
 
             <li
               className="dropdown"

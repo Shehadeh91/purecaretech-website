@@ -1,0 +1,83 @@
+/* Container styles */
+.auth-action-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Title styles */
+  .auth-action-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  /* Error and message styles */
+  .auth-action-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .auth-action-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  /* Form input styles */
+  .auth-action-form .form-group {
+    margin-bottom: 20px;
+  }
+
+  .auth-action-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+  }
+
+  /* Button styles */
+  .auth-action-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6953A4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .auth-action-button:disabled {
+    background-color: #ccc;
+  }
+
+  .auth-action-back-to-login {
+    background: none;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .auth-action-back-to-login:hover {
+    text-decoration: underline;
+  }
