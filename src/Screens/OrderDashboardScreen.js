@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from "@mui/material/styles";
 import { Map, Marker } from "mapbox-gl";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
+import { FIREBASE_AUTH, FIRESTORE_DB, FIREBASE_REAL } from "../firebaseConfig";
 import useAppStore from "../useAppStore";
 import 'material-icons/iconfont/material-icons.css';
 
@@ -34,34 +35,29 @@ const OrderDashboardScreen = () => {
 
 
   const [agentLocation, setAgentLocation] = useState(null);
-  const [agentEmail, setAgentEmail] = useState(null);
+  const [agentId, setAgentId] = useState(null);
   const [showMap, setShowMap] = useState(false); // State to toggle map display
   const defaultLocation = { latitude: 40.7128, longitude: -74.0060 };
 
-  // Fetch the agent's location from Firestore based on agent email
-// Create the function to fetch the agent's location
-const fetchAgentLocation = async () => {
+
+
+
+const fetchAgentLocation = () => {
   try {
-    if (!agentEmail) {
-      alert("No agent email provided");
+    if (!agentId) {
+      alert("No agent available just yet");
       return;
     }
 
-    // Query the 'Agents' collection for the document where Email matches
-    const agentsCollectionRef = collection(FIRESTORE_DB, "Agents");
-    const querySnapshot = await getDocs(agentsCollectionRef);
+    const database = FIREBASE_REAL; // Get the Realtime Database instance
+    const agentLocationRef = ref(database, `Agents/${agentId}/location`); // Reference to agent's location
 
-    // Find the document with the matching agent email
-    const agentData = querySnapshot.docs
-      .map((doc) => ({ id: doc.id, ...doc.data() }))
-      .find((data) => data.Email === agentEmail);
+    // Listen for real-time updates to the agent's location
+    onValue(agentLocationRef, (snapshot) => {
+      const locationData = snapshot.val();
 
-    if (agentData) {
-      const locationData = agentData.location;
-
-      // Check if location data is correctly structured and has the required fields
       if (locationData?.latitude !== undefined && locationData?.longitude !== undefined) {
-        // alert(`Location fetched: Latitude: ${locationData.latitude}, Longitude: ${locationData.longitude}`);
+        // Update the agent's location state
         setAgentLocation({
           latitude: locationData.latitude,
           longitude: locationData.longitude,
@@ -69,12 +65,14 @@ const fetchAgentLocation = async () => {
       } else {
         alert("Still looking for agent"); // Updated message here
       }
-    } else {
-      alert("No agent found with the provided email.");
-    }
+    }, (error) => {
+      console.error("Error fetching agent location in real-time:", error);
+      alert("Error fetching agent location.");
+    });
+
   } catch (error) {
-    console.error("Error fetching agent data:", error);
-    alert("Error fetching agent data.");
+    console.error("Error setting up real-time listener:", error);
+    alert("Error setting up real-time listener.");
   }
 };
 
@@ -85,14 +83,11 @@ const fetchAgentLocation = async () => {
 
 
 
-
-
-
-  const handleTrackLocation = (email) => {
+  const handleTrackLocation = (agetnId) => {
     if (!showMap) {
 
       // If the map is not shown, set the agent email and show the map
-      setAgentEmail(email);
+      setAgentId(agetnId);
       fetchAgentLocation(); // Call the function to fetch agent location
       setShowMap(true);
     } else {
@@ -528,12 +523,12 @@ const fetchAgentLocation = async () => {
                     Cancel
                   </button>
      {/* Button to toggle map display */}
-     <button className="buttonc" onClick={() => handleTrackLocation(serviceOrder.Assigned)}>
+     <button className="buttonc" onClick={() => handleTrackLocation(serviceOrder.AgentId)}>
             {showMap ? "Untrack Location" : "Track Location"}
           </button>
 
           {/* Conditionally show the Mapbox component and pass agentLocation */}
-          {showMap && agentLocation && <Mapbox agentLocation={agentLocation} />}     </div>
+          {showMap && agentId && <Mapbox agentId={agentId} />}     </div>
               )}
             </div>
           ))}

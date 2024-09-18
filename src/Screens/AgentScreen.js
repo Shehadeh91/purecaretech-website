@@ -5,7 +5,8 @@ import {
   Alert
 } from "react-bootstrap"; // You can replace this with any library or custom alert
 import { Button } from "@mui/material"; // Material UI for buttons
-import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
+import { FIREBASE_AUTH, FIRESTORE_DB, FIREBASE_REAL } from "../firebaseConfig";
+import { getDatabase, ref, set } from "firebase/database";
 import useAppStore from "../useAppStore";
 import LogInScreen from "./LogInScreen";
 import "./AgentScreen.css"; // Assuming styles are defined in a separate CSS file
@@ -417,26 +418,78 @@ const AgentScreen = () => {
     }
   };
 
-
+  let watchId; // Declare globally to track the watchId
 
   const claimOrder = async (orderId, serviceType, clientPhone) => {
     try {
+      const user = FIREBASE_AUTH.currentUser; // Get the current authenticated user
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+      const agentId = user.uid;
+
+      // Assign the order to the agent based on service type
       if (serviceType === "Dry Clean") {
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
-        await setDoc(doc(dryCleanOrdersRef, orderId), { Assigned: user.email }, { merge: true });
+        await setDoc(doc(dryCleanOrdersRef, orderId), {
+          Assigned: user.email,
+          AgentId: agentId // Include the agent's UID
+        }, { merge: true });
       } else if (serviceType === "Car Wash") {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
-        await setDoc(doc(carWashOrdersRef, orderId), { Assigned: user.email }, { merge: true });
+        await setDoc(doc(carWashOrdersRef, orderId), {
+          Assigned: user.email,
+          AgentId: agentId // Include the agent's UID
+        }, { merge: true });
       } else if (serviceType === "Valet Car Wash") {
         const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
-        await setDoc(doc(valetCarWashOrdersRef, orderId), { Assigned: user.email }, { merge: true });
-      }  else if (serviceType === "Room Clean") {
+        await setDoc(doc(valetCarWashOrdersRef, orderId), {
+          Assigned: user.email,
+          AgentId: agentId // Include the agent's UID
+        }, { merge: true });
+      } else if (serviceType === "Room Clean") {
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
-        await setDoc(doc(roomCleanOrdersRef, orderId), { Assigned: user.email }, { merge: true });
+        await setDoc(doc(roomCleanOrdersRef, orderId), {
+          Assigned: user.email,
+          AgentId: agentId // Include the agent's UID
+        }, { merge: true });
       }
 
+      // Watch the agent's location for continuous updates
+   // Watch the agent's location for continuous updates
+   watchId = navigator.geolocation.watchPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      console.log("Agent's location updated:", { latitude, longitude });
 
+      // Send agent's location to Firebase Realtime Database using the UID
+      const database = getDatabase();
+      const agentLocationRef = ref(database, `Agents/${agentId}/location`);
+      set(agentLocationRef, {
+        latitude: latitude,
+        longitude: longitude,
+      })
+      .then(() => {
+        console.log("Agent location updated successfully.");
+      })
+      .catch((error) => {
+        console.error("Error updating agent location:", error);
+      });
+    },
+    (error) => {
+      console.error("Error fetching agent's location:", error);
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 5000,
+    }
+  );
 
+      // Optional: You can stop watching the position when needed
+      // navigator.geolocation.clearWatch(watchId);
+
+      // Update available orders and my orders after claiming
       setAvailableOrders((prevOrders) =>
         prevOrders.filter((serviceOrder) => serviceOrder.id !== orderId)
       );
@@ -447,10 +500,12 @@ const AgentScreen = () => {
         },
         ...prevOrders.filter((serviceOrder) => serviceOrder.id !== orderId),
       ]);
+
     } catch (error) {
       console.error("Error claiming order:", error);
     }
   };
+
 
   const markOrderAsComplete = async (orderId, serviceType, serviceTotal, servicePayment, serviceSettled, serviceName, servicePhone, serviceAddress) => {
     try {
@@ -467,6 +522,12 @@ const AgentScreen = () => {
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
         await setDoc(doc(roomCleanOrdersRef, orderId), { Status: "Completed" }, { merge: true });
       }
+
+       // Stop watching the agent's location
+    if (watchId) {
+      navigator.geolocation.clearWatch(watchId);
+      console.log("Stopped sending agent location updates.");
+    }
 
       setMyOrders((prevOrders) => prevOrders.filter((serviceOrder) => serviceOrder.id !== orderId));
       setCompletedOrders((prevOrders) => [

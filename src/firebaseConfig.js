@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth"; // Use the default getAuth for web
 import { getFirestore } from "firebase/firestore";
 import { getFunctions } from "firebase/functions";
 import { getAnalytics, isSupported } from "firebase/analytics"; // Check if analytics is supported
-
+import { getDatabase } from "firebase/database";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDM-N18S7vjn4xmj9QAfQ2lMwcVf4Q_lqk",
@@ -21,6 +21,7 @@ export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP); // For web, no need for custom persistence
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);
 export const FIRESTORE_Function = getFunctions(FIREBASE_APP);
+export const FIREBASE_REAL = getDatabase(FIREBASE_APP);
 
 // Initialize Analytics (only if supported)
 let FIREBASE_ANALYTICS;
