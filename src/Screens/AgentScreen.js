@@ -52,12 +52,20 @@ const AgentScreen = () => {
     const fetchOrders = async () => {
       try {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
+
         const carWashQuerySnapshot = await getDocs(carWashOrdersRef);
+        const valetCarWashQuerySnapshot = await getDocs(valetCarWashOrdersRef);
         const dryCleanQuerySnapshot = await getDocs(dryCleanOrdersRef);
         const roomCleanQuerySnapshot = await getDocs(roomCleanOrdersRef);
+
         const carWashOrders = carWashQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const valetCarWashOrders = valetCarWashQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -76,6 +84,12 @@ const AgentScreen = () => {
               serviceOrder.Assigned === "No One" &&
               serviceOrder.Status === "InProgress" &&
               serviceOrder.Service === "Car Wash"
+          ),
+          ...valetCarWashOrders.filter(
+            (serviceOrder) =>
+              serviceOrder.Assigned === "No One" &&
+              serviceOrder.Status === "InProgress" &&
+              serviceOrder.Service === "Valet Car Wash"
           ),
           ...dryCleanOrders.filter(
             (serviceOrder) =>
@@ -98,6 +112,12 @@ const AgentScreen = () => {
               serviceOrder.Status === "InProgress" &&
               serviceOrder.Service === "Car Wash"
           ),
+          ...valetCarWashOrders.filter(
+            (serviceOrder) =>
+              serviceOrder.Assigned === user.email &&
+              serviceOrder.Status === "InProgress" &&
+              serviceOrder.Service === "Valet Car Wash"
+          ),
           ...dryCleanOrders.filter(
             (serviceOrder) =>
               serviceOrder.Assigned === user.email &&
@@ -118,6 +138,12 @@ const AgentScreen = () => {
               serviceOrder.Status === "Completed" &&
               serviceOrder.Assigned === user.email &&
               serviceOrder.Service === "Car Wash"
+          ),
+          ...valetCarWashOrders.filter(
+            (serviceOrder) =>
+              serviceOrder.Status === "Completed" &&
+              serviceOrder.Assigned === user.email &&
+              serviceOrder.Service === "Valet Car Wash"
           ),
           ...dryCleanOrders.filter(
             (serviceOrder) =>
@@ -401,7 +427,10 @@ const AgentScreen = () => {
       } else if (serviceType === "Car Wash") {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
         await setDoc(doc(carWashOrdersRef, orderId), { Assigned: user.email }, { merge: true });
-      } else if (serviceType === "Room Clean") {
+      } else if (serviceType === "Valet Car Wash") {
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
+        await setDoc(doc(valetCarWashOrdersRef, orderId), { Assigned: user.email }, { merge: true });
+      }  else if (serviceType === "Room Clean") {
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
         await setDoc(doc(roomCleanOrdersRef, orderId), { Assigned: user.email }, { merge: true });
       }
@@ -431,6 +460,9 @@ const AgentScreen = () => {
       } else if (serviceType === "Car Wash") {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
         await setDoc(doc(carWashOrdersRef, orderId), { Status: "Completed" }, { merge: true });
+      } else if (serviceType === "Valet Car Wash") {
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
+        await setDoc(doc(valetCarWashOrdersRef, orderId), { Status: "Completed" }, { merge: true });
       } else if (serviceType === "Room Clean") {
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
         await setDoc(doc(roomCleanOrdersRef, orderId), { Status: "Completed" }, { merge: true });
@@ -582,14 +614,61 @@ const AgentScreen = () => {
 
           </div>
         )}
+        {serviceOrder.Service === "Valet Car Wash" && (
+          <div className="order-details car-wash-order">
+            <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+            <div className="order-icons">
+              {getIconSource("bodyType", serviceOrder.BodyType) && (
+                <img
+                  src={getIconSource("bodyType", serviceOrder.BodyType)}
+                  alt={`${serviceOrder.BodyType} icon`}
+                  className="order-icon"
+                />
+              )}
+              {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                <img
+                  src={getIconSource("carBrand", serviceOrder.CarBrand)}
+                  alt={`${serviceOrder.CarBrand} icon`}
+                  className="order-icon"
+                />
+              )}
+              <i className="material-icons" style={{ color: serviceOrder.Color }}>
+                format_paint
+              </i>
+              <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+              <span className="order-text">{serviceOrder.Preference}</span>
+            </div>
+            <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+            <p className="order-date">{serviceOrder.Address}</p>
+            <p className="order-date">Name: {serviceOrder.Name}</p>
+            <p className="order-date">Phone: {serviceOrder.Phone}</p>
+            <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+            <button className="claim-button" onClick={() => claimOrder(serviceOrder.id, serviceOrder.Service, serviceOrder.Phone)}>
+              Claim
+            </button>
+
+          </div>
+        )}
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
             <p className="order-date">{serviceOrder.Address}</p>
             <p className="order-date">Name: {serviceOrder.Name}</p>
@@ -605,12 +684,12 @@ const AgentScreen = () => {
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date">{serviceOrder.Address}</p>
             <p className="order-date">Name: {serviceOrder.Name}</p>
             <p className="order-date">Phone: {serviceOrder.Phone}</p>
@@ -659,14 +738,54 @@ const AgentScreen = () => {
             <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
           </div>
         )}
+
+        {serviceOrder.Service === "Valet Car Wash" && (
+          <div className="order-details car-wash-order">
+            <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+            <div className="order-icons">
+              {getIconSource("bodyType", serviceOrder.BodyType) && (
+                <img
+                  src={getIconSource("bodyType", serviceOrder.BodyType)}
+                  alt={`${serviceOrder.BodyType} icon`}
+                  className="order-icon"
+                />
+              )}
+              {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                <img
+                  src={getIconSource("carBrand", serviceOrder.CarBrand)}
+                  alt={`${serviceOrder.CarBrand} icon`}
+                  className="order-icon"
+                />
+              )}
+              <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i>
+              <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+              <span className="order-text">{serviceOrder.Preference}</span>
+            </div>
+            <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+            <p className="order-date">{serviceOrder.Address}</p>
+            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
+          </div>
+        )}
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
             <p className="order-date">{serviceOrder.Address}</p>
             <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
@@ -677,12 +796,12 @@ const AgentScreen = () => {
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date">{serviceOrder.Address}</p>
             <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating + "/5"}`}</p>
           </div>
@@ -729,14 +848,61 @@ const AgentScreen = () => {
             </button>
           </div>
         )}
+        {serviceOrder.Service === "Valet Car Wash" && (
+          <div className="order-details car-wash-order">
+            <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+            <div className="order-icons">
+              {getIconSource("bodyType", serviceOrder.BodyType) && (
+                <img
+                  src={getIconSource("bodyType", serviceOrder.BodyType)}
+                  alt={`${serviceOrder.BodyType} icon`}
+                  className="order-icon"
+                />
+              )}
+              {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                <img
+                  src={getIconSource("carBrand", serviceOrder.CarBrand)}
+                  alt={`${serviceOrder.CarBrand} icon`}
+                  className="order-icon"
+                />
+              )}
+              <i className="material-icons" style={{ color: serviceOrder.Color }}>
+                format_paint
+              </i>
+              <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+              <span className="order-text">{serviceOrder.Preference}</span>
+            </div>
+            <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+            <p className="order-date">{serviceOrder.Address}</p>
+            <p className="order-date">{serviceOrder.Note}</p>
+            <p className="order-date">{serviceOrder.Name}</p>
+            <p className="order-date">{serviceOrder.Phone}</p>
+            <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+            <button className="done-button" onClick={() => markOrderAsComplete(serviceOrder.id, serviceOrder.Service, serviceOrder.Total, serviceOrder.Payment, serviceOrder.Settled, serviceOrder.Name, serviceOrder.Phone, serviceOrder.Address)}>
+              Done
+            </button>
+          </div>
+        )}
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
             <p className="order-note">{serviceOrder.Note}</p>
             <p className="order-date">{serviceOrder.Address}</p>
@@ -753,12 +919,12 @@ const AgentScreen = () => {
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-note">{serviceOrder.Note}</p>
             <p className="order-date">{serviceOrder.Address}</p>
             <p className="order-date">{serviceOrder.Name}</p>

@@ -1,0 +1,41 @@
+
+  .service-option {
+    margin-bottom: 10px;
+width: 75%;
+  }
+
+  .service-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Ensures all elements align vertically */
+    width: 100%;
+  }
+
+  .service-checkbox {
+    margin-right: 10px;
+    align-self: center; /* Ensures the checkbox is vertically centered */
+  }
+
+  .service-text {
+    flex-grow: 1;
+    margin-right: 10px; /* Adds space between the text and price */
+    align-self: center; /* Vertically aligns the text */
+    text-decoration: none;
+    width:100%;
+    text-align:left;
+  }
+
+  .service-price {
+    white-space: nowrap; /* Prevents price from breaking into a new line */
+    align-self: center; /* Ensures the price is vertically centered */
+    text-decoration: none;
+
+    text-align:right;
+
+
+
+    color: green;
+
+
+
+  }

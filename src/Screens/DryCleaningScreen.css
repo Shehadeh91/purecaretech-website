@@ -17,10 +17,10 @@
   .subtotal-card {
     text-align: center;
     padding: 20px 100px;
-    background-color: #f8f9fa;
+    background-color: #83b2e2;
     border-radius: 12px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(211, 38, 38, 0.1);
     font-size: 24px;
     font-weight: bold;
     color: #333;
@@ -28,6 +28,9 @@
     position: sticky; /* Make it sticky */
     top: 100px; /* Stick to the top of the screen */
     z-index: 99; /* Ensure it stays on top of other elements */
+    border: 0.5px solid #333; /* Border width, style, and color */
+
+
   }
 
 
@@ -44,6 +47,7 @@
     transition: box-shadow 0.3s ease-in-out;
     width: 100%;
     position: relative; /* Ensure card and its content scrolls naturally */
+    border: 0.5px solid #333; /* Border width, style, and color */
   }
 
   .header {
@@ -69,6 +73,7 @@
     font-size: 16px;
     line-height: 1.6; /* Increase line spacing for better readability */
     color: #555;
+
   }
 
 
@@ -102,12 +107,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #eaeaea;
+
   }
 
   .item-details {
     flex: 1;
+
   }
 
   .item-list {
@@ -137,15 +144,20 @@
 
 
   .item-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+
+    margin: 0;
   }
 
   .item-price {
-    color: #28a745;
-    font-size: 18px;
-    font-weight: 600;
+    white-space: nowrap; /* Prevents price from breaking into a new line */
+    align-self: center; /* Ensures the price is vertically centered */
+    text-decoration: none;
+
+    text-align:left;
+
+
+
+    color: green;
 
   }
 
@@ -153,6 +165,7 @@
     display: flex;
     align-items: center;
     margin-left: 25px; /* Pushes the item to the right */
+    margin-bottom: 50px;
   }
 
 

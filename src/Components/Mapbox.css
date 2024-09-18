@@ -1,0 +1,43 @@
+/* Container for the Mapbox map */
+.map-container {
+    height: 400px; /* Set the height of the map */
+    width: 100%;   /* Set the width of the map to take full width */
+    border: 2px solid #ccc; /* Optional: Add a border around the map */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    margin-top: 20px; /* Add some margin at the top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+  }
+
+  /* Add loading state */
+  .map-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #f0f0f0; /* Light gray background while loading */
+    font-size: 18px; /* Loading text font size */
+    color: #888; /* Color for the loading text */
+  }
+/* In your CSS file or inline styles */
+.car-marker {
+    background-image: url('/path/to/car-icon.png');
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+  }
+
+  .home-marker {
+    background-image: url('/path/to/home-icon.png');
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+  }
+
+  .shop-marker {
+    background-image: url('/path/to/shop-icon.png');
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+  }
+

@@ -106,6 +106,8 @@
   font-size: 14px;
   font-family: monospace;
   margin-top: 5px;
+  margin-bottom: 5px;
+  color: #000;
 }
 
 .order-supply,
@@ -202,3 +204,8 @@
 }
 
 
+.map-container {
+  height: 400px;   /* Adjust height as needed */
+  width: 100%;     /* Full width */
+  margin-top: 20px;  /* Optional spacing */
+}

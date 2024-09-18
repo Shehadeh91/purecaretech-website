@@ -30,6 +30,9 @@ import EmailVerificationScreen from './Screens/EmailVerificationScreen';
 import ResetPasswordScreen from './Screens/ResetPasswordScreen';
 import AuthActionScreen from './Screens/AuthActionScreen';
 
+import ValetCarWashScreen from './Screens/ValetCarWashScreen';
+import ValetCarWashCheckoutScreen from './Screens/ValetCarWashCheckoutScreen';
+
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'; // Import routing components
 import logo from './assets/Images/PureCare.png'; // Ensure the logo path is correct
 import googleLogo from './assets/Images/Google.png'; // Ensure the logo path is correct
@@ -151,6 +154,8 @@ function App() {
             <Route path="/verify" element={<EmailVerificationScreen />} />
             <Route path="/reset" element={<ResetPasswordScreen />} />
             <Route path="/action" element={<AuthActionScreen />} />
+            <Route path="/valetCarWashOrder" element={<ValetCarWashScreen />} />
+            <Route path="/valetCarWashCheckOut" element={<ValetCarWashCheckoutScreen />} />
 
   {/* Wrap checkout route in a separate component */}
 
@@ -217,6 +222,8 @@ const Header = () => {
                   <li><Link to="/carWashOrder">Mobile Car Wash</Link></li>
                   <li><Link to="/homeCleaningOrder">Home Cleaning</Link></li>
                   <li><Link to="/dryCleaningOrder">Dry Cleaning</Link></li>
+                  <li><Link to="/valetCarWashOrder">Valet Car Wash</Link></li>
+
                 </ul>
               )}
             </li>

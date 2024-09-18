@@ -5,7 +5,7 @@
     flex-direction: column;
     margin-top: 10px;
     gap: 10px; /* Adds space between the radio buttons */
-
+width: 75%;
   }
 
   .radio-group label {

@@ -1,7 +1,8 @@
-import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from "@mui/material/styles";
+import { Map, Marker } from "mapbox-gl";
 
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
 import useAppStore from "../useAppStore";
@@ -9,6 +10,12 @@ import 'material-icons/iconfont/material-icons.css';
 
 import LogInScreen from "./LogInScreen";
 import './OrderDashboardScreen.css'; // Custom CSS
+import { Email } from "@mui/icons-material";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Mapbox from "../Components/Mapbox";
+
+
+
 
 const OrderDashboardScreen = () => {
   const auth = FIREBASE_AUTH;
@@ -23,8 +30,76 @@ const OrderDashboardScreen = () => {
 
   const theme = useTheme();
 
+  Map.accessToken = 'pk.eyJ1IjoibXVoYW5uYWQtMzciLCJhIjoiY20wcHJmOHZ3MDN2MDJyb2JteXR5N3lrYiJ9.1i3rODwJmxyeIWmr7Bc7fQ';
 
 
+  const [agentLocation, setAgentLocation] = useState(null);
+  const [agentEmail, setAgentEmail] = useState(null);
+  const [showMap, setShowMap] = useState(false); // State to toggle map display
+  const defaultLocation = { latitude: 40.7128, longitude: -74.0060 };
+
+  // Fetch the agent's location from Firestore based on agent email
+// Create the function to fetch the agent's location
+const fetchAgentLocation = async () => {
+  try {
+    if (!agentEmail) {
+      alert("No agent email provided");
+      return;
+    }
+
+    // Query the 'Agents' collection for the document where Email matches
+    const agentsCollectionRef = collection(FIRESTORE_DB, "Agents");
+    const querySnapshot = await getDocs(agentsCollectionRef);
+
+    // Find the document with the matching agent email
+    const agentData = querySnapshot.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .find((data) => data.Email === agentEmail);
+
+    if (agentData) {
+      const locationData = agentData.location;
+
+      // Check if location data is correctly structured and has the required fields
+      if (locationData?.latitude !== undefined && locationData?.longitude !== undefined) {
+        // alert(`Location fetched: Latitude: ${locationData.latitude}, Longitude: ${locationData.longitude}`);
+        setAgentLocation({
+          latitude: locationData.latitude,
+          longitude: locationData.longitude,
+        });
+      } else {
+        alert("Still looking for agent"); // Updated message here
+      }
+    } else {
+      alert("No agent found with the provided email.");
+    }
+  } catch (error) {
+    console.error("Error fetching agent data:", error);
+    alert("Error fetching agent data.");
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+  const handleTrackLocation = (email) => {
+    if (!showMap) {
+
+      // If the map is not shown, set the agent email and show the map
+      setAgentEmail(email);
+      fetchAgentLocation(); // Call the function to fetch agent location
+      setShowMap(true);
+    } else {
+      // If the map is already shown, hide it
+      setShowMap(false);
+    }
+  };
 
   // Function to set service rating
   const markOrderRating = async (orderId, serviceType, rating) => {
@@ -32,6 +107,7 @@ const OrderDashboardScreen = () => {
       const serviceCollectionMap = {
         "Dry Clean": "Dry-Clean",
         "Car Wash": "Car-Wash",
+        "Valet Car Wash": "Valet-Car-Wash",
         "Room Clean": "Room-Clean",
       };
       const collectionName = serviceCollectionMap[serviceType];
@@ -57,7 +133,12 @@ const OrderDashboardScreen = () => {
       } else if (serviceType === "Car Wash") {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
         await setDoc(doc(carWashOrdersRef, orderId), { Status: "Canceled" }, { merge: true });
-      } else if (serviceType === "Room Clean") {
+      }
+      else if (serviceType === "Valet Car Wash") {
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
+        await setDoc(doc(valetCarWashOrdersRef, orderId), { Status: "Canceled" }, { merge: true });
+      }
+      else if (serviceType === "Room Clean") {
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
         await setDoc(doc(roomCleanOrdersRef, orderId), { Status: "Canceled" }, { merge: true });
       } else {
@@ -88,14 +169,20 @@ const OrderDashboardScreen = () => {
     const fetchOrders = async () => {
       try {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
 
         const carWashQuerySnapshot = await getDocs(carWashOrdersRef);
+        const valetCarWashQuerySnapshot = await getDocs(valetCarWashOrdersRef);
         const dryCleanQuerySnapshot = await getDocs(dryCleanOrdersRef);
         const roomCleanQuerySnapshot = await getDocs(roomCleanOrdersRef);
 
         const carWashOrders = carWashQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const valetCarWashOrders = valetCarWashQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -110,18 +197,24 @@ const OrderDashboardScreen = () => {
 
         const userInProgressOrders = [
           ...carWashOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Car Wash").reverse(),
+          ...valetCarWashOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Valet Car Wash").reverse(),
+
           ...dryCleanOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Dry Clean").reverse(),
           ...roomCleanOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Room Clean").reverse(),
         ];
 
         const userCanceledOrders = [
           ...carWashOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Car Wash").reverse(),
+          ...valetCarWashOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Valet Car Wash").reverse(),
+
           ...dryCleanOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Dry Clean").reverse(),
           ...roomCleanOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Room Clean").reverse(),
         ];
 
         const userCompletedOrders = [
           ...carWashOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Car Wash").reverse(),
+          ...valetCarWashOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Valet Car Wash").reverse(),
+
           ...dryCleanOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Dry Clean").reverse(),
           ...roomCleanOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Room Clean").reverse(),
         ];
@@ -191,14 +284,20 @@ const OrderDashboardScreen = () => {
         }
 
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
 
         const carWashQuerySnapshot = await getDocs(carWashOrdersRef);
+        const valetCarWashQuerySnapshot = await getDocs(valetCarWashOrdersRef);
         const dryCleanQuerySnapshot = await getDocs(dryCleanOrdersRef);
         const roomCleanQuerySnapshot = await getDocs(roomCleanOrdersRef);
 
         const carWashOrders = carWashQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const valetCarWashOrders = valetCarWashQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -213,18 +312,24 @@ const OrderDashboardScreen = () => {
 
         const userInProgressOrders = [
           ...carWashOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Car Wash"),
+          ...valetCarWashOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Valet Car Wash").reverse(),
+
           ...dryCleanOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Dry Clean"),
           ...roomCleanOrders.filter((order) => order.Email === user.email && order.Status === "InProgress" && order.Service === "Room Clean"),
         ];
 
         const userCanceledOrders = [
           ...carWashOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Car Wash"),
+          ...valetCarWashOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Valet Car Wash").reverse(),
+
           ...dryCleanOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Dry Clean"),
           ...roomCleanOrders.filter((order) => order.Email === user.email && order.Status === "Canceled" && order.Service === "Room Clean"),
         ];
 
         const userCompletedOrders = [
           ...carWashOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Car Wash"),
+          ...valetCarWashOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Valet Car Wash").reverse(),
+
           ...dryCleanOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Dry Clean"),
           ...roomCleanOrders.filter((order) => order.Email === user.email && order.Status === "Completed" && order.Service === "Room Clean"),
         ];
@@ -334,9 +439,9 @@ const OrderDashboardScreen = () => {
                   </span>
                   {Array.isArray(serviceOrder.Items) &&
                     serviceOrder.Items.map((item, index) => (
-                      <span key={index} className="order-item-detail">
+                      <p key={index} className="order-item-detail">
                         {item.title.padEnd(37)} x{item.count}
-                      </span>
+                      </p>
                     ))}
                   <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
                   <button
@@ -354,12 +459,12 @@ const OrderDashboardScreen = () => {
                   </span>
                   {Array.isArray(serviceOrder.Items) &&
                     serviceOrder.Items.map((item, index) => (
-                      <span key={index} className="order-item-detail">
+                      <p key={index} className="order-item-detail">
                         {item.title.padEnd(37)} x{item.count}
-                      </span>
+                      </p>
                     ))}
-                  <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-                  <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+                  <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+                  <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
                   <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
                   <button
                     className = 'buttonc'
@@ -368,6 +473,67 @@ const OrderDashboardScreen = () => {
                     Cancel
                   </button>
                 </div>
+              )}
+              {serviceOrder.Service === "Valet Car Wash" && (
+                <div className="order-details car-wash-order">
+                  <span className="order-service">
+                    {`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total}`}
+                  </span>
+                  <div className="order-icons">
+                    {getIconSource("bodyType", serviceOrder.BodyType) && (
+                      <img
+                        src={getIconSource("bodyType", serviceOrder.BodyType)}
+                        alt={`${serviceOrder.BodyType} icon`}
+                        className="order-icon"
+                      />
+                    )}
+                    {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                      <img
+                        src={getIconSource("carBrand", serviceOrder.CarBrand)}
+                        alt={`${serviceOrder.CarBrand} icon`}
+                        className="order-icon"
+                      />
+                    )} */}
+                    {/* <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i> */}
+                    {/* <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+                    <span className="order-text">{serviceOrder.Preference}</span>
+                    <span className="order-text">{serviceOrder.Package}</span>
+                {/* Button to track location and pass the agent's email */}
+
+                  </div>
+                  <div>
+                  {/* Set the agent email and display it */}
+
+
+                  {serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+                  {serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+
+
+
+
+                  <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+                  <button
+                    className = 'buttonc'
+                    onClick={() => markOrderAsCanceled(serviceOrder.id, serviceOrder.Service)}
+                  >
+                    Cancel
+                  </button>
+     {/* Button to toggle map display */}
+     <button className="buttonc" onClick={() => handleTrackLocation(serviceOrder.Assigned)}>
+            {showMap ? "Untrack Location" : "Track Location"}
+          </button>
+
+          {/* Conditionally show the Mapbox component and pass agentLocation */}
+          {showMap && agentLocation && <Mapbox agentLocation={agentLocation} />}     </div>
               )}
             </div>
           ))}
@@ -426,7 +592,67 @@ const OrderDashboardScreen = () => {
             </div>
           </div>
         )}
+        {serviceOrder.Service === "Valet Car Wash" && (
+          <div className="order-details car-wash-order">
+            <span className="order-service">
+              {serviceOrder.Service.padEnd(20) + " $" + serviceOrder.Total}
+            </span>
+            <div className="order-icons">
+              {getIconSource("bodyType", serviceOrder.BodyType) && (
+                <img
+                  src={getIconSource("bodyType", serviceOrder.BodyType)}
+                  alt={`${serviceOrder.BodyType} icon`}
+                  className="order-icon"
+                />
+              )}
+              {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                <img
+                  src={getIconSource("carBrand", serviceOrder.CarBrand)}
+                  alt={`${serviceOrder.CarBrand} icon`}
+                  className="order-icon"
+                />
+              )}
+              <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i>
+              <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+              <span className="order-text">{serviceOrder.Preference}</span>
+              <span className="order-text">{serviceOrder.Package}</span>
+            </div>
+            <div>
 
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+            <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+
+            {/* Star Rating System Embedded Inside the Card */}
+            <div className="order-date">
+              <span>Service Rating: {serviceOrder.Rating + "/5" || "Not Rated"}</span>
+              <div className="rating-icons">
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <i
+                    key={value}
+                    className={`material-icons star ${value <= (serviceOrder.Rating || 0) ? 'star-selected' : 'star-unselected'} ${serviceOrder.Rating ? 'star-disabled' : ''}`}
+                    onClick={() => {
+                      if (!serviceOrder.Rating) {
+                        markOrderRating(serviceOrder.id, serviceOrder.Service, value);
+                      }
+                    }}
+                  >
+                    star
+                  </i>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">
@@ -434,9 +660,9 @@ const OrderDashboardScreen = () => {
             </span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
 
@@ -469,12 +695,12 @@ const OrderDashboardScreen = () => {
             </span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
 
             {/* Star Rating System Embedded Inside the Card */}
@@ -536,6 +762,46 @@ const OrderDashboardScreen = () => {
             </div>
           </div>
         )}
+        {serviceOrder.Service === "Valet Car Wash" && (
+          <div className="order-details car-wash-order">
+            <span className="order-service">
+              {serviceOrder.Service.padEnd(20) + " $" + serviceOrder.Total}
+            </span>
+            <div className="order-icons">
+              {getIconSource("bodyType", serviceOrder.BodyType) && (
+                <img
+                  src={getIconSource("bodyType", serviceOrder.BodyType)}
+                  alt={`${serviceOrder.BodyType} icon`}
+                  className="order-icon"
+                />
+              )}
+              {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                <img
+                  src={getIconSource("carBrand", serviceOrder.CarBrand)}
+                  alt={`${serviceOrder.CarBrand} icon`}
+                  className="order-icon"
+                />
+              )}
+              <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i> */}
+              {/* <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+              <span className="order-text">{serviceOrder.Preference}</span>
+              <span className="order-text">{serviceOrder.Package}</span>
+            </div>
+            <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+          </div>
+        )}
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">
@@ -543,9 +809,9 @@ const OrderDashboardScreen = () => {
             </span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
           </div>
         )}
@@ -556,12 +822,12 @@ const OrderDashboardScreen = () => {
             </span>
             {Array.isArray(serviceOrder.Items) &&
               serviceOrder.Items.map((item, index) => (
-                <span key={index} className="order-item-detail">
+                <p key={index} className="order-item-detail">
                   {item.title.padEnd(37)} x{item.count}
-                </span>
+                </p>
               ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
           </div>
         )}
       </div>

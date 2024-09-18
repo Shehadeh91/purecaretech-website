@@ -205,21 +205,7 @@ const CarWashScreen = () => {
   }, [user]);
 
 
-//   const handleUpdateInfo = async () => {
-//     const user = auth.currentUser;
-//     try {
-//       const userDocRef = doc(FIRESTORE_DB, "Users", user.email );
-//       await updateDoc(userDocRef, {
-//         PlateNumber: carPlate,
-//         CarColor: currentColor,
-//         CarBody: bodyStyle,
-//         CarBrand:carBrand
-//        });
-//      // console.log('User address updated successfully');
-//     } catch (error) {
-//      // console.error('Error updating user address: ', error);
-//     }
-//   };
+
   useEffect(() => {
    setDate();
    setVisible(false);
@@ -457,10 +443,36 @@ const handlePreferenceChange = (newValue) => {
         checked={packageOption === "Detailing"}
         onChange={() => handlePackageChange("Detailing")}
       />
-      Premium Detailing <span className="option-text">+${((bodyStyleCost + prefrenceCost) * 1.5)}</span>
+      Premium Detailing
+        {/* Tooltip button */}
+        <span className="tooltip-container">
+        <button type="button" className="info-button">?</button>
+        <span className="tooltip-text">
+          <strong>Full Interior Detail</strong>
+          <ul>
+            <li>Carpet Shampoo</li>
+            <li>Fabric Shampoo</li>
+            <li>Leather Deep Clean</li>
+            <li>Leather Conditioning</li>
+            <li>Steam Clean All Areas</li>
+          </ul>
+          <strong>Full Exterior Detail</strong>
+          <ul>
+            <li>Hand Wash & Dry</li>
+            <li>Clay Bar Treatment</li>
+            <li>Wax & Polish</li>
+            <li>Tire and Wheel Cleaning</li>
+            <li>Glass Cleaning</li>
+          </ul>
+        </span>
+      </span>
+      <span className="option-text">+${((bodyStyleCost + prefrenceCost) * 1.5)}</span>
+
     </label>
   </div>
 </div>
+
+
 
         <div className="card">
           <h3 className="section-title">Add Additional Note</h3>

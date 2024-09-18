@@ -1,0 +1,135 @@
+{
+  "bodyStyleCosts": {
+    "Sedan": 35,
+    "Coupe": 35,
+    "Hatchback": 35,
+    "PickupTruck": 40,
+    "SUV": 40,
+    "MiniVan": 50
+  },
+  "serviceCosts": {
+    "protectionOption": {
+      "level0": {
+        "Sedan": 0,
+        "Coupe": 0,
+        "Hatchback": 0,
+        "PickupTruck": 0,
+        "SUV": 0,
+        "MiniVan": 0
+      },
+      "level1": {
+        "Sedan": 39.95,
+        "Coupe": 39.95,
+        "Hatchback": 39.95,
+        "PickupTruck": 49.95,
+        "SUV": 49.95,
+        "MiniVan": 59.95
+      },
+      "level2": {
+        "Sedan": 124.95,
+        "Coupe": 124.95,
+        "Hatchback": 124.95,
+        "PickupTruck": 134.95,
+        "SUV": 134.95,
+        "MiniVan": 144.95
+      },
+      "level3": {
+        "Sedan": 895.95,
+        "Coupe": 895.95,
+        "Hatchback": 895.95,
+        "PickupTruck": 905.95,
+        "SUV": 905.95,
+        "MiniVan": 915.95
+      }
+    },
+    "paintEnhancementOption": {
+      "Sedan": 199.95,
+      "Coupe": 199.95,
+      "Hatchback": 199.95,
+      "PickupTruck": 219.95,
+      "SUV": 219.95,
+      "MiniVan": 239.95
+    },
+    "odorRemovalOption": {
+      "Sedan": 124.95,
+      "Coupe": 124.95,
+      "Hatchback": 124.95,
+      "PickupTruck": 134.95,
+      "SUV": 134.95,
+      "MiniVan": 144.95
+    },
+    "invisibleWipersOption": {
+      "Sedan": 24.95,
+      "Coupe": 24.95,
+      "Hatchback": 24.95,
+      "PickupTruck": 29.95,
+      "SUV": 29.95,
+      "MiniVan": 34.95
+    },
+    "exfoliWaxOption": {
+      "Sedan": 49.95,
+      "Coupe": 49.95,
+      "Hatchback": 49.95,
+      "PickupTruck": 59.95,
+      "SUV": 59.95,
+      "MiniVan": 69.95
+    },
+    "headlightRestorationOption": {
+      "Sedan": 69.95,
+      "Coupe": 69.95,
+      "Hatchback": 69.95,
+      "PickupTruck": 79.95,
+      "SUV": 79.95,
+      "MiniVan": 89.95
+    },
+    "petHairRemovalOption": {
+      "Sedan": 19.95,
+      "Coupe": 19.95,
+      "Hatchback": 19.95,
+      "PickupTruck": 24.95,
+      "SUV": 24.95,
+      "MiniVan": 29.95
+    },
+    "smallScratchRemovalOption": {
+      "Sedan": 29.95,
+      "Coupe": 29.95,
+      "Hatchback": 29.95,
+      "PickupTruck": 34.95,
+      "SUV": 34.95,
+      "MiniVan": 39.95
+    },
+    "stainRemovalOption": {
+      "Sedan": 14.95,
+      "Coupe": 14.95,
+      "Hatchback": 14.95,
+      "PickupTruck": 19.95,
+      "SUV": 19.95,
+      "MiniVan": 24.95
+    },
+    "engineBayDetailOption": {
+      "Sedan": 88.95,
+      "Coupe": 88.95,
+      "Hatchback": 88.95,
+      "PickupTruck": 98.95,
+      "SUV": 98.95,
+      "MiniVan": 108.95
+    },
+    "cockpitDetailOption": {
+      "Sedan": 89.95,
+      "Coupe": 89.95,
+      "Hatchback": 89.95,
+      "PickupTruck": 99.95,
+      "SUV": 99.95,
+      "MiniVan": 109.95
+    }
+  },
+  "preferenceModifiers": {
+    "Exterior": 0,
+    "Interior": 0,
+    "Int/Ext": 0.75
+  },
+  "packageModifiers": {
+    "Basic": 0,
+    "Detailing": 1.5
+  }
+}

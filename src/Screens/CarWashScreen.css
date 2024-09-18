@@ -48,3 +48,55 @@
   text-transform: uppercase;
   margin-bottom: 20px;
 }
+
+
+
+/* Tooltip container */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+
+}
+
+/* Tooltip text */
+.tooltip-text {
+  visibility: hidden;
+  width: 250px;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Info button style */
+.info-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.info-button:hover {
+  background-color: #0056b3;
+}
+
+

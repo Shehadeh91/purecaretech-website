@@ -84,12 +84,18 @@ const AdminScreen = () => {
     const fetchOrders = async () => {
       try {
         const carWashOrdersRef = collection(FIRESTORE_DB, "Car-Wash");
+        const valetCarWashOrdersRef = collection(FIRESTORE_DB, "Valet-Car-Wash");
         const dryCleanOrdersRef = collection(FIRESTORE_DB, "Dry-Clean");
         const roomCleanOrdersRef = collection(FIRESTORE_DB, "Room-Clean");
         const carWashQuerySnapshot = await getDocs(carWashOrdersRef);
+        const valetCarWashQuerySnapshot = await getDocs(valetCarWashOrdersRef);
         const dryCleanQuerySnapshot = await getDocs(dryCleanOrdersRef);
         const roomCleanQuerySnapshot = await getDocs(roomCleanOrdersRef);
         const carWashOrders = carWashQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const valetCarWashOrders = valetCarWashQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -108,6 +114,9 @@ const AdminScreen = () => {
             ...carWashOrders
               .filter((serviceOrder) => serviceOrder.Assigned === "No One")
               .reverse(),
+              ...valetCarWashOrders
+              .filter((serviceOrder) => serviceOrder.Assigned === "No One")
+              .reverse(),
             ...dryCleanOrders
               .filter((serviceOrder) => serviceOrder.Assigned === "No One")
               .reverse(),
@@ -117,17 +126,36 @@ const AdminScreen = () => {
           ]);
           setAssignedOrders([
             ...carWashOrders
-              .filter((serviceOrder) => serviceOrder.Assigned !== "No One")
+              .filter(
+                (serviceOrder) =>
+                  serviceOrder.Assigned !== "No One" && serviceOrder.Status !== "Completed"
+              )
+              .reverse(),
+            ...valetCarWashOrders
+              .filter(
+                (serviceOrder) =>
+                  serviceOrder.Assigned !== "No One" && serviceOrder.Status !== "Completed"
+              )
               .reverse(),
             ...dryCleanOrders
-              .filter((serviceOrder) => serviceOrder.Assigned !== "No One")
+              .filter(
+                (serviceOrder) =>
+                  serviceOrder.Assigned !== "No One" && serviceOrder.Status !== "Completed"
+              )
               .reverse(),
-              ...roomCleanOrders
-              .filter((serviceOrder) => serviceOrder.Assigned !== "No One")
+            ...roomCleanOrders
+              .filter(
+                (serviceOrder) =>
+                  serviceOrder.Assigned !== "No One" && serviceOrder.Status !== "Completed"
+              )
               .reverse(),
           ]);
+
           setCompletedOrders([
             ...carWashOrders
+              .filter((serviceOrder) => serviceOrder.Status === "Completed")
+              .reverse(),
+              ...valetCarWashOrders
               .filter((serviceOrder) => serviceOrder.Status === "Completed")
               .reverse(),
             ...dryCleanOrders
@@ -139,6 +167,9 @@ const AdminScreen = () => {
           ]);
           setCanceledOrders([
             ...carWashOrders
+              .filter((serviceOrder) => serviceOrder.Status === "Canceled")
+              .reverse(),
+              ...valetCarWashOrders
               .filter((serviceOrder) => serviceOrder.Status === "Canceled")
               .reverse(),
             ...dryCleanOrders
@@ -259,11 +290,44 @@ if (!user || !user.emailVerified) {
                   <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
                 </div>
               )}
+              {serviceOrder.Service === "Valet Car Wash" && (
+                <div className="order-details car-wash-order">
+                  <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+                  <div className="order-icons">
+                    {getIconSource("bodyType", serviceOrder.BodyType) && (
+                      <img src={getIconSource("bodyType", serviceOrder.BodyType)} alt={`${serviceOrder.BodyType} icon`} className="order-icon" />
+                    )}
+                    {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                      <img src={getIconSource("carBrand", serviceOrder.CarBrand)} alt={`${serviceOrder.CarBrand} icon`} className="order-icon" />
+                    )}
+                    <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i>
+                    <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+                    <span className="order-text">{serviceOrder.Preference}</span>
+                  </div>
+                  <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+                  <p className="order-date"> {serviceOrder.Address}</p>
+                  <p className="order-date">Name: {serviceOrder.Name}</p>
+                  <p className="order-date">Phone: {serviceOrder.Name}</p>
+                  <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+                </div>
+              )}
               {serviceOrder.Service === "Dry Clean" && (
                 <div className="order-details dry-clean-order">
                   <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
                   {Array.isArray(serviceOrder.Items) && serviceOrder.Items.map((item, index) => (
-                    <span key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</span>
+                    <p key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</p>
                   ))}
                   <p className="order-date"> {serviceOrder.Address}</p>
                   <p className="order-date">Name: {serviceOrder.Name}</p>
@@ -275,10 +339,10 @@ if (!user || !user.emailVerified) {
                 <div className="order-details room-clean-order">
                   <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
                   {Array.isArray(serviceOrder.Items) && serviceOrder.Items.map((item, index) => (
-                    <span key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</span>
+                    <p key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</p>
                   ))}
-                  <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-                  <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+                  <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+                  <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
                   <p className="order-date"> {serviceOrder.Address}</p>
                   <p className="order-date">Name: {serviceOrder.Name}</p>
                   <p className="order-date">Phone: {serviceOrder.Name}</p>
@@ -315,6 +379,74 @@ if (!user || !user.emailVerified) {
                   <p className="assigned-text">{`Assigned: ${serviceOrder.Assigned}`}</p>
                 </div>
               )}
+              {serviceOrder.Service === "Valet Car Wash" && (
+                <div className="order-details car-wash-order">
+                  <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+                  <div className="order-icons">
+                    {getIconSource("bodyType", serviceOrder.BodyType) && (
+                      <img src={getIconSource("bodyType", serviceOrder.BodyType)} alt={`${serviceOrder.BodyType} icon`} className="order-icon" />
+                    )}
+                    {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                      <img src={getIconSource("carBrand", serviceOrder.CarBrand)} alt={`${serviceOrder.CarBrand} icon`} className="order-icon" />
+                    )}
+                    <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i>
+                    <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+                    <span className="order-text">{serviceOrder.Preference}</span>
+                  </div>
+                  <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+                  <p className="order-date"> {serviceOrder.Address}</p>
+                  <p className="order-date">Name: {serviceOrder.Name}</p>
+                  <p className="order-date">Phone: {serviceOrder.Name}</p>
+                  <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+                  <p className="assigned-text">{`Assigned: ${serviceOrder.Assigned}`}</p>
+                </div>
+              )}
+              {serviceOrder.Service === "Dry Clean" && (
+          <div className="order-details dry-clean-order">
+            <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+            {Array.isArray(serviceOrder.Items) &&
+              serviceOrder.Items.map((item, index) => (
+                <p key={index} className="order-item-detail">
+                  {item.title.padEnd(37)} x{item.count}
+                </p>
+              ))}
+              <p className="order-date"> {serviceOrder.Address}</p>
+                  <p className="order-date">Name: {serviceOrder.Name}</p>
+                  <p className="order-date">Phone: {serviceOrder.Name}</p>
+                  <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+                  <p className="assigned-text">{`Assigned: ${serviceOrder.Assigned}`}</p>
+          </div>
+        )}
+        {serviceOrder.Service === "Room Clean" && (
+          <div className="order-details room-clean-order">
+            <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+            {Array.isArray(serviceOrder.Items) &&
+              serviceOrder.Items.map((item, index) => (
+                <p key={index} className="order-item-detail">
+                  {item.title.padEnd(37)} x{item.count}
+                </p>
+              ))}
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-date"> {serviceOrder.Address}</p>
+                  <p className="order-date">Name: {serviceOrder.Name}</p>
+                  <p className="order-date">Phone: {serviceOrder.Name}</p>
+                  <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+                  <p className="assigned-text">{`Assigned: ${serviceOrder.Assigned}`}</p>
+          </div>
+        )}
               {/* Similar structure for Dry Clean and Room Clean */}
             </div>
           ))}
@@ -346,11 +478,46 @@ if (!user || !user.emailVerified) {
             <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating}`}</p>
           </div>
         )}
+        {serviceOrder.Service === "Valet Car Wash" && (
+          <div className="order-details car-wash-order">
+            <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
+            <div className="order-icons">
+              {getIconSource("bodyType", serviceOrder.BodyType) && (
+                <img src={getIconSource("bodyType", serviceOrder.BodyType)} alt={`${serviceOrder.BodyType} icon`} className="order-icon" />
+              )}
+              {/* {getIconSource("carBrand", serviceOrder.CarBrand) && (
+                <img src={getIconSource("carBrand", serviceOrder.CarBrand)} alt={`${serviceOrder.CarBrand} icon`} className="order-icon" />
+              )}
+              <i className="material-icons" style={{ color: serviceOrder.Color }}>format_paint</i>
+              <span className="order-text">{serviceOrder.PlateNumber}</span> */}
+              <span className="order-text">{serviceOrder.Preference}</span>
+            </div>
+            <div>
+
+{serviceOrder?.Protection !== "Level0" && <p className="order-item-detail">Protection: {serviceOrder.Protection}</p>}
+{serviceOrder?.EngineBayDetail && <p className="order-item-detail">Engine Bay Detail: Yes</p>}
+{serviceOrder?.ExfoliWax && <p className="order-item-detail">ExfoliWax: Yes</p>}
+{serviceOrder?.HeadlightRestoration && <p className="order-item-detail">Headlight Restoration: Yes</p>}
+{serviceOrder?.InvisibleWipers && <p className="order-item-detail">Invisible Wipers: Yes</p>}
+{serviceOrder?.OdorRemoval && <p className="order-item-detail">Odor Removal: Yes</p>}
+{serviceOrder?.PaintEnhancement && <p className="order-item-detail">Paint Enhancement: Yes</p>}
+{serviceOrder?.PetHairRemoval && <p className="order-item-detail">Pet Hair Removal: Yes</p>}
+{serviceOrder?.SmallScratchRemoval && <p className="order-item-detail">Small Scratch Removal: Yes</p>}
+{serviceOrder?.StainRemoval && <p className="order-item-detail">Stain Removal: Yes</p>}
+</div>
+            <p className="order-date"> {serviceOrder.Address}</p>
+                  <p className="order-date">Name: {serviceOrder.Name}</p>
+                  <p className="order-date">Phone: {serviceOrder.Name}</p>
+            <p className="order-date">Scheduled at: {serviceOrder.Date}</p>
+            <p className="assigned-text">{`Assigned: ${serviceOrder.Assigned}`}</p>
+            <p className="rating-text"> {`Service Rating: ${serviceOrder.Rating}`}</p>
+          </div>
+        )}
         {serviceOrder.Service === "Dry Clean" && (
           <div className="order-details dry-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) && serviceOrder.Items.map((item, index) => (
-              <span key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</span>
+              <p key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</p>
             ))}
             <p className="order-date"> {serviceOrder.Address}</p>
                   <p className="order-date">Name: {serviceOrder.Name}</p>
@@ -364,10 +531,10 @@ if (!user || !user.emailVerified) {
           <div className="order-details room-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) && serviceOrder.Items.map((item, index) => (
-              <span key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</span>
+              <p key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</p>
             ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date"> {serviceOrder.Address}</p>
                   <p className="order-date">Name: {serviceOrder.Name}</p>
                   <p className="order-date">Phone: {serviceOrder.Name}</p>
@@ -410,7 +577,7 @@ if (!user || !user.emailVerified) {
           <div className="order-details dry-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) && serviceOrder.Items.map((item, index) => (
-              <span key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</span>
+              <p key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</p>
             ))}
             <p className="order-date"> {serviceOrder.Address}</p>
                   <p className="order-date">Name: {serviceOrder.Name}</p>
@@ -423,10 +590,10 @@ if (!user || !user.emailVerified) {
           <div className="order-details room-clean-order">
             <span className="order-service">{`${serviceOrder.Service.padEnd(20)} $${serviceOrder.Total} ${serviceOrder.Payment}`}</span>
             {Array.isArray(serviceOrder.Items) && serviceOrder.Items.map((item, index) => (
-              <span key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</span>
+              <p key={index} className="order-item-detail">{item.title.padEnd(37)} x{item.count}</p>
             ))}
-            <p className="order-supply">Cleaning Supply: {serviceOrder.Supply}</p>
-            <p className="order-package">Package: {serviceOrder.Package} Cleaning</p>
+            <p className="order-item-detail">Cleaning Supply: {serviceOrder.Supply}</p>
+            <p className="order-item-detail">Package: {serviceOrder.Package} Cleaning</p>
             <p className="order-date"> {serviceOrder.Address}</p>
                   <p className="order-date">Name: {serviceOrder.Name}</p>
                   <p className="order-date">Phone: {serviceOrder.Name}</p>

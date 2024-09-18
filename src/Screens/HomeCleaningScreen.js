@@ -214,7 +214,7 @@ const HomeCleaningScreen = () => {
                 onChange={() => handlePackageChange("Deep")}
               />
               Deep Cleaning <span className="option-text">+${
-                ((getTotalPrice() * 1.75) - getTotalPrice()).toFixed(2)
+                ((getTotalPrice() * 1.75) - getTotalPrice())
               }</span>
             </label>
           </div>
