@@ -94,16 +94,29 @@ const HomeScreen = () => {
 
   return (
     <div className="container">
-      {/* Hero Section */}
-      <div className="hero-section" >
-        {/* <h1 className="hero-heading">Effortless Cleaning at Your Fingertips</h1>
-        <p className="hero-subheading">Book a mobile car wash, dry cleaning, or home cleaning in seconds.</p> */}
-        <div className="hero-buttons">
-          <button className="cta-button" onClick={() => scrollToSection(servicesRef)}>Book Now</button>
-          <button className="cta-button" onClick={() => scrollToSection(howItWorksRef)}>Learn More</button>
-          <button className="cta-button" onClick={() => scrollToSection(headerRef)}>Download the App</button>
-        </div>
-      </div>
+{/* Hero Section */}
+<div className="hero-section">
+  <div className="hero-content">
+    <div className="hero-text">
+      <h2>Our Services</h2>
+      <ul className="services-list">
+        <li>Home Cleaning</li>
+        <li>Dry Cleaning</li>
+        <li>Mobile Car Wash</li>
+      </ul>
+    </div>
+    <div className="hero-image">
+      <img src={require('../assets/Images/6.71-removebg-preview.png')} alt="Hero" />
+    </div>
+  </div>
+  <div className="hero-buttons">
+    <button className="cta-button" onClick={() => scrollToSection(howItWorksRef)}>Learn More</button>
+    <button className="cta-button" onClick={() => scrollToSection(servicesRef)}>Book Now</button>
+    <button className="cta-button" onClick={() => scrollToSection(headerRef)}>Download the App</button>
+  </div>
+</div>
+
+
 
       {/* Promo Video Section */}
       <div className="promo-video-section">

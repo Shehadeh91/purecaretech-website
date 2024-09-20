@@ -12,84 +12,94 @@
 }
 
 /* Hero Section */
+/* Hero Section Styles */
 .hero-section {
-  text-align: center;
-  padding: 20vh 5vw;
-  background-image: url('../assets/Images/Banner.png'); /* Use your service-related image */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  color: white;
-  width: 100%; /* Make sure it takes the full width */
-  min-height: 60vh; /* Ensure it has a minimum height for small screens */
+  background-color: #f5f5f5; /* Unified background color */
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Align buttons at the bottom */
-  align-items: center; /* Center content horizontally */
-  padding-bottom: 20px;
+  align-items: center;
 }
 
-
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 15vh 10vw; /* Adjust padding for smaller screens */
-  }
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
-@media (max-width: 480px) {
-  .hero-section {
-    padding: 10vh 5vw; /* Further adjust padding for very small screens */
-    background-size: cover;
-    background-position: center;
-  }
+.hero-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-
-.hero-heading {
-  font-size: 2.5rem;
-  font-weight: bold;
+.hero-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-.hero-subheading {
-  margin-top: 20px;
-  font-size: 1.2rem;
+.services-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
-.hero-buttons .cta-button {
-  margin: 10px 25px; /* Adjusted margin to make it look cleaner */
-  padding: 10px 20px;
-  background-color: #000000;
+.services-list li {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: cover;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cta-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #6953A4;
   color: white;
   border: none;
   cursor: pointer;
-  justify-self: flex-start;
-  min-width: 150px; /* Ensure buttons are not too small */
-  max-width: 250px;
-
-
+  font-size: 1rem;
+  border-radius: 5px;
 }
-@media screen and (max-width: 768px) {
-  .hero-buttons .cta-button {
-    flex: 1 1 auto; /* Allow buttons to shrink based on content */
-    margin: 15px 0; /* Adjust margins for better spacing */
-    padding: 8px 16px; /* Reduce padding for smaller buttons */
-    font-size: 0.875rem; /* Smaller text on small screens */
-    max-width: 100%; /* Ensure the button doesn't exceed the container width */
 
+.cta-button:hover {
+  background-color: #563d8d;
+}
 
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-image img {
+    max-width: 100%;
+    margin-top: 1.5rem;
   }
 
   .hero-buttons {
-    display: flex;
-    justify-content: center; /* Centers buttons horizontally */
-    align-items: center; /* Centers buttons vertically */
-
-    padding-bottom: 20px;
-
-    flex-direction: column; /* Stack buttons vertically */
-    height: 10%; /* Ensure the container takes the full height */
+    flex-direction: column;
+    gap: 1rem;
   }
-
 }
 
 
@@ -98,7 +108,6 @@
 .how-it-works-section {
   padding: 50px 20px;
   text-align: center;
-
 }
 
 .how-it-works-steps {
@@ -106,8 +115,6 @@
   grid-template-columns: repeat(5, 1fr); /* Creates 5 equal-width columns */
   gap: 20px; /* Adds space between the columns */
   margin-top: 20px;
-
-
 }
 
 .step {
@@ -138,9 +145,37 @@
   color: #333;
   margin-top: 10px;
   line-height: 1.4;
-  height: 48px; /* Adjust this height as needed */
   overflow: hidden; /* Ensure text does not overflow */
 }
+
+/* Media Queries for Mobile */
+@media (max-width: 768px) {
+  .how-it-works-steps {
+    grid-template-columns: repeat(2, 1fr); /* Reduce to 2 columns on smaller screens */
+    gap: 15px;
+  }
+
+  .step p {
+    height: auto; /* Allow the text to adjust height based on content */
+    overflow: visible; /* Ensure text wraps properly */
+    margin-top: 5px; /* Reduce margin for better spacing on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .how-it-works-steps {
+    grid-template-columns: 1fr; /* Single column on very small screens */
+  }
+
+  .step img {
+    width: 80px; /* Reduce image size on very small screens */
+  }
+
+  .step p {
+    font-size: 1rem; /* Slightly smaller font for better fit */
+  }
+}
+
 
 /* Services Section */
 .services-section {

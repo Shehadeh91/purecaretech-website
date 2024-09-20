@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
@@ -172,26 +173,41 @@ function App() {
   );
 }
 
+
+
+
 const Header = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleMouseEnter = () => {
-    setDropdownOpen(true);
+    if (!isMobileMenuOpen) {
+      setDropdownOpen(true);
+    }
   };
 
   const handleMouseLeave = () => {
-    setDropdownOpen(false);
+    if (!isMobileMenuOpen) {
+      setDropdownOpen(false);
+    }
+  };
+
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!isDropdownOpen);
   };
 
   return (
     <header className="header">
       <div className="header-content">
-        {/* <Link to="/">
-          <img src={logo} alt="Logo" className="logo" />
-
-        </Link> */}
-        <nav className="nav">
+        <button className="mobile-menu-toggle" onClick={handleMobileMenuToggle}>
+          ☰
+        </button>
+        <nav className={`nav ${isMobileMenuOpen ? "open" : ""}`}>
           <ul>
             <li
               className="dropdown"
@@ -199,7 +215,9 @@ const Header = () => {
               onMouseLeave={handleMouseLeave}
               ref={dropdownRef}
             >
-              <span className="about-link">About</span>
+              <span className="about-link" onClick={handleDropdownToggle}>
+                About
+              </span>
               {isDropdownOpen && (
                 <ul className="dropdown-menu">
                   <li><Link to="/about">About PureCare Tech</Link></li>
@@ -208,22 +226,21 @@ const Header = () => {
               )}
             </li>
             <li><Link to="/">Home</Link></li>
-            {/* <li><Link to="/action">Test</Link></li> */}
-
             <li
               className="dropdown"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               ref={dropdownRef}
             >
-              <span className="services-link">Services</span>
+              <span className="services-link" onClick={handleDropdownToggle}>
+                Services
+              </span>
               {isDropdownOpen && (
                 <ul className="dropdown-menu">
                   <li><Link to="/carWashOrder">Mobile Car Wash</Link></li>
                   <li><Link to="/homeCleaningOrder">Home Cleaning</Link></li>
                   <li><Link to="/dryCleaningOrder">Dry Cleaning</Link></li>
-                  <li><Link to="/valetCarWashOrder">Valet Car Wash</Link></li>
-
+                  {/* <li><Link to="/valetCarWashOrder">Valet Car Wash</Link></li> */}
                 </ul>
               )}
             </li>
@@ -241,8 +258,7 @@ const Header = () => {
                   <li><Link to="/signup">Signup</Link></li>
                   <li><Link to="/settings">Account Settings</Link></li>
                   <li><Link to="/admin">Admin</Link></li>
-        <li><Link to="/agents">Agent</Link></li>
-
+                  <li><Link to="/agents">Agent</Link></li>
                 </ul>
               )}
             </li>
@@ -252,6 +268,9 @@ const Header = () => {
     </header>
   );
 };
+
+
+
 
 const Footer = () => {
   const footerRef = useRef(null); // Create footer ref
