@@ -19,38 +19,71 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
+/* Hero Section */
+.hero-intro {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #333;
+  padding: 0 20px;
+}
+
+.hero-intro h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.4;
+  color: #333;
+}
+
+.hero-intro p {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 10px;
+}
+
 
 .hero-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 800px;
   width: 100%;
   margin-bottom: 2rem;
+
 }
 
 .hero-text {
   flex: 1;
   display: flex;
   flex-direction: column;
+
 }
 
 .hero-text h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 3rem;
+
+  margin-bottom: 1rem; /* Reduced gap */
+  color: #6953A4;
 }
 
 .services-list {
-  list-style-type: none;
+  list-style-type: none; /* Remove default bullets */
   padding: 0;
   margin: 0;
 }
 
 .services-list li {
+  position: relative; /* Position for pseudo-element */
   font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem; /* Space between items */
+  padding-left: 1.5rem; /* Space for the bullet */
+
 }
+
+
+
 
 .hero-image {
   flex: 1;
@@ -67,13 +100,15 @@
 
 .hero-buttons {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  flex-direction: column; /* Column direction */
+  align-items: flex-start; /* Align buttons to the left */
+  gap: 1rem; /* Space between buttons */
+  padding-left: 20px;
 }
 
 .cta-button {
   padding: 0.75rem 1.5rem;
-  background-color: #6953A4;
+
   color: white;
   border: none;
   cursor: pointer;
@@ -98,6 +133,7 @@
 
   .hero-buttons {
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
   }
 }
@@ -151,14 +187,18 @@
 /* Media Queries for Mobile */
 @media (max-width: 768px) {
   .how-it-works-steps {
-    grid-template-columns: repeat(2, 1fr); /* Reduce to 2 columns on smaller screens */
+    grid-template-columns: 1fr; /* Single column on smaller screens */
     gap: 15px;
+  }
+
+  .step {
+    width: 100%; /* Ensure each step takes the full width */
   }
 
   .step p {
     height: auto; /* Allow the text to adjust height based on content */
     overflow: visible; /* Ensure text wraps properly */
-    margin-top: 5px; /* Reduce margin for better spacing on smaller screens */
+    margin-top: 5px; /* Reduce margin for better spacing */
   }
 }
 
@@ -175,6 +215,7 @@
     font-size: 1rem; /* Slightly smaller font for better fit */
   }
 }
+
 
 
 /* Services Section */
@@ -202,6 +243,7 @@
   align-items: center; /* Centers content inside each card */
   max-width: 500px; /* Optional: Limits the grid's width to a reasonable size */
   width: 100%;
+
 }
 
 /* Testimonials Section */
@@ -226,6 +268,8 @@
   justify-content: center;
   align-items: center;
   margin: 1rem;
+ border-width: 10;
+
 }
 
 .card:hover {
@@ -398,18 +442,18 @@ p {
   justify-content: space-around;
   padding: 20px;
   flex-wrap: wrap; /* Allows buttons to wrap in case there are many */
-  width: 80%;
+  width: 100%; /* Ensure it takes up full width */
   flex-direction: row;
 }
 
 /* Styling for individual service buttons */
 .service-button {
-  background-color:   #ffffff; /* Red background color */
-  color: white; /* White text */
+
+  color: #333; /* Dark text for contrast */
   padding: 15px;
   font-size: 16px;
   font-weight: bold;
-  border: 0.5px solid black; /* Add a black border */
+  border: 0.5px solid black; /* Black border */
   border-radius: 8px;
   cursor: pointer;
   text-transform: uppercase;
@@ -418,22 +462,21 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centers the text and image vertically */
-  width: 400px; /* Adjust the image size as needed */
+  justify-content: center;
+  width: 300px; /* Set a consistent width */
   height: auto;
   text-align: center; /* Centers the text horizontally */
-
 }
 
 .service-button:hover {
-  background-color: #F4CBA5; /* Darker red on hover */
+  background-color: #e6b88c; /* Slightly darker color on hover */
 }
 
 /* Styling for the service images inside the buttons */
 .service-image {
-  width: 300px; /* Adjust the image size as needed */
-  height: 300px;
-  margin-bottom: 10px; /* Add some space between image and text */
+  width: 200px; /* Adjusted for consistent scaling */
+  height: 200px;
+  margin-bottom: 10px; /* Space between image and text */
 }
 
 /* Styling for the service text inside the buttons */
@@ -441,8 +484,32 @@ p {
   font-size: 14px;
   text-align: center;
   letter-spacing: 1px;
-  color: #000000;
+  color: #000; /* Dark text */
 }
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .service-button {
+    width: 250px; /* Reduce button size on smaller screens */
+  }
+
+  .service-image {
+    width: 120px; /* Adjust image size for smaller screens */
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-button {
+    width: 200px; /* Further reduce size for mobile screens */
+  }
+
+  .service-image {
+    width: 100px; /* Smallest image size for mobile */
+    height: 100px;
+  }
+}
+
 
 /* Styling for the CTA (Call-to-Action) button */
 .cta-button {

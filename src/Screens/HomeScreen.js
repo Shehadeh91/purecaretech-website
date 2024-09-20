@@ -56,7 +56,7 @@ const HomeScreen = () => {
     },
     {
       id: "2",
-      title: "Room Cleaning",
+      title: "Home Cleaning",
       image: houseCleanImage,
       screen: "homeCleaningOrder",
     },
@@ -96,6 +96,12 @@ const HomeScreen = () => {
     <div className="container">
 {/* Hero Section */}
 <div className="hero-section">
+  {/* Updated and shortened title */}
+  <div className="hero-intro">
+    <h1>Effortless Cleaning Services at Your Fingertips</h1>
+    <p>With just a few taps, you can schedule professional home cleaning, have your car cleaned right at your doorstep, or arrange for your clothes to be picked up for dry cleaning and delivered back to your home.</p>
+  </div>
+
   <div className="hero-content">
     <div className="hero-text">
       <h2>Our Services</h2>
@@ -104,17 +110,20 @@ const HomeScreen = () => {
         <li>Dry Cleaning</li>
         <li>Mobile Car Wash</li>
       </ul>
+      <div className="hero-buttons">
+        <button className="cta-button" onClick={() => scrollToSection(howItWorksRef)}>Learn More</button>
+        <button className="cta-button" onClick={() => scrollToSection(servicesRef)}>Book Now</button>
+        <button className="cta-button" onClick={() => scrollToSection(headerRef)}>Download the App</button>
+      </div>
     </div>
     <div className="hero-image">
       <img src={require('../assets/Images/6.71-removebg-preview.png')} alt="Hero" />
     </div>
   </div>
-  <div className="hero-buttons">
-    <button className="cta-button" onClick={() => scrollToSection(howItWorksRef)}>Learn More</button>
-    <button className="cta-button" onClick={() => scrollToSection(servicesRef)}>Book Now</button>
-    <button className="cta-button" onClick={() => scrollToSection(headerRef)}>Download the App</button>
-  </div>
 </div>
+
+
+
 
 
 
